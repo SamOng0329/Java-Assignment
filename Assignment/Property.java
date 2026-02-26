@@ -68,4 +68,4 @@ public abstract class Property {
         System.out.println("  Price       : RM " + String.format("%.2f", listingPrice));
         System.out.println("  Size        : " + squareFootage + " sqft");
         System.out.println("  Status      : " + status);
-}
+}}
