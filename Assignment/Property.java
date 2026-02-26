@@ -23,6 +23,7 @@ public abstract class Property {
 
     public abstract String getPropertyType();
 
+    // Getters 
     public String getPropertyId() {
         return propertyId;
     }
@@ -39,6 +40,7 @@ public abstract class Property {
         return squareFootage;
     }
 
+    // Setters
     public PropertyStatus getStatus() {
         return status;
     }
