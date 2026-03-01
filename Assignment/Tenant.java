@@ -6,8 +6,9 @@ public class Tenant {
     private UserInfo userInfo;
     
     //  constructor
-    public Tenant(String icNumber, UserInfo userInfo){
+    public Tenant(String icNumber, boolean overduePayment, UserInfo userInfo){
         this.icNumber = icNumber;
+        this.overduePayment = overduePayment;
         this.userInfo = userInfo;
     }
 
@@ -24,6 +25,10 @@ public class Tenant {
     public String getIcNumber(){
         return icNumber;
     }
+    public boolean getOverduePayment(){
+        return overduePayment;
+    }
+    
     // display user information
     public void displayInfo(){
         System.out.println("IC Number: " + icNumber);
