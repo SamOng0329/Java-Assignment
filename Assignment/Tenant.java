@@ -2,6 +2,7 @@ package Assignment;
 
 public class Tenant {
     private String icNumber;
+    private boolean overduePayment;
     private UserInfo userInfo;
     
     //  constructor
@@ -13,6 +14,10 @@ public class Tenant {
     //  setter
     public void setIcNumber(String icNumber){
         this.icNumber = icNumber;
+    }
+
+    public void setOverduePayment(boolean overduePayment){
+        this.overduePayment = overduePayment;
     }
 
     //   getter
