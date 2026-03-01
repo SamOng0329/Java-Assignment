@@ -6,9 +6,9 @@ public class Tenant {
     private UserInfo userInfo;
     
     //  constructor
-    public Tenant(String icNumber, boolean overduePayment, UserInfo userInfo){
+    public Tenant(String icNumber, UserInfo userInfo){
         this.icNumber = icNumber;
-        this.overduePayment = overduePayment;
+        this.overduePayment = false;
         this.userInfo = userInfo;
     }
 
