@@ -1,38 +1,38 @@
 package Assignment;
 
-public class Tenant {
+public class Tenant extends UserInfo {
     private String icNumber;
     private boolean overduePayment;
-    private UserInfo userInfo;
-    
-    //  constructor
-    public Tenant(String icNumber, UserInfo userInfo){
+
+    // constructor
+    public Tenant(String tenantId, String name, String email, String phone, String icNumber) {
+        super(tenantId, name, email, phone, icNumber);
         this.icNumber = icNumber;
         this.overduePayment = false;
-        this.userInfo = userInfo;
     }
 
-    //  setter
+    // setter
     public void setIcNumber(String icNumber){
-        this.icNumber = icNumber;
-    }
+    this.icNumber = icNumber;
+    } 
 
-    public void setOverduePayment(boolean overduePayment){
+    public void setOverduePayment(boolean overduePayment) {
         this.overduePayment = overduePayment;
     }
 
-    //   getter
-    public String getIcNumber(){
+    // getter
+    public String getIcNumber() {
         return icNumber;
     }
-    public boolean getOverduePayment(){
+
+    public boolean getOverduePayment() {
         return overduePayment;
     }
-    
-    // display user information
-    public void displayInfo(){
-        System.out.println("IC Number: " + icNumber);
-        userInfo.displayInfo();
-    }
 
-} 
+    // display user information
+    public void displayInfo() {
+        super.displayInfo();
+        System.out.println("IC Number      : " + icNumber);
+        System.out.println("Overdue Payment: " + overduePayment);
+    }
+}
