@@ -91,7 +91,9 @@ public class Staff {
         System.out.println("1. View profile");
         System.out.println("2. Add properties");
         System.out.println("3. Edit properties");
-        System.out.println("4. Logout");
+        System.out.println("4. Search properties");
+        System.out.println("5. Logout");
+
         System.out.print("Choose: ");
         int choice = -1;
 
@@ -101,21 +103,25 @@ public class Staff {
         if (choice == 1) {
             staffInfo.displayInfo();
         }
-        if (choice == 2) {
+        else if (choice == 2) {
             Uni_method_list uml = new Uni_method_list("PropertiesList.txt");
             uml.addProperties(scanner);
         }
-        if (choice == 3) {
+        else if (choice == 3) {
             Uni_method_list uml = new Uni_method_list("PropertiesList.txt");
             uml.editProperties(scanner);
         }
-
-        if (choice == 4) {
+        else if (choice == 4) {
+            Uni_method_list uml = new Uni_method_list("PropertiesList.txt");
+            System.out.println("Search Properties");
+            uml.searchProperty(scanner);
+        }
+        else if (choice == 5) {
             System.out.println("Logging out...");
             logout = true;
         }
     } catch (Exception e) {
-        System.out.println("Invalid input. Please enter a number between 1 and 4.");
+        System.out.println("Invalid input. Please enter a number between 1 and 5.");
         scanner.nextLine(); 
     }
     
