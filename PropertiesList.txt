@@ -1,1 +1,3 @@
-P0001|dsadas|dsada|condo|dsadad|234.00|dsada|sadad|dsadsa|dsada|2345.00|Available
+R0001|dasdasd|23463.00|23.00|AVAILABLE|CONDO|2|1|false
+R0002|sdasd|32345.00|23.00|AVAILABLE|CONDO|1|2|false
+R0003|dasasd|2312.00|23.00|AVAILABLE|HOUSE|2|3|true

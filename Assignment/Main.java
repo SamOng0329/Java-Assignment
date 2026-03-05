@@ -79,8 +79,8 @@ public class Main{
             if (isValidLogin) {
                 System.out.println("Admin login successful.");
                 UserInfo matchedAdmin = getAdminByUsername(adminID, adminList);
-                Staff staff = new Staff(adminID, matchedAdmin.getPhone(), matchedAdmin.getPassword(), matchedAdmin.getEmail());
-                staff.showMenu();
+                Staff staff = new Staff();
+                staff.showmenu(matchedAdmin.getPersonId(),matchedAdmin.getName(),matchedAdmin.getEmail(),matchedAdmin.getPhone());
                 loginresult = true;
             } else {
                 System.out.println("Admin login failed. Invalid username or password.");

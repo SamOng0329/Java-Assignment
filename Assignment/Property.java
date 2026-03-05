@@ -5,19 +5,24 @@ public abstract class Property {
     public enum PropertyStatus {
         AVAILABLE, RENTED, SOLD
     }
+    public enum PropertyType {
+        RESIDENTIAL, COMMERCIAL
+    }
 
     private String propertyId;
     private String location;
     private double listingPrice;
     private double squareFootage;
     private PropertyStatus status;
+    private PropertyType type;
 
     // Constructor
-    public Property(String propertyId, String location, double listingPrice, double squareFootage) {
+    public Property(String propertyId, String location, double listingPrice, double squareFootage,PropertyType type) {
         this.propertyId = propertyId;
         this.location = location;
         this.listingPrice = listingPrice;
         this.squareFootage = squareFootage;
+        this.type = type; 
         this.status = PropertyStatus.AVAILABLE; // Default status
     }
 
@@ -40,10 +45,18 @@ public abstract class Property {
         return squareFootage;
     }
 
+    public PropertyType getType(){
+        return type;
+    }
     // Setters
     public PropertyStatus getStatus() {
         return status;
     }
+    
+    public void setPropertyId(String propertyId) {
+        this.propertyId = propertyId;
+    }
+
 
     public void setStatus(PropertyStatus status) {
         this.status = status;
@@ -60,6 +73,11 @@ public abstract class Property {
     public void setSquareFootage(double squareFootage) {
         this.squareFootage = squareFootage;
     }
+
+        public void setType(PropertyType type) {
+        this.type = type;
+    }
+
 
     public void displayInfo() {
         System.out.println("  Property ID : " + propertyId);
