@@ -244,11 +244,59 @@ public class Uni_method_list {
             }
             
         }
-        public void searchProperties(Scanner scanner) {
+     public void searchProperty(Scanner scanner) {
+        boolean searchMore = true;
 
-            
-    }
+        while (searchMore) {
+            System.out.print("\nEnter Property ID to search (or 0 to cancel): ");
+            String searchId = scanner.nextLine().trim();
+
+            if (searchId.equals("0")) return;
+
+            boolean found = false;
+            for (Property prop : properties) {
+                if (prop.getPropertyId().equals(searchId)) {
+                    found = true;
+
+                    if (prop.getType() == Property.PropertyType.RESIDENTIAL) {
+                        ResidentialProperty rp = (ResidentialProperty) prop;
+                        System.out.println("┌───────────────────────────────────────────────────┐");
+                        System.out.printf( "│ %-18s : %-28s │%n", "Property ID",    rp.getPropertyId());
+                        System.out.printf( "│ %-18s : %-28s │%n", "Type",           "Residential - " + rp.getResidentialType());
+                        System.out.printf( "│ %-18s : %-28s │%n", "Location",       rp.getLocation());
+                        System.out.printf( "│ %-18s : %-28s │%n", "Price (RM)",     String.format("%.2f", rp.getListingPrice()));
+                        System.out.printf( "│ %-18s : %-28s │%n", "Square Footage", rp.getSquareFootage() + " sqft");
+                        System.out.printf( "│ %-18s : %-28s │%n", "Bedrooms",       rp.getNumBedrooms());
+                        System.out.printf( "│ %-18s : %-28s │%n", "Bathrooms",      rp.getNumBathrooms());
+                        System.out.printf( "│ %-18s : %-28s │%n", "Garden",         rp.hasGarden() ? "Yes" : "No");
+                        System.out.printf( "│ %-18s : %-28s │%n", "Status",         rp.getStatus());
+                        System.out.println("└───────────────────────────────────────────────────┘");
+
+                    } else if (prop.getType() == Property.PropertyType.COMMERCIAL) {
+                        CommercialProperty cp = (CommercialProperty) prop;
+                        System.out.println("┌───────────────────────────────────────────────────┐");
+                        System.out.printf( "│ %-18s : %-28s │%n", "Property ID",    cp.getPropertyId());
+                        System.out.printf( "│ %-18s : %-28s │%n", "Type",           "Commercial - " + cp.getCommercialType());
+                        System.out.printf( "│ %-18s : %-28s │%n", "Location",       cp.getLocation());
+                        System.out.printf( "│ %-18s : %-28s │%n", "Price (RM)",     String.format("%.2f", cp.getListingPrice()));
+                        System.out.printf( "│ %-18s : %-28s │%n", "Square Footage", cp.getSquareFootage() + " sqft");
+                        System.out.printf( "│ %-18s : %-28s │%n", "Parking Spots",  cp.getNumParkingSpots());
+                        System.out.printf( "│ %-18s : %-28s │%n", "Loading Dock",   cp.getHasLoadingDock() ? "Yes" : "No");
+                        System.out.printf( "│ %-18s : %-28s │%n", "Status",         cp.getStatus());
+                        System.out.println("└───────────────────────────────────────────────────┘");
+                    }
+                    break;
+                }
+            }
+            if (!found) System.out.println("Property ID " + searchId + " not found.");
+
+            System.out.print("Search another? (yes/no): ");
+            searchMore = scanner.nextLine().trim().equalsIgnoreCase("yes");
+        }
+    
 }
+}
+
     
 
           
