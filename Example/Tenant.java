@@ -1,4 +1,4 @@
-package Example;
+package files1;
 
 /**
  * Represents a Tenant (renter) in the system.
@@ -27,9 +27,18 @@ public class Tenant extends UserInfo {
 
     // ===================== Getters & Setters =====================
 
-    public String getIcNumber() { return icNumber; }
+    public String getIcNumber() {
+        return icNumber;
+    }
 
-    public boolean isHasOverduePayment() { return hasOverduePayment; }
+    public void setIcNumber(String icNumber) {
+        this.icNumber = icNumber;
+    }
+
+    public boolean isHasOverduePayment() {
+        return hasOverduePayment;
+    }
+
     public void setHasOverduePayment(boolean hasOverduePayment) {
         this.hasOverduePayment = hasOverduePayment;
     }

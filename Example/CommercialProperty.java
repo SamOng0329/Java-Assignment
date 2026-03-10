@@ -1,4 +1,4 @@
-package Example;
+package files1;
 
 /**
  * Represents a Commercial property (Office or Warehouse).

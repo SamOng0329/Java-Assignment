@@ -1,4 +1,4 @@
-package Example;
+package files1;
 
 /**
  * Represents a Residential property (Apartment or Villa).
@@ -21,8 +21,8 @@ public class ResidentialProperty extends Property {
 
     // Constructor
     public ResidentialProperty(String propertyId, String location, double listingPrice,
-                               double squareFootage, ResidentialType residentialType,
-                               int numBedrooms, int numBathrooms, boolean isFurnished) {
+            double squareFootage, ResidentialType residentialType,
+            int numBedrooms, int numBathrooms, boolean isFurnished) {
         super(propertyId, location, listingPrice, squareFootage); // Call parent constructor
         this.residentialType = residentialType;
         this.numBedrooms = numBedrooms;
@@ -38,11 +38,25 @@ public class ResidentialProperty extends Property {
 
     // ===================== Getters & Setters =====================
 
-    public ResidentialType getResidentialType() { return residentialType; }
-    public int getNumBedrooms() { return numBedrooms; }
-    public int getNumBathrooms() { return numBathrooms; }
-    public boolean isFurnished() { return isFurnished; }
-    public void setFurnished(boolean furnished) { this.isFurnished = furnished; }
+    public ResidentialType getResidentialType() {
+        return residentialType;
+    }
+
+    public int getNumBedrooms() {
+        return numBedrooms;
+    }
+
+    public int getNumBathrooms() {
+        return numBathrooms;
+    }
+
+    public boolean isFurnished() {
+        return isFurnished;
+    }
+
+    public void setFurnished(boolean furnished) {
+        this.isFurnished = furnished;
+    }
 
     // Override displayInfo to add residential-specific details
     @Override

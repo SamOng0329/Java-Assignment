@@ -1,4 +1,4 @@
-package Example;
+package files1;
 
 /**
  * Abstract base class for all property types.
