@@ -121,20 +121,20 @@ public class PropertyFunction {
             return;
         }
         for (Tenant t : tenantList) {
-            t.displayInfo();
+            System.out.println(t);
         }
     }
 
-    // Edit tenant details 
-    public void editTenantDetails(String tenantId, String name, String email, String phone, String ic) {
-        Tenant t = findTenantById(tenantId);
-        if (t != null) {
-            t.setName(name);
-            t.setEmail(email);
-            t.setPhone(phone);
-            t.setIcNumber(ic);
-        }
-    }
+    // // Edit tenant details 
+    // public void editTenantDetails(String tenantId, String name, String email, String phone, String ic) {
+    //     Tenant t = findTenantById(tenantId);
+    //     if (t != null) {
+    //         t.setName(name);
+    //         t.setEmail(email);
+    //         t.setPhone(phone);
+    //         t.setIcNumber(ic);
+    //     }
+    // } // sam part dont touch or i will kill u 
     // ====================================================================================================
 
     // CRUD for Agent
@@ -176,7 +176,7 @@ public class PropertyFunction {
             return;
         }
         for (Agent a : agentList) {
-            a.displayInfo();
+            System.out.println(a);
         }
     }
     // ====================================================================================================

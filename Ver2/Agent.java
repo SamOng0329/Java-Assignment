@@ -25,9 +25,9 @@ public class Agent extends UserInfo {
     }
 
     @Override
-    public void displayInfo() {
-        super.displayInfo();
-        System.out.printf("%s10 : %d5", "Deals", totalDealsCompleted);
+    public String toString(){
+        return super.toString()
+        + String.format("%s7 %s\n", "Deals", totalDealsCompleted);
     }
 
 }

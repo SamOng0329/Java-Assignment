@@ -43,8 +43,9 @@ public class Landlord extends UserInfo {
 
     // toString method add later
     @Override
-    public String toString() {
-        return "Landlord [" + super.toString() + "]";
+    public String toString(){
+        return super.toString()
+        + String.format("%s7 %s\n", "Owned Property", ownedProperty.size());
     }
 
 }

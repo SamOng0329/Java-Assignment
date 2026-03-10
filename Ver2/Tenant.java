@@ -35,9 +35,9 @@ public class Tenant extends UserInfo {
     }
 
     // display user information
-    public void displayInfo() {
-        super.displayInfo();
-        System.out.println("IC Number      : " + icNumber);
-        System.out.println("Overdue Payment: " + overduePayment);
+    public String toString() {
+        return super.toString()
+                + String.format("%s7 %s\n", "IC Number", icNumber)
+                + String.format("%s7 %s\n", "Overdue Payment", overduePayment);
     }
 }

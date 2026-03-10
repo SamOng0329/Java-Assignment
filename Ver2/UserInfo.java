@@ -59,17 +59,11 @@ public abstract class UserInfo {
     }
 
     // Display the information
-    public void displayInfo() {
-        System.out.printf("%s7 %s", "ID", personId);
-        System.out.printf("%s7 %s", "Name", name);
-        System.out.printf("%s7 %s", "Email", email);
-        System.out.printf("%s7 %s", "Phone", phone);
-
-    }
-
-    public void getInfobyId(String personId) {
-        if (this.personId.equals(personId)) {
-            displayInfo();
-        }
+    @Override
+    public String toString() {
+        return String.format("%s7 %s\n", "ID", personId)
+                + String.format("%s7 %s\n", "Name", name)
+                + String.format("%s7 %s\n", "Email", email)
+                + String.format("%s7 %s\n", "Phone", phone);
     }
 }
