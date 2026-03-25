@@ -25,6 +25,7 @@ public class PropertyFunction {
     private int agentCount = 1;
     private int leaseCount = 1;
     private int paymentCount = 1;
+    private int landlordCount = 1;
 
     // Getters
     public ArrayList<Property> getPropertyList() {
