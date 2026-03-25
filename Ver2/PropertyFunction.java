@@ -183,6 +183,50 @@ public class PropertyFunction {
     }
     // ====================================================================================================
 
+    // CRUD for Landlord
+    // ====================================================================================================
+    public Landlord registerLandlord(String name, String email, String phone, String username, String password) {
+        String landlordId = "LAN" + String.format("%03d", landlordCount++);
+
+        // Check if username already exists
+        if (isUsernameExists(username) != null) {
+            System.out.println("Error : Username already exists");
+            return null;
+        }
+
+        // Creating a ures objrct
+        Landlord l = new Landlord(landlordId, name, email, phone);
+        landlordList.add(l);
+
+        // Creating a user login
+        UserRole user = new UserRole(username, password, UserRole.Role.LANDLORD);
+        userRoleList.add(user);
+
+        return l;
+    }
+
+    // Find landlord by ID
+    public Landlord findLandlordById(String landlordId) {
+        for (Landlord l : landlordList) {
+            if (l.getPersonId().equals(landlordId)) {
+                return l;
+            }
+        }
+        return null;
+    }
+
+    // Display all landlord
+    public void listAllLandlord() {
+        if (landlordList.isEmpty()) {
+            System.out.println("No landlords found");
+            return;
+        }
+        for (Landlord l : landlordList) {
+            System.out.println(l);
+        }
+    }
+    // ====================================================================================================
+
 
 
 }
