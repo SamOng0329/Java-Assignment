@@ -5,6 +5,7 @@ public class PropertyFunction {
     public ArrayList<Property> propertyList;
     public ArrayList<Agent> agentList;
     public ArrayList<Tenant> tenantList;
+    public ArrayList<Landlord> landlordList;
     public ArrayList<LeaseRecord> leaseRecordList;
     public ArrayList<PaymentRecord> paymentRecordList;
     public ArrayList<UserRole> userRoleList;
