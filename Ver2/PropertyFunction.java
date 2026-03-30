@@ -228,5 +228,31 @@ public class PropertyFunction {
     // ====================================================================================================
 
 
+    // Create Residential
 
+    public void addResidentialProperty(String location, double price, double sqft, ResidentialProperty.ResidentialType resType, int bed, int bath, boolean furnished){ 
+        String id = "RES" + String.format("%03d", propertyCount++);
+
+    
+        ResidentialProperty newRes = new ResidentialProperty( id, location, price, resType, sqft, bed, bath, furnished);
+
+        propertyList.add(newRes);
+
+   
+        System.out.println("--------------------------------------");
+        System.out.println("Residential Property: " + id + "Successfully Registered!");
+        newRes.displayInfo(); 
+    }
+
+    public void listAllProperties() {
+    if (propertyList.isEmpty()) {
+        System.out.println("No properties found in the system.");
+        return;
+    }
+    System.out.println("========== ALL PROPERTIES ==========");
+    for (Property p : propertyList) {
+        p.displayInfo();
+        System.out.println("----------------------------------");
+    }
+}
 }
