@@ -29,5 +29,4 @@ public class Agent extends UserInfo {
         return super.toString()
         + String.format("%s7 %s\n", "Deals", totalDealsCompleted);
     }
-
 }

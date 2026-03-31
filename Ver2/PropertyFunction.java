@@ -127,16 +127,52 @@ public class PropertyFunction {
         }
     }
 
-    // // Edit tenant details 
-    // public void editTenantDetails(String tenantId, String name, String email, String phone, String ic) {
-    //     Tenant t = findTenantById(tenantId);
-    //     if (t != null) {
-    //         t.setName(name);
-    //         t.setEmail(email);
-    //         t.setPhone(phone);
-    //         t.setIcNumber(ic);
-    //     }
-    // } // sam part dont touch or i will kill u 
+    // Edit tenant details
+    public boolean updateTenantDetails(String tenantId, int fieldChoice, String newValue) {
+        Tenant t = findTenantById(tenantId);
+        if (t == null) {
+            System.out.println("  [ERROR] Tenant not found: " + tenantId);
+            return false;
+        }
+
+        if (fieldChoice >4 || fieldChoice < 0) {
+            System.out.println("  [ERROR] Invalid field choice.");
+            return false;
+        }
+
+        String fieldName, oldValue;
+        switch (fieldChoice) {
+            case 1 -> {
+                fieldName = "Name";
+                oldValue = t.getName();
+                t.setName(newValue);
+            }
+            case 2 -> {
+                fieldName = "IC Number";
+                oldValue = t.getIcNumber();
+                t.setIcNumber(newValue);
+            }
+            case 3 -> {
+                fieldName = "Phone";
+                oldValue = t.getPhone();
+                t.setPhone(newValue);
+            }
+            case 4 -> {
+                fieldName = "Email";
+                oldValue = t.getEmail();
+                t.setEmail(newValue);
+            }
+            default -> {
+                System.out.println("  [ERROR] Invalid field choice.");
+                return false;
+            }
+        }
+
+        System.out.println("  [SUCCESS] Tenant " + tenantId + " updated.");
+        System.out.println("  " + fieldName + " changed: [" + oldValue + "] -> [" + newValue + "]");
+        return true;
+    }
+
     // ====================================================================================================
 
     // CRUD for Agent
@@ -226,7 +262,5 @@ public class PropertyFunction {
         }
     }
     // ====================================================================================================
-
-
 
 }
