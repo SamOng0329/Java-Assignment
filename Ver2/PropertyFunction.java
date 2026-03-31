@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 
+
 public class PropertyFunction {
     // Creating Arraylist for all object
     public ArrayList<Property> propertyList;
@@ -9,15 +10,21 @@ public class PropertyFunction {
     public ArrayList<LeaseRecord> leaseRecordList;
     public ArrayList<PaymentRecord> paymentRecordList;
     public ArrayList<UserRole> userRoleList;
+    // instance( for initialization checking)
+
+    private static PropertyFunction instance = null;
 
     // Constructor
     public PropertyFunction() {
         propertyList = new ArrayList<>();
         agentList = new ArrayList<>();
         tenantList = new ArrayList<>();
+        landlordList = new ArrayList<>();
         leaseRecordList = new ArrayList<>();
         paymentRecordList = new ArrayList<>();
         userRoleList = new ArrayList<>();
+
+        initializeUsers();
     }
 
     // Auto-increment ID counters
@@ -67,6 +74,55 @@ public class PropertyFunction {
         userRoleList.add(user);
     }
 
+    public void addTenant(  Tenant tenant,UserRole user) {
+        userRoleList.add(user);
+        tenantList.add(tenant);
+    }
+
+    public void addAgent(Agent agent, UserRole user) {
+        agentList.add(agent);
+        userRoleList.add(user);
+    }
+
+    public void addLandLord(Landlord landlord, UserRole user) {
+        landlordList.add(landlord);
+        userRoleList.add(user);
+    }
+
+    public static PropertyFunction getInstance() {
+        if (instance == null) {
+            instance = new PropertyFunction();
+        }
+        return instance;
+    }
+
+    public static void clearscreen() {
+        System.out.print("\033[H\033[2J");
+        System.out.flush();
+    }
+
+
+    public void initializeUsers(){
+        addAdmin( new UserRole("admin", "admin123", UserRole.Role.STAFF));
+        Tenant t1 = new Tenant( "TEN001", "John Doe", "john.doe@example.com", "1234567890", "S12345678" );
+        addTenant(t1, new UserRole("johndoe", "password123", UserRole.Role.TENANT, t1));
+        Agent a1 = new Agent("AGT001", "Jane Doe", "jane.doe@example.com", "0987654321");
+        addAgent(a1, new UserRole("janedoe", "password456", UserRole.Role.AGENT, a1));
+        Landlord l1 = new Landlord("LLD001", "Jace Doe", "jace.doe@example.com", "1111111111");
+        addLandLord(l1, new UserRole("jacedoe", "password789", UserRole.Role.LANDLORD, l1));
+    }
+
+
+    public boolean Login(String username, String password) {
+        for (UserRole user : userRoleList) {
+            if (user.getUsername().equals(username) && user.getPassword().equals(password)) {
+                user.login(password);
+                return true;
+            }
+        }
+        return false;
+    }
+
     // Function of checking username
     public UserRole isUsernameExists(String username) {
         for (UserRole u : userRoleList) {
@@ -87,6 +143,25 @@ public class PropertyFunction {
                 System.out.println("Error : IC already exists");
                 return null;
             }
+            if (t.getPhone().equals(phone)) {
+                System.out.println("Error : Phone number already exists");
+                return null;
+            }
+            if (t.getEmail().equals(email)) {
+                System.out.println("Error : Email already exists");
+                return null;
+            }
+            
+        }
+        for (UserRole u : userRoleList) {
+            if (u.getUsername().equalsIgnoreCase(username)) {
+                System.out.println("Error : Username already exists");
+                return null;
+            }
+            if (u.getPassword().equals(password)) {
+                System.out.println("Error : Password already exists");
+                return null;
+            }
         }
 
         // Check if username already exists
@@ -95,12 +170,14 @@ public class PropertyFunction {
             return null;
         }
 
+        
+
         // Creating a user object
         Tenant t = new Tenant(tenantId, name, email, phone, ic);
         tenantList.add(t);
 
         // Creating a user login
-        UserRole user = new UserRole(username, password, UserRole.Role.TENANT);
+        UserRole user = new UserRole(username, password, UserRole.Role.TENANT,t);
         userRoleList.add(user);
 
         return t;
@@ -127,52 +204,16 @@ public class PropertyFunction {
         }
     }
 
-    // Edit tenant details
-    public boolean updateTenantDetails(String tenantId, int fieldChoice, String newValue) {
-        Tenant t = findTenantById(tenantId);
-        if (t == null) {
-            System.out.println("  [ERROR] Tenant not found: " + tenantId);
-            return false;
-        }
-
-        if (fieldChoice >4 || fieldChoice < 0) {
-            System.out.println("  [ERROR] Invalid field choice.");
-            return false;
-        }
-
-        String fieldName, oldValue;
-        switch (fieldChoice) {
-            case 1 -> {
-                fieldName = "Name";
-                oldValue = t.getName();
-                t.setName(newValue);
-            }
-            case 2 -> {
-                fieldName = "IC Number";
-                oldValue = t.getIcNumber();
-                t.setIcNumber(newValue);
-            }
-            case 3 -> {
-                fieldName = "Phone";
-                oldValue = t.getPhone();
-                t.setPhone(newValue);
-            }
-            case 4 -> {
-                fieldName = "Email";
-                oldValue = t.getEmail();
-                t.setEmail(newValue);
-            }
-            default -> {
-                System.out.println("  [ERROR] Invalid field choice.");
-                return false;
-            }
-        }
-
-        System.out.println("  [SUCCESS] Tenant " + tenantId + " updated.");
-        System.out.println("  " + fieldName + " changed: [" + oldValue + "] -> [" + newValue + "]");
-        return true;
-    }
-
+    // // Edit tenant details 
+    // public void editTenantDetails(String tenantId, String name, String email, String phone, String ic) {
+    //     Tenant t = findTenantById(tenantId);
+    //     if (t != null) {
+    //         t.setName(name);
+    //         t.setEmail(email);
+    //         t.setPhone(phone);
+    //         t.setIcNumber(ic);
+    //     }
+    // } // sam part dont touch or i will kill u 
     // ====================================================================================================
 
     // CRUD for Agent
@@ -262,5 +303,7 @@ public class PropertyFunction {
         }
     }
     // ====================================================================================================
+
+
 
 }
