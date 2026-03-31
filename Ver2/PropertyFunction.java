@@ -1,6 +1,5 @@
 import java.util.ArrayList;
 
-
 public class PropertyFunction {
     // Creating Arraylist for all object
     public ArrayList<Property> propertyList;
@@ -74,7 +73,7 @@ public class PropertyFunction {
         userRoleList.add(user);
     }
 
-    public void addTenant(  Tenant tenant,UserRole user) {
+    public void addTenant(Tenant tenant, UserRole user) {
         userRoleList.add(user);
         tenantList.add(tenant);
     }
@@ -101,17 +100,15 @@ public class PropertyFunction {
         System.out.flush();
     }
 
-
-    public void initializeUsers(){
-        addAdmin( new UserRole("admin", "admin123", UserRole.Role.STAFF));
-        Tenant t1 = new Tenant( "TEN001", "John Doe", "john.doe@example.com", "1234567890", "S12345678" );
+    public void initializeUsers() {
+        addAdmin(new UserRole("admin", "admin123", UserRole.Role.STAFF));
+        Tenant t1 = new Tenant("TEN001", "John Doe", "john.doe@example.com", "1234567890", "S12345678");
         addTenant(t1, new UserRole("johndoe", "password123", UserRole.Role.TENANT, t1));
         Agent a1 = new Agent("AGT001", "Jane Doe", "jane.doe@example.com", "0987654321");
         addAgent(a1, new UserRole("janedoe", "password456", UserRole.Role.AGENT, a1));
         Landlord l1 = new Landlord("LLD001", "Jace Doe", "jace.doe@example.com", "1111111111");
         addLandLord(l1, new UserRole("jacedoe", "password789", UserRole.Role.LANDLORD, l1));
     }
-
 
     public boolean Login(String username, String password) {
         for (UserRole user : userRoleList) {
@@ -151,7 +148,7 @@ public class PropertyFunction {
                 System.out.println("Error : Email already exists");
                 return null;
             }
-            
+
         }
         for (UserRole u : userRoleList) {
             if (u.getUsername().equalsIgnoreCase(username)) {
@@ -170,14 +167,12 @@ public class PropertyFunction {
             return null;
         }
 
-        
-
         // Creating a user object
         Tenant t = new Tenant(tenantId, name, email, phone, ic);
         tenantList.add(t);
 
         // Creating a user login
-        UserRole user = new UserRole(username, password, UserRole.Role.TENANT,t);
+        UserRole user = new UserRole(username, password, UserRole.Role.TENANT, t);
         userRoleList.add(user);
 
         return t;
@@ -204,16 +199,54 @@ public class PropertyFunction {
         }
     }
 
-    // // Edit tenant details 
-    // public void editTenantDetails(String tenantId, String name, String email, String phone, String ic) {
-    //     Tenant t = findTenantById(tenantId);
-    //     if (t != null) {
-    //         t.setName(name);
-    //         t.setEmail(email);
-    //         t.setPhone(phone);
-    //         t.setIcNumber(ic);
-    //     }
-    // } // sam part dont touch or i will kill u 
+    // Update tenant details
+    public boolean updateTenantDetails(String tenantId, int fieldChoice, String newValue) {
+        Tenant t = findTenantById(tenantId);
+        if (t == null) {
+            System.out.println("  [ERROR] Tenant not found: " + tenantId);
+            return false;
+        }
+
+        if (fieldChoice < 1 || fieldChoice > 4) {
+            System.out.println("  [ERROR] Invalid field choice.");
+            return false;
+        }
+
+        String fieldName, oldValue;
+        switch (fieldChoice) {
+            case 1 -> {
+                fieldName = "Name";
+                oldValue = t.getName();
+                t.setName(newValue);
+            }
+
+            case 2 -> {
+                fieldName = "IC Number";
+                oldValue = t.getIcNumber();
+                t.setIcNumber(newValue);
+            }
+
+            case 3 -> {
+                fieldName = "Phone";
+                oldValue = t.getPhone();
+                t.setPhone(newValue);
+            }
+
+            case 4 -> {
+                fieldName = "Email";
+                oldValue = t.getEmail();
+                t.setEmail(newValue);
+            }
+
+            default -> {
+                System.out.println("  [ERROR] Invalid field choice.");
+                return false;
+            }
+        }
+        System.out.println("  [SUCCESS] Tenant " + tenantId + " updated.");
+        System.out.println("  " + fieldName + " changed: [" + oldValue + "] -> [" + newValue + "]");
+        return true;
+    }
     // ====================================================================================================
 
     // CRUD for Agent
@@ -258,6 +291,51 @@ public class PropertyFunction {
             System.out.println(a);
         }
     }
+
+    // Update agent details
+    public boolean updateAgentDetails(String agentId, int fieldChoice, String newValue) {
+        Agent a = findAgentById(agentId);
+        if (a == null) {
+            System.out.println("  [ERROR] Agent not found: " + agentId);
+            return false;
+        }
+
+        if (fieldChoice < 1 || fieldChoice > 3) {
+            System.out.println("  [ERROR] Invalid field choice.");
+            return false;
+        }
+
+        String fieldName, oldValue;
+
+        switch (fieldChoice) {
+            case 1 -> {
+                fieldName = "Name";
+                oldValue = a.getName();
+                a.setName(newValue);
+            }
+
+            case 2 -> {
+                fieldName = "Email";
+                oldValue = a.getEmail();
+                a.setEmail(newValue);
+            }
+
+            case 3 -> {
+                fieldName = "Phone";
+                oldValue = a.getPhone();
+                a.setPhone(newValue);
+            }
+
+            default -> {
+                System.out.println("  [ERROR] Invalid field choice.");
+                return false;
+            }
+        }
+
+        System.out.println("  [SUCCESS] Agent " + agentId + " updated.");
+        System.out.println("  " + fieldName + " changed: [" + oldValue + "] -> [" + newValue + "]");
+        return true;
+    }
     // ====================================================================================================
 
     // CRUD for Landlord
@@ -271,7 +349,7 @@ public class PropertyFunction {
             return null;
         }
 
-        // Creating a ures objrct
+        // Creating a user object
         Landlord l = new Landlord(landlordId, name, email, phone);
         landlordList.add(l);
 
@@ -302,8 +380,53 @@ public class PropertyFunction {
             System.out.println(l);
         }
     }
+
+    // Update landlord details
+    public boolean updateLandlordDetails(String landlordId, int fieldChoice, String newValue) {
+        Landlord ll = findLandlordById(landlordId);
+        if (ll == null) {
+            System.out.println("  [ERROR] Landlord not found: " + landlordId);
+            return false;
+        }
+
+        if (fieldChoice < 1 || fieldChoice > 4) {
+            System.out.println("  [ERROR] Invalid field choice.");
+            return false;
+        }
+
+        String fieldName, oldValue;
+
+        switch (fieldChoice) {
+            case 1 -> {
+                fieldName = "Name";
+                oldValue = ll.getName();
+                ll.setName(newValue);
+            }
+
+            case 2 -> {
+                fieldName = "Email";
+                oldValue = ll.getEmail();
+                ll.setEmail(newValue);
+            }
+
+            case 3 -> {
+                fieldName = "Phone";
+                oldValue = ll.getPhone();
+                ll.setPhone(newValue);
+            }
+
+            default -> {
+                System.out.println("  [ERROR] Invalid field choice.");
+                return false;
+            }
+        }
+
+        System.out.println("  [SUCCESS] Landlord " + landlordId + " updated.");
+        System.out.println("  " + fieldName + " changed: [" + oldValue + "] -> [" + newValue + "]");
+        return true;
+    }
     // ====================================================================================================
 
-
-
+    // ====================================================================================================
+    
 }
