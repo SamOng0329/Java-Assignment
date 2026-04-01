@@ -1,5 +1,7 @@
 import java.util.ArrayList;
 
+import Assignment.Property.PropertyStatus;
+
 
 public class PropertyFunction {
     // Creating Arraylist for all object
@@ -305,14 +307,13 @@ public class PropertyFunction {
     // ====================================================================================================
 
 
-    // Create Residential
+    // Create property
 
-    public void addResidentialProperty(String location, double price, double sqft, ResidentialProperty.ResidentialType resType, int bed, int bath, boolean furnished){ 
+    public void addResidentialProperty(String location, double price, double sqft, ResidentialProperty.ResidentialType resType, int bedroom, int bathroom, boolean furnished){ 
         String id = "RES" + String.format("%03d", propertyCount++);
 
     
-        ResidentialProperty newRes = new ResidentialProperty( id, location, price, resType, sqft, bed, bath, furnished);
-
+        ResidentialProperty newRes = new ResidentialProperty( id, location, price, resType, sqft, bedroom, bathroom, furnished);
         propertyList.add(newRes);
 
    
@@ -321,17 +322,89 @@ public class PropertyFunction {
         newRes.displayInfo(); 
     }
 
+    public void addCommercialProperty (String location, double price, double sqft, CommercialProperty.CommercialType commType, int parking, boolean loadingDock){
+        String id = "COM" + String.format("%03d", propertyCount++);
+
+        CommercialProperty newCom = new CommercialProperty(id, location, price, sqft, commType, parking, loadingDock);
+        propertyList.add(newCom);
+
+        System.out.println("--------------------------------------");
+        System.out.println("Commercial Property: " + id + "Successfully Registered!");
+        newCom.displayInfo(); 
+    }
+
+    //Read property
+
     public void listAllProperties() {
-    if (propertyList.isEmpty()) {
-        System.out.println("No properties found in the system.");
-        return;
+        if (propertyList.isEmpty()) {
+            System.out.println("No properties found in the system.");
+            return;
+        }
+        for (Property p : propertyList) {
+            p.displayInfo();
+        }   
     }
-    System.out.println("========== ALL PROPERTIES ==========");
-    for (Property p : propertyList) {
-        p.displayInfo();
-        System.out.println("----------------------------------");
+
+    public Property findAvailableProperty(PropertyStatus status){
+        for (Property p : propertyList){
+            if (p.getStatus() == Property.PropertyStatus.AVAILABLE)
+                p.displayInfo();
+            }
+        return null;
     }
-}
 
+    public Property findPropertyById(String id){
+        for (Property p : propertyList){
+            if (p.getPropertyId().equalsIgnoreCase(id))
+                p.displayInfo();
+            }
+        return null;
+    }
 
+    public Property findByPropertyType(String Type){
+        for (Property p : propertyList){
+            if(p.getPropertyType().toLowerCase().contains(Type.toLowerCase()))
+                p.displayInfo();
+            }
+        return null;
+    }
+
+    //Update property
+
+    public boolean updatePropertyPrice(String id, double newPrice) {
+        Property p = findPropertyById(id);
+        if (p != null) {
+            p.setListingPrice(newPrice);
+            return true;
+            }
+        return false;
+    }
+
+    public boolean updatePropertyStatus(String propertyId, Property.PropertyStatus newStatus) {
+        Property p = findPropertyById(propertyId);
+        if (p == null) {
+            System.out.println("  [ERROR] Property not found: " + propertyId);
+            return false;
+        }
+        p.setStatus(newStatus);
+        System.out.println("  [SUCCESS] Status of " + propertyId + " updated to " + newStatus);
+        return true;
+    }
+
+    //Delete property
+
+    public boolean deleteProperty(String propertyId) {
+        Property p = findPropertyById(propertyId);
+        if (p == null) {
+            System.out.println("[ERROR] Property not found.");
+            return false;
+        }
+        if (p.getStatus() == Property.PropertyStatus.RENTED) {
+            System.out.println("[ERROR] Cannot delete a rented property!");
+            return false;
+        }
+        propertyList.remove(p);
+        System.out.println("[SUCCESS] Property " + propertyId + " deleted.");
+        return true;
+    }
 }
