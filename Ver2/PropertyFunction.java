@@ -1,3 +1,5 @@
+import java.rmi.dgc.Lease;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class PropertyFunction {
@@ -425,8 +427,176 @@ public class PropertyFunction {
         System.out.println("  " + fieldName + " changed: [" + oldValue + "] -> [" + newValue + "]");
         return true;
     }
+
+    // Payment Record
     // ====================================================================================================
+    public PaymentRecord CreatePaymentRecord(String leaseId, double amount, String paymentMethod) {
+        LeaseRecord l = findLeaseById(leaseId);
+
+        // Find the lease
+        if (l == null) {
+            System.out.println("  [ERROR] Lease not found: " + leaseId);
+            return null;
+        }
+
+        // Cannot pay for the terminated lease
+        if (l.getLeaseStatus()) {
+            System.out.println("  [ERROR] Lease is already completed: " + leaseId);
+            return null;
+        }
+
+        if (amount <= 0) {
+            System.out.println("  [ERROR] Invalid payment amount" + amount);
+            return null;
+        }
+
+        // Payment Id
+        String paymentId = "PAY" + String.format("%03d", paymentCount++);
+
+        // Create a new payment record
+        PaymentRecord payment = new PaymentRecord(paymentId, l, amount, LocalDate.now(), paymentMethod, true);
+        paymentRecordList.add(payment);
+
+        System.out.println("  [SUCCESS] Payment record created: " + paymentId);
+        return payment;
+    }
+
+    // Find payment by ID
+    public PaymentRecord findPaymentById(String paymentId) {
+        for (PaymentRecord p : paymentRecordList) {
+            if (p.getPaymentId().equals(paymentId)) {
+                return p;
+            }
+        }
+        return null;
+    }
+
+    // Read and Display all payment records
+    public void listAllPayments() {
+        if (paymentRecordList.isEmpty()) {
+            System.out.println("  No payment records found.");
+            return;
+        }
+        for (PaymentRecord p : paymentRecordList) {
+            p.displayInfo();
+        }
+    }
+
+    // Display payment records by lease ID
+    public void listPaymentsByLeaseId(String leaseId) {
+        boolean found = false;
+        for (PaymentRecord p : paymentRecordList) {
+            if (p.getLeaseRecord().getLeaseId().equalsIgnoreCase(leaseId)) {
+                p.displayInfo();
+                found = true;
+            }
+        }
+        if (!found) {
+            System.out.println("  [INFO] No payment records found for lease: " + leaseId);
+        }
+    }
+
+    // Display all payment that mode by tenant
+    public void listPaymentsByTenantId(String tenantId) {
+        boolean found = false;
+        for (PaymentRecord p : paymentRecordList) {
+            if (p.getLeaseRecord().getTenant().getPersonId().equalsIgnoreCase(tenantId)) {
+                p.displayInfo();
+                found = true;
+            }
+        }
+        if (!found) {
+            System.out.println("  [INFO] No payment records found for tenant: " + tenantId);
+        }
+    }
 
     // ====================================================================================================
-    
+
+    // CRUD Lease Record
+    // ====================================================================================================
+    public LeaseRecord CreateLeaseRecord(String propertyId, String tenantId, String agentId, LocalDate startDate,
+            LocalDate endDate, double monthlyRent) {
+        Property p = findPropertyById(propertyId);
+        Tenant t = findTenantById(tenantId);
+        Agent a = findAgentById(agentId);
+
+        // Validate property exist
+        if (p == null) {
+            System.out.println("  [ERROR] Property not found: " + propertyId);
+            return null;
+        }
+
+        // Valiadate tenant exists
+        if (t == null) {
+            System.out.println("  [ERROR] Tenant not found: " + tenantId);
+            return null;
+        }
+
+        // Validate property availability
+        if (p.getStatus() != Property.PropertyStatus.AVAILABLE) {
+            System.out.println("  [ERROR] Property is not available for lease: " + propertyId);
+            return null;
+        }
+
+        // Validate dates
+        if (startDate.isAfter(endDate)) {
+            System.out.println("  [ERROR] Start date must be before end date");
+            return null;
+        }
+
+        // Generate Lease ID
+        String leaseId = "LEA" + String.format("%03d", leaseCount++);
+
+        // Create a lease record
+        LeaseRecord lease = new LeaseRecord(leaseId, p, a, t, startDate, endDate, monthlyRent, monthlyRent * 2);
+        leaseRecordList.add(lease);
+        return lease;
+    }
+
+    // Find lease by ID
+    public LeaseRecord findLeaseById(String leaseId) {
+        for (LeaseRecord l : leaseRecordList) {
+            if (l.getLeaseId().equals(leaseId)) {
+                return l;
+            }
+        }
+        return null;
+    }
+
+    // Display all lease
+    public void listAllLease() {
+        if (leaseRecordList.isEmpty()) {
+            System.out.println("  No lease records found.");
+            return;
+        }
+        for (LeaseRecord l : leaseRecordList) {
+            l.displayInfo();
+        }
+    }
+
+    // Display lease by tenant ID
+    public void listLeaseByTenantId(String tenantId) {
+        boolean found = false;
+        for (LeaseRecord l : leaseRecordList) {
+            if (l.getTenant().getPersonId().equalsIgnoreCase(tenantId)) {
+                l.displayInfo();
+                found = true;
+            }
+        }
+        if (!found) {
+            System.out.println("  [INFO] No lease records found for tenant: " + tenantId);
+        }
+    }
+
+    // find property by ID
+    public Property findPropertyById(String propertyId) {
+        for (Property p : propertyList) {
+            if (p.getPropertyId().equals(propertyId)) {
+                return p;
+            }
+        }
+        return null;
+    }
+    // ====================================================================================================
+
 }
