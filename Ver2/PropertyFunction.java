@@ -49,6 +49,10 @@ public class PropertyFunction {
         return tenantList;
     }
 
+    public ArrayList<Landlord> getLandlordList() {
+        return landlordList;
+    }
+
     public ArrayList<LeaseRecord> getLeaseRecordList() {
         return leaseRecordList;
     }
@@ -95,11 +99,6 @@ public class PropertyFunction {
             instance = new PropertyFunction();
         }
         return instance;
-    }
-
-    public static void clearscreen() {
-        System.out.print("\033[H\033[2J");
-        System.out.flush();
     }
 
     public void initializeUsers() {
@@ -229,15 +228,15 @@ public class PropertyFunction {
             }
 
             case 3 -> {
-                fieldName = "Phone";
-                oldValue = t.getPhone();
-                t.setPhone(newValue);
-            }
-
-            case 4 -> {
                 fieldName = "Email";
                 oldValue = t.getEmail();
                 t.setEmail(newValue);
+            }
+
+            case 4 -> {
+                fieldName = "Phone";
+                oldValue = t.getPhone();
+                t.setPhone(newValue);
             }
 
             default -> {

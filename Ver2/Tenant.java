@@ -33,6 +33,10 @@ public class Tenant extends UserInfo {
     public boolean getOverduePayment() {
         return overduePayment;
     }
+
+
+  
+    
     
     // display user information
     public String toString() {
