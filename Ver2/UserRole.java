@@ -86,5 +86,14 @@ public class UserRole {
             System.out.printf("%s15 : %s15", "Person ID", linkedPerson.getPersonId());
         }
     }
+
+    public String  toString(){
+        if (linkedPerson != null) {
+            return String.format("%s`15 : %s15\n%s15 : %s15\n%s15 : %s15\n%s15 : %s15", "Username", username, "Role", role, "Linked To", linkedPerson.getName(), "Person ID", linkedPerson.getPersonId());
+        } else {
+            return String.format("%s : %s\n%s : %s", "Username", username, "Role", role);
+        }
+
+    }
     // ====================================================================================================
 }

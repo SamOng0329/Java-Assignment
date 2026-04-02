@@ -55,10 +55,9 @@ public class Login {
                             System.out.println("Unknown role. Access denied.");}
 
                         
-                        Running = true;
+                        
                     } else {
                         Uimaterial.clearscreen();
-
                         System.out.println("Invalid username or password. Please try again.");
                     }
                     break;
@@ -89,6 +88,7 @@ public class Login {
                 case 3:
                     System.out.println("Exiting the application. Goodbye!");
                     System.exit(0);
+                    Running = true;
                     break;
                     
             }

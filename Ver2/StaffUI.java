@@ -65,11 +65,59 @@ public class StaffUI {
 
                     case 3:
 
-                        Uimaterial.displayoperationmenu(LoggedUser);
+                        boolean back = false;
+                        do {
+                            try {
+                                for (Agent agent : agentList) {
+                                    System.out.println(agent.toString());
+                                }
+                                System.out.print("Want to go back to main menu? (Y/N): ");
+                                String backChoice = scanner.nextLine();
+                                if (backChoice.equalsIgnoreCase("Y")) {
+                                    back = true;
+                                    Uimaterial.clearscreen();
+
+                                } else if (backChoice.equalsIgnoreCase("N")) {
+                                    Uimaterial.clearscreen();
+                                } else {
+                                    Uimaterial.clearscreen();
+                                    System.out.println("Invalid choice. Please enter Y or N.");
+
+                                }
+                            } catch (Exception e) {
+                                Uimaterial.clearscreen();
+                                System.out.println("Invalid input. Please enter Y or N.");
+                                System.out.print("\n");
+                                scanner.nextLine(); // Clear the invalid input
+                            }
+                        } while (!back);
                         break;
 
                     case 4:
-                        Uimaterial.displayoperationmenu(LoggedUser);
+                        boolean back1 = false;
+                        do {
+                            try {
+                                System.out.println(LoggedUser.toString());
+                                System.out.print("Want to go back to main menu? (Y/N): ");
+                                String backChoice = scanner.nextLine();
+                                if (backChoice.equalsIgnoreCase("Y")) {
+                                    back1 = true;
+                                    Uimaterial.clearscreen();
+
+                                } else if (backChoice.equalsIgnoreCase("N")) {
+                                    Uimaterial.clearscreen();
+                                } else {
+                                    Uimaterial.clearscreen();
+                                    System.out.println("Invalid choice. Please enter Y or N.");
+
+                                }
+                            } catch (Exception e) {
+                                Uimaterial.clearscreen();
+                                System.out.println("Invalid input. Please enter Y or N.");
+                                System.out.print("\n");
+                                scanner.nextLine(); // Clear the invalid input
+                            }
+                        } while (!back1);
                         break;
 
                     case 5:
@@ -274,51 +322,53 @@ public class StaffUI {
                             Uimaterial.clearscreen();
                             do {
                                 try {
-                                
-                                Uimaterial.editprofileSecondMenu(UserRole.Role.LANDLORD);
-                                int choice1 = scanner.nextInt();
-                                scanner.nextLine();
-                                String newinfo;
-                                Uimaterial.clearscreen();
 
-                                if (choice1 == 1) {
-                                    System.out.print("New Name:");
-                                    newinfo = scanner.nextLine();
-                                    success = pf.updateLandlordDetails(landlordId, choice1, newinfo);
-                                    if (success) {
-                                        System.out.println("Landlord profile updated successfully.");
-                                    } else {
-                                        System.out.println("Failed to update landlord profile. Please check the Landlord ID and try again.");
-                                    }
-                                } else if (choice1 == 2) {
-                                    System.out.print("New Email:");
-                                    newinfo = scanner.nextLine();
-                                    success = pf.updateLandlordDetails(landlordId, choice1, newinfo);
-                                    if (success) {
-                                        System.out.println("Landlord profile updated successfully.");
-                                    } else {
-                                        System.out.println("Failed to update landlord profile. Please check the Landlord ID and try again.");
-                                    }
-                                } else if (choice1 == 3) {
-                                    System.out.print("New Phone Number:");
-                                    newinfo = scanner.nextLine();
-                                    success = pf.updateLandlordDetails(landlordId, choice1, newinfo);
-                                    if (success) {
-                                        System.out.println("Landlord profile updated successfully.");
-                                    } else {
-                                        System.out.println("Failed to update landlord profile. Please check the Landlord ID and try again.");
-                                    }
+                                    Uimaterial.editprofileSecondMenu(UserRole.Role.LANDLORD);
+                                    int choice1 = scanner.nextInt();
+                                    scanner.nextLine();
+                                    String newinfo;
+                                    Uimaterial.clearscreen();
 
-                                } 
-                                else if (choice1 == 4) {
-                                    back1 = true;
-                                    Uimaterial.clearscreen();
-                                }
-                                else {
-                                    Uimaterial.clearscreen();
-                                    System.out.println("Invalid choice. Returning to main menu.");
-                                    
-                                }} catch (Exception e) {
+                                    if (choice1 == 1) {
+                                        System.out.print("New Name:");
+                                        newinfo = scanner.nextLine();
+                                        success = pf.updateLandlordDetails(landlordId, choice1, newinfo);
+                                        if (success) {
+                                            System.out.println("Landlord profile updated successfully.");
+                                        } else {
+                                            System.out.println(
+                                                    "Failed to update landlord profile. Please check the Landlord ID and try again.");
+                                        }
+                                    } else if (choice1 == 2) {
+                                        System.out.print("New Email:");
+                                        newinfo = scanner.nextLine();
+                                        success = pf.updateLandlordDetails(landlordId, choice1, newinfo);
+                                        if (success) {
+                                            System.out.println("Landlord profile updated successfully.");
+                                        } else {
+                                            System.out.println(
+                                                    "Failed to update landlord profile. Please check the Landlord ID and try again.");
+                                        }
+                                    } else if (choice1 == 3) {
+                                        System.out.print("New Phone Number:");
+                                        newinfo = scanner.nextLine();
+                                        success = pf.updateLandlordDetails(landlordId, choice1, newinfo);
+                                        if (success) {
+                                            System.out.println("Landlord profile updated successfully.");
+                                        } else {
+                                            System.out.println(
+                                                    "Failed to update landlord profile. Please check the Landlord ID and try again.");
+                                        }
+
+                                    } else if (choice1 == 4) {
+                                        back1 = true;
+                                        Uimaterial.clearscreen();
+                                    } else {
+                                        Uimaterial.clearscreen();
+                                        System.out.println("Invalid choice. Returning to main menu.");
+
+                                    }
+                                } catch (Exception e) {
                                     Uimaterial.clearscreen();
                                     System.out.println("Invalid input. Please enter a number.");
                                     scanner.nextLine(); // Clear the invalid input
@@ -348,51 +398,53 @@ public class StaffUI {
                             Uimaterial.clearscreen();
                             do {
                                 try {
-                                
-                                Uimaterial.editprofileSecondMenu(UserRole.Role.AGENT);
-                                int choice1 = scanner.nextInt();
-                                scanner.nextLine();
-                                String newinfo;
-                                Uimaterial.clearscreen();
 
-                                if (choice1 == 1) {
-                                    System.out.print("New Name:");
-                                    newinfo = scanner.nextLine();
-                                    success = pf.updateAgentDetails(agentId, choice1, newinfo);
-                                    if (success) {
-                                        System.out.println("Agent profile updated successfully.");
-                                    } else {
-                                        System.out.println("Failed to update agent profile. Please check the Agent ID and try again.");
-                                    }
-                                } else if (choice1 == 2) {
-                                    System.out.print("New Email:");
-                                    newinfo = scanner.nextLine();
-                                    success = pf.updateAgentDetails(agentId, choice1, newinfo);
-                                    if (success) {
-                                        System.out.println("Agent profile updated successfully.");
-                                    } else {
-                                        System.out.println("Failed to update agent profile. Please check the Agent ID and try again.");
-                                    }
-                                } else if (choice1 == 3) {
-                                    System.out.print("New Phone Number:");
-                                    newinfo = scanner.nextLine();
-                                    success = pf.updateAgentDetails(agentId, choice1, newinfo);
-                                    if (success) {
-                                        System.out.println("Agent profile updated successfully.");
-                                    } else {
-                                        System.out.println("Failed to update agent profile. Please check the Agent ID and try again.");
-                                    }
+                                    Uimaterial.editprofileSecondMenu(UserRole.Role.AGENT);
+                                    int choice1 = scanner.nextInt();
+                                    scanner.nextLine();
+                                    String newinfo;
+                                    Uimaterial.clearscreen();
 
-                                } 
-                                else if (choice1 == 4) {
-                                    back1 = true;
-                                    Uimaterial.clearscreen();
-                                }
-                                else {
-                                    Uimaterial.clearscreen();
-                                    System.out.println("Invalid choice. Returning to main menu.");
-                                    
-                                }} catch (Exception e) {
+                                    if (choice1 == 1) {
+                                        System.out.print("New Name:");
+                                        newinfo = scanner.nextLine();
+                                        success = pf.updateAgentDetails(agentId, choice1, newinfo);
+                                        if (success) {
+                                            System.out.println("Agent profile updated successfully.");
+                                        } else {
+                                            System.out.println(
+                                                    "Failed to update agent profile. Please check the Agent ID and try again.");
+                                        }
+                                    } else if (choice1 == 2) {
+                                        System.out.print("New Email:");
+                                        newinfo = scanner.nextLine();
+                                        success = pf.updateAgentDetails(agentId, choice1, newinfo);
+                                        if (success) {
+                                            System.out.println("Agent profile updated successfully.");
+                                        } else {
+                                            System.out.println(
+                                                    "Failed to update agent profile. Please check the Agent ID and try again.");
+                                        }
+                                    } else if (choice1 == 3) {
+                                        System.out.print("New Phone Number:");
+                                        newinfo = scanner.nextLine();
+                                        success = pf.updateAgentDetails(agentId, choice1, newinfo);
+                                        if (success) {
+                                            System.out.println("Agent profile updated successfully.");
+                                        } else {
+                                            System.out.println(
+                                                    "Failed to update agent profile. Please check the Agent ID and try again.");
+                                        }
+
+                                    } else if (choice1 == 4) {
+                                        back1 = true;
+                                        Uimaterial.clearscreen();
+                                    } else {
+                                        Uimaterial.clearscreen();
+                                        System.out.println("Invalid choice. Returning to main menu.");
+
+                                    }
+                                } catch (Exception e) {
                                     Uimaterial.clearscreen();
                                     System.out.println("Invalid input. Please enter a number.");
                                     scanner.nextLine(); // Clear the invalid input
