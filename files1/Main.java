@@ -356,6 +356,7 @@ public class Main {
         System.out.println("\n  --- PAYMENT MANAGEMENT ---");
         System.out.println("  1. Record a Payment");
         System.out.println("  2. View Payment History for a Lease");
+        System.out.println("  3. View All Payments");
         System.out.println("  0. Back");
 
         int choice = readInt("  Enter choice: ");
@@ -367,6 +368,7 @@ public class Main {
                 manager.recordPayment(id, amount, method);
             }
             case 2 -> { String id = readString("  Lease ID: "); manager.viewPaymentHistory(id); }
+            case 3 -> manager.viewAllPayments();
             case 0 -> { }
             default -> System.out.println("  [ERROR] Invalid option.");
         }
@@ -406,7 +408,9 @@ public class Main {
             System.out.println("  ║  3. Create a Lease                       ║");
             System.out.println("  ║  4. View All Leases                      ║");
             System.out.println("  ║  5. Record a Payment                     ║");
-            System.out.println("  ║  6. View My Profile                      ║");
+            System.out.println("  ║  6. View All Payments                    ║");
+            System.out.println("  ║  7. Rental Applications                  ║");
+            System.out.println("  ║  8. View My Profile                      ║");
             System.out.println("  ║  0. Logout                               ║");
             System.out.println("  ╚══════════════════════════════════════════╝");
 
@@ -422,7 +426,9 @@ public class Main {
                     String method = readString("  Payment Method: ");
                     manager.recordPayment(id, amount, method);
                 }
-                case 6 -> { System.out.println("\n  ========== MY PROFILE =========="); agent.displayInfo(); }
+                case 6 -> manager.viewAllPayments();
+                case 7 -> agentApplicationMenu(agent);
+                case 8 -> { System.out.println("\n  ========== MY PROFILE =========="); agent.displayInfo(); }
                 case 0 -> { agentUser.logout(); System.out.println("  Logged out successfully."); loggedIn = false; }
                 default -> System.out.println("  [ERROR] Invalid option.");
             }
@@ -445,7 +451,11 @@ public class Main {
             System.out.println("  ║  2. Search Properties by Type            ║");
             System.out.println("  ║  3. View My Lease Agreements             ║");
             System.out.println("  ║  4. View My Payment History              ║");
-            System.out.println("  ║  5. View My Profile                      ║");
+            System.out.println("  ║  5. View All My Payments                 ║");
+            System.out.println("  ║  6. Request a Property Visit             ║");
+            System.out.println("  ║  7. Apply for Rental                     ║");
+            System.out.println("  ║  8. View My Requests & Applications      ║");
+            System.out.println("  ║  9. View My Profile                      ║");
             System.out.println("  ║  0. Logout                               ║");
             System.out.println("  ╚══════════════════════════════════════════╝");
 
@@ -459,7 +469,11 @@ public class Main {
                     String leaseId = readString("  Enter Lease ID to view payments: ");
                     manager.viewPaymentHistory(leaseId);
                 }
-                case 5 -> { System.out.println("\n  ========== MY PROFILE =========="); tenant.displayInfo(); }
+                case 5 -> manager.viewAllPaymentsByTenant(tenant.getPersonId());
+                case 6 -> tenantRequestVisit(tenant);
+                case 7 -> tenantApplyForRental(tenant);
+                case 8 -> tenantViewMyRequests(tenant);
+                case 9 -> { System.out.println("\n  ========== MY PROFILE =========="); tenant.displayInfo(); }
                 case 0 -> { tenantUser.logout(); System.out.println("  Logged out successfully."); loggedIn = false; }
                 default -> System.out.println("  [ERROR] Invalid option.");
             }
@@ -480,7 +494,9 @@ public class Main {
             System.out.println("  ╠══════════════════════════════════════════╣");
             System.out.println("  ║  1. View My Properties                   ║");
             System.out.println("  ║  2. Edit My Property                     ║");
-            System.out.println("  ║  3. View My Profile                      ║");
+            System.out.println("  ║  3. View Visit Requests                  ║");
+            System.out.println("  ║  4. Respond to Visit Request             ║");
+            System.out.println("  ║  5. View My Profile                      ║");
             System.out.println("  ║  0. Logout                               ║");
             System.out.println("  ╚══════════════════════════════════════════╝");
 
@@ -488,7 +504,9 @@ public class Main {
             switch (choice) {
                 case 1 -> viewLandlordProperties(landlord);
                 case 2 -> editLandlordProperty(landlord);
-                case 3 -> {
+                case 3 -> manager.listVisitRequestsForLandlord(landlord.getPersonId());
+                case 4 -> landlordRespondToVisit(landlord);
+                case 5 -> {
                     System.out.println("\n  ========== MY PROFILE ==========");
                     landlord.displayInfo();
                 }
@@ -624,6 +642,175 @@ public class Main {
             case 0 -> { }
             default -> System.out.println("  [ERROR] Invalid choice.");
         }
+    }
+
+    // =================================================================
+    // TENANT — VISIT REQUEST & RENTAL APPLICATION HANDLERS
+    // =================================================================
+
+    static void tenantRequestVisit(Tenant tenant) {
+        System.out.println("\n  ========== REQUEST A PROPERTY VISIT ==========");
+        System.out.println("  (Visit requests are reviewed by the property landlord.)");
+        manager.listAvailableProperties();
+
+        String propId = readString("  Enter Property ID to visit (or 0 to cancel): ");
+        if (propId.equals("0")) return;
+
+        String dateStr = readString("  Preferred Visit Date (YYYY-MM-DD): ");
+        java.time.LocalDate date;
+        try {
+            date = java.time.LocalDate.parse(dateStr);
+        } catch (java.time.format.DateTimeParseException e) {
+            System.out.println("  [ERROR] Invalid date format. Use YYYY-MM-DD.");
+            return;
+        }
+        if (date.isBefore(java.time.LocalDate.now())) {
+            System.out.println("  [ERROR] Preferred date cannot be in the past.");
+            return;
+        }
+
+        String msg = readString("  Additional Message (press Enter to skip): ");
+        manager.submitVisitRequest(tenant.getPersonId(), propId, date, msg);
+    }
+
+    static void tenantApplyForRental(Tenant tenant) {
+        System.out.println("\n  ========== APPLY FOR RENTAL ==========");
+        System.out.println("  (Applications are reviewed by the assigned agent.)");
+        manager.listAvailableProperties();
+
+        String propId = readString("  Enter Property ID to apply for (or 0 to cancel): ");
+        if (propId.equals("0")) return;
+
+        // Show available agents
+        System.out.println("\n  --- Available Agents ---");
+        if (manager.getAgents().isEmpty()) {
+            System.out.println("  [ERROR] No agents available. Please contact admin.");
+            return;
+        }
+        for (Agent a : manager.getAgents()) {
+            System.out.println("  " + a.getPersonId() + " | " + a.getName()
+                    + " | License: " + a.getLicenseNumber());
+        }
+
+        String agentId = readString("  Enter Agent ID to handle your application: ");
+
+        String moveInStr = readString("  Desired Move-in Date (YYYY-MM-DD): ");
+        java.time.LocalDate moveIn;
+        try {
+            moveIn = java.time.LocalDate.parse(moveInStr);
+        } catch (java.time.format.DateTimeParseException e) {
+            System.out.println("  [ERROR] Invalid date format. Use YYYY-MM-DD.");
+            return;
+        }
+        if (moveIn.isBefore(java.time.LocalDate.now())) {
+            System.out.println("  [ERROR] Move-in date cannot be in the past.");
+            return;
+        }
+
+        double offeredRent = readDouble("  Your Offered Monthly Rent (RM): ");
+        if (offeredRent <= 0) {
+            System.out.println("  [ERROR] Rent must be greater than zero.");
+            return;
+        }
+
+        String msg = readString("  Additional Message (press Enter to skip): ");
+        manager.submitRentalApplication(tenant.getPersonId(), propId, agentId, moveIn, offeredRent, msg);
+    }
+
+    static void tenantViewMyRequests(Tenant tenant) {
+        System.out.println("\n  ========== MY REQUESTS & APPLICATIONS ==========");
+        System.out.println("  1. View My Visit Requests");
+        System.out.println("  2. View My Rental Applications");
+        System.out.println("  0. Back");
+
+        int choice = readInt("  Enter choice: ");
+        switch (choice) {
+            case 1 -> manager.listVisitRequestsByTenant(tenant.getPersonId());
+            case 2 -> manager.listApplicationsByTenant(tenant.getPersonId());
+            case 0 -> { }
+            default -> System.out.println("  [ERROR] Invalid option.");
+        }
+    }
+
+    // =================================================================
+    // LANDLORD — VISIT REQUEST RESPONSE HANDLER
+    // =================================================================
+
+    static void landlordRespondToVisit(Landlord landlord) {
+        manager.listVisitRequestsForLandlord(landlord.getPersonId());
+
+        String reqId = readString("\n  Enter Visit Request ID to respond to (or 0 to cancel): ");
+        if (reqId.equals("0")) return;
+
+        VisitRequest vr = manager.findVisitRequestById(reqId);
+        if (vr == null) {
+            System.out.println("  [ERROR] Visit request not found.");
+            return;
+        }
+        // Security: ensure it belongs to one of this landlord's properties
+        if (!landlord.ownsProperty(vr.getProperty().getPropertyId())) {
+            System.out.println("  [ERROR] This request does not belong to your property.");
+            return;
+        }
+        if (vr.getStatus() != VisitRequest.VisitStatus.PENDING) {
+            System.out.println("  [ERROR] This request has already been responded to.");
+            return;
+        }
+
+        System.out.println("  1. Approve   2. Reject");
+        int action = readInt("  Choose: ");
+        if (action != 1 && action != 2) { System.out.println("  [ERROR] Invalid choice."); return; }
+
+        String reply = readString("  Reply to tenant (press Enter to use default message): ");
+        manager.respondToVisitRequest(reqId, action == 1, reply);
+    }
+
+    // =================================================================
+    // AGENT — RENTAL APPLICATION MENU & HANDLER
+    // =================================================================
+
+    static void agentApplicationMenu(Agent agent) {
+        System.out.println("\n  --- RENTAL APPLICATIONS ---");
+        System.out.println("  1. View My Applications Queue");
+        System.out.println("  2. Respond to an Application");
+        System.out.println("  0. Back");
+
+        int choice = readInt("  Enter choice: ");
+        switch (choice) {
+            case 1 -> manager.listApplicationsForAgent(agent.getPersonId());
+            case 2 -> agentRespondToApplication(agent);
+            case 0 -> { }
+            default -> System.out.println("  [ERROR] Invalid option.");
+        }
+    }
+
+    static void agentRespondToApplication(Agent agent) {
+        manager.listApplicationsForAgent(agent.getPersonId());
+
+        String appId = readString("\n  Enter Application ID to respond to (or 0 to cancel): ");
+        if (appId.equals("0")) return;
+
+        RentalApplication ra = manager.findApplicationById(appId);
+        if (ra == null) {
+            System.out.println("  [ERROR] Application not found.");
+            return;
+        }
+        // Security: ensure it is assigned to this agent
+        if (ra.getAgent() == null || !ra.getAgent().getPersonId().equalsIgnoreCase(agent.getPersonId())) {
+            System.out.println("  [ERROR] This application is not assigned to you.");
+            return;
+        }
+        if (ra.getStatus() != RentalApplication.ApplicationStatus.PENDING) {
+            System.out.println("  [ERROR] This application has already been responded to.");
+            return;
+        }
+
+        System.out.println("  1. Approve   2. Reject");
+        int action = readInt("  Choose: ");
+        if (action != 1 && action != 2) { System.out.println("  [ERROR] Invalid choice."); return; }
+
+        String reply = readString("  Reply to tenant (press Enter to use default message): ");
+        manager.respondToApplication(appId, action == 1, reply);
     }
 
     // =================================================================

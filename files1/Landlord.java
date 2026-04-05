@@ -14,11 +14,20 @@ import java.util.ArrayList;
 public class Landlord extends UserInfo {
 
     private ArrayList<Property> ownedProperties; // Composition
+    private String bankAccount; // Bank account number (optional, for payment purposes)
 
     // Constructor - matches UserInfo(personId, name, email, phone)
     public Landlord(String landlordId, String name, String email, String phone) {
         super(landlordId, name, email, phone);
         this.ownedProperties = new ArrayList<>();
+        this.bankAccount = "";
+    }
+
+    // Constructor used when loading from database (includes bankAccount)
+    public Landlord(String landlordId, String name, String email, String phone, String bankAccount) {
+        super(landlordId, name, email, phone);
+        this.ownedProperties = new ArrayList<>();
+        this.bankAccount = (bankAccount != null) ? bankAccount : "";
     }
 
     // ===================== Abstract method from UserInfo =====================
@@ -59,6 +68,7 @@ public class Landlord extends UserInfo {
     // ===================== Getters & Setters =====================
 
     public ArrayList<Property> getOwnedProperties() { return ownedProperties; }
+    public String getBankAccount() { return bankAccount; }
 
     // ===================== Display =====================
 

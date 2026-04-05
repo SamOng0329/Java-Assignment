@@ -94,18 +94,48 @@ public class Database {
                         p.getPaymentDate(), p.getPaymentMethod(), p.isLatePayment()));
             }
 
+            // Save Visit Requests
+            writer.write("[VisitRequests]\n");
+            for (VisitRequest vr : manager.getVisitRequests()) {
+                writer.write(String.format("%s|%s|%s|%s|%s|%s\n",
+                        vr.getRequestId(),
+                        vr.getProperty().getPropertyId(),
+                        vr.getTenant().getPersonId(),
+                        vr.getPreferredDate(),
+                        vr.getStatus(),
+                        vr.getLandlordReply().replace("|", " ")));
+            }
+
+            // Save Rental Applications
+            writer.write("[RentalApplications]\n");
+            for (RentalApplication ra : manager.getRentalApplications()) {
+                String agtId = (ra.getAgent() != null) ? ra.getAgent().getPersonId() : "NONE";
+                writer.write(String.format("%s|%s|%s|%s|%s|%.2f|%s|%s|%s\n",
+                        ra.getApplicationId(),
+                        ra.getProperty().getPropertyId(),
+                        ra.getTenant().getPersonId(),
+                        agtId,
+                        ra.getDesiredMoveIn(),
+                        ra.getOfferedRent(),
+                        ra.getMessage().replace("|", " "),
+                        ra.getStatus(),
+                        ra.getAgentReply().replace("|", " ")));
+            }
+
             // Save Counters
             writer.write("[Counters]\n");
             // We need a way to get the counters from PropertyManager too.
             // Let's assume the sizes represent the counters, or we can just derive them
             // from sizes.
             // ID = "PROP001". Size = 1. Next counter = 2. So size + 1.
-            writer.write(String.format("%d|%d|%d|%d|%d\n",
+            writer.write(String.format("%d|%d|%d|%d|%d|%d|%d\n",
                     manager.getProperties().size() + 1,
                     manager.getTenants().size() + 1,
                     manager.getAgents().size() + 1,
                     manager.getLeases().size() + 1,
-                    manager.getPayments().size() + 1));
+                    manager.getPayments().size() + 1,
+                    manager.getVisitRequests().size() + 1,
+                    manager.getRentalApplications().size() + 1));
 
         } catch (Exception e) {
             System.out.println("  [ERROR] Could not save database: " + e.getMessage());
@@ -236,11 +266,43 @@ public class Database {
                             manager.getPayments().add(pay);
                             break;
 
+                        case "[VisitRequests]":
+                            Property vrProp = manager.findPropertyById(parts[1]);
+                            Tenant   vrTen  = manager.findTenantById(parts[2]);
+                            if (vrProp != null && vrTen != null) {
+                                LocalDate vrDate = LocalDate.parse(parts[3]);
+                                VisitRequest vr = new VisitRequest(parts[0], vrTen, vrProp, vrDate, "");
+                                vr.setStatus(VisitRequest.VisitStatus.valueOf(parts[4]));
+                                vr.setLandlordReply(parts.length > 5 ? parts[5] : "");
+                                manager.getVisitRequests().add(vr);
+                            }
+                            break;
+
+                        case "[RentalApplications]":
+                            Property raProp  = manager.findPropertyById(parts[1]);
+                            Tenant   raTen   = manager.findTenantById(parts[2]);
+                            Agent    raAgent = parts[3].equals("NONE") ? null : manager.findAgentById(parts[3]);
+                            if (raProp != null && raTen != null) {
+                                LocalDate raMoveIn = LocalDate.parse(parts[4]);
+                                double raRent = Double.parseDouble(parts[5]);
+                                String raMsg  = parts.length > 6 ? parts[6] : "";
+                                RentalApplication ra = new RentalApplication(
+                                        parts[0], raTen, raProp, raAgent, raMoveIn, raRent, raMsg);
+                                ra.setStatus(RentalApplication.ApplicationStatus.valueOf(parts[7]));
+                                ra.setAgentReply(parts.length > 8 ? parts[8] : "");
+                                manager.getRentalApplications().add(ra);
+                            }
+                            break;
+
                         case "[Counters]":
                             manager.setCounters(
                                     Integer.parseInt(parts[0]), Integer.parseInt(parts[1]),
                                     Integer.parseInt(parts[2]), Integer.parseInt(parts[3]),
                                     Integer.parseInt(parts[4]));
+                            if (parts.length > 6) {
+                                manager.setRequestCounters(
+                                        Integer.parseInt(parts[5]), Integer.parseInt(parts[6]));
+                            }
                             break;
                     }
                 } catch (Exception e) {

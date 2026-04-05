@@ -19,16 +19,20 @@ public class PropertyManager {
     private ArrayList<Agent>         agents;
     private ArrayList<Landlord>      landlords;   // NEW
     private ArrayList<LeaseRecord>   leases;
-    private ArrayList<PaymentRecord> payments;
-    private ArrayList<User>          users;
+    private ArrayList<PaymentRecord>    payments;
+    private ArrayList<User>             users;
+    private ArrayList<VisitRequest>     visitRequests;
+    private ArrayList<RentalApplication> rentalApplications;
 
     // Auto-increment ID counters
     private int propertyCount = 1;
     private int tenantCount   = 1;
     private int agentCount    = 1;
     private int landlordCount = 1;   // NEW
-    private int leaseCount    = 1;
-    private int paymentCount  = 1;
+    private int leaseCount           = 1;
+    private int paymentCount         = 1;
+    private int visitRequestCount    = 1;
+    private int rentalAppCount       = 1;
 
     // Constructor
     public PropertyManager() {
@@ -36,9 +40,11 @@ public class PropertyManager {
         tenants    = new ArrayList<>();
         agents     = new ArrayList<>();
         landlords  = new ArrayList<>();
-        leases     = new ArrayList<>();
-        payments   = new ArrayList<>();
-        users      = new ArrayList<>();
+        leases             = new ArrayList<>();
+        payments           = new ArrayList<>();
+        users              = new ArrayList<>();
+        visitRequests      = new ArrayList<>();
+        rentalApplications = new ArrayList<>();
     }
 
     // =================================================================
@@ -51,7 +57,9 @@ public class PropertyManager {
     public ArrayList<Landlord>      getLandlords()  { return landlords; }
     public ArrayList<LeaseRecord>   getLeases()     { return leases; }
     public ArrayList<PaymentRecord> getPayments()   { return payments; }
-    public ArrayList<User>          getUsers()      { return users; }
+    public ArrayList<User>             getUsers()             { return users; }
+    public ArrayList<VisitRequest>     getVisitRequests()     { return visitRequests; }
+    public ArrayList<RentalApplication> getRentalApplications() { return rentalApplications; }
 
     public void setCounters(int prop, int ten, int agt, int lse, int pay) {
         this.propertyCount = prop;
@@ -59,6 +67,11 @@ public class PropertyManager {
         this.agentCount    = agt;
         this.leaseCount    = lse;
         this.paymentCount  = pay;
+    }
+
+    public void setRequestCounters(int visitReq, int rentalApp) {
+        this.visitRequestCount = visitReq;
+        this.rentalAppCount    = rentalApp;
     }
 
     // =================================================================
@@ -234,6 +247,10 @@ public class PropertyManager {
     public boolean updateTenantDetails(String tenantId, int fieldChoice, String newValue) {
         Tenant t = findTenantById(tenantId);
         if (t == null) { System.out.println("  [ERROR] Tenant not found: " + tenantId); return false; }
+        if (fieldChoice < 1 || fieldChoice > 4) {
+            System.out.println("  [ERROR] Invalid field choice.");
+            return false;
+        }
         String fieldName, oldValue;
         switch (fieldChoice) {
             case 1 -> { fieldName = "Name";      oldValue = t.getName();      t.setName(newValue); }
@@ -265,7 +282,7 @@ public class PropertyManager {
         System.out.println("  [SUCCESS] Login account created: username = " + username);
         return a;
     }
-
+    
     public Agent findAgentById(String id) {
         for (Agent a : agents) {
             if (a.getPersonId().equalsIgnoreCase(id)) return a;
@@ -440,6 +457,85 @@ public class PropertyManager {
         if (!found) System.out.println("  No payments found.");
     }
 
+    /**
+     * READ - Display ALL payments ever recorded, sorted newest first.
+     */
+    public void viewAllPayments() {
+        System.out.println("\n  ========== ALL PAYMENTS ==========");
+
+        // Sort by date descending (newest first)
+        ArrayList<PaymentRecord> filtered = new ArrayList<>(payments);
+        filtered.sort((a, b) -> b.getPaymentDate().compareTo(a.getPaymentDate()));
+
+        if (filtered.isEmpty()) {
+            System.out.println("  No payments found.");
+            return;
+        }
+
+        double total = 0;
+        int lateCount = 0;
+        for (PaymentRecord pay : filtered) {
+            // Show extra context: which lease & tenant
+            String tenantName = (pay.getLease() != null)
+                    ? pay.getLease().getTenant().getName() : "N/A";
+            String leaseId    = (pay.getLease() != null)
+                    ? pay.getLease().getLeaseId() : "DELETED";
+            String propId     = (pay.getLease() != null)
+                    ? pay.getLease().getProperty().getPropertyId() : "N/A";
+
+            System.out.println("  ------------------------------------------");
+            System.out.println("  Payment ID : " + pay.getPaymentId());
+            System.out.println("  Date       : " + pay.getPaymentDate());
+            System.out.println("  Amount     : RM " + String.format("%.2f", pay.getAmountPaid()));
+            System.out.println("  Method     : " + pay.getPaymentMethod());
+            System.out.println("  Lease      : " + leaseId + "  |  Property: " + propId);
+            System.out.println("  Tenant     : " + tenantName);
+            System.out.println("  Status     : " + (pay.isLatePayment() ? "⚠ LATE PAYMENT" : "On Time"));
+
+            total += pay.getAmountPaid();
+            if (pay.isLatePayment()) lateCount++;
+        }
+
+        System.out.println("  ==========================================");
+        System.out.println("  Total Records  : " + filtered.size());
+        System.out.println("  Total Collected: RM " + String.format("%.2f", total));
+        System.out.println("  Late Payments  : " + lateCount);
+        System.out.println("  ==========================================");
+    }
+
+    /**
+     * READ - Display ALL payments for a specific tenant (used in Tenant portal).
+     */
+    public void viewAllPaymentsByTenant(String tenantId) {
+        System.out.println("\n  ========== MY PAYMENTS (ALL) ==========");
+
+        ArrayList<PaymentRecord> filtered = new ArrayList<>();
+        for (PaymentRecord pay : payments) {
+            if (pay.getLease() != null
+                    && pay.getLease().getTenant().getPersonId().equalsIgnoreCase(tenantId)) {
+                filtered.add(pay);
+            }
+        }
+
+        filtered.sort((a, b) -> b.getPaymentDate().compareTo(a.getPaymentDate()));
+
+        if (filtered.isEmpty()) {
+            System.out.println("  No payments found.");
+            return;
+        }
+
+        double total = 0;
+        for (PaymentRecord pay : filtered) {
+            pay.displayInfo();
+            total += pay.getAmountPaid();
+        }
+
+        System.out.println("  ------------------------------------------");
+        System.out.println("  Total Paid: RM " + String.format("%.2f", total)
+                + "  |  Records: " + filtered.size());
+        System.out.println("  ==========================================");
+    }
+
     // =================================================================
     // REPORTS
     // =================================================================
@@ -470,4 +566,192 @@ public class PropertyManager {
         }
         System.out.println("  =======================================");
     }
+
+    // =================================================================
+    // VISIT REQUESTS  (Tenant -> Landlord)
+    // =================================================================
+
+    /**
+     * CREATE - Tenant submits a visit request for a property.
+     */
+    public VisitRequest submitVisitRequest(String tenantId, String propertyId,
+                                           java.time.LocalDate preferredDate, String message) {
+        Tenant t   = findTenantById(tenantId);
+        Property p = findPropertyById(propertyId);
+
+        if (t == null) { System.out.println("  [ERROR] Tenant not found."); return null; }
+        if (p == null) { System.out.println("  [ERROR] Property not found."); return null; }
+        if (p.getStatus() == Property.PropertyStatus.SOLD) {
+            System.out.println("  [ERROR] This property has been sold and is not available for visits.");
+            return null;
+        }
+
+        String id = "VIS" + String.format("%03d", visitRequestCount++);
+        VisitRequest vr = new VisitRequest(id, t, p, preferredDate, message);
+        visitRequests.add(vr);
+        System.out.println("  [SUCCESS] Visit request submitted: " + id);
+        System.out.println("  [INFO] The landlord will review your request.");
+        return vr;
+    }
+
+    /**
+     * READ - Show all visit requests for properties owned by a landlord.
+     */
+    public void listVisitRequestsForLandlord(String landlordId) {
+        Landlord ll = findLandlordById(landlordId);
+        if (ll == null) { System.out.println("  [ERROR] Landlord not found."); return; }
+
+        System.out.println("\n  ========== VISIT REQUESTS FOR MY PROPERTIES ==========");
+        boolean found = false;
+        for (VisitRequest vr : visitRequests) {
+            if (ll.ownsProperty(vr.getProperty().getPropertyId())) {
+                vr.displayInfo();
+                found = true;
+            }
+        }
+        if (!found) System.out.println("  No visit requests found.");
+    }
+
+    /**
+     * READ - Show all visit requests submitted by a tenant.
+     */
+    public void listVisitRequestsByTenant(String tenantId) {
+        System.out.println("\n  ========== MY VISIT REQUESTS ==========");
+        boolean found = false;
+        for (VisitRequest vr : visitRequests) {
+            if (vr.getTenant().getPersonId().equalsIgnoreCase(tenantId)) {
+                vr.displayInfo();
+                found = true;
+            }
+        }
+        if (!found) System.out.println("  No visit requests found.");
+    }
+
+    /**
+     * UPDATE - Landlord approves or rejects a visit request.
+     */
+    public boolean respondToVisitRequest(String requestId, boolean approve, String reply) {
+        for (VisitRequest vr : visitRequests) {
+            if (vr.getRequestId().equalsIgnoreCase(requestId)) {
+                if (vr.getStatus() != VisitRequest.VisitStatus.PENDING) {
+                    System.out.println("  [ERROR] This request has already been responded to.");
+                    return false;
+                }
+                if (approve) vr.approve(reply);
+                else         vr.reject(reply);
+                System.out.println("  [SUCCESS] Visit request " + requestId
+                        + (approve ? " APPROVED." : " REJECTED."));
+                return true;
+            }
+        }
+        System.out.println("  [ERROR] Visit request not found: " + requestId);
+        return false;
+    }
+
+    public VisitRequest findVisitRequestById(String id) {
+        for (VisitRequest vr : visitRequests) {
+            if (vr.getRequestId().equalsIgnoreCase(id)) return vr;
+        }
+        return null;
+    }
+
+    // =================================================================
+    // RENTAL APPLICATIONS  (Tenant -> Agent)
+    // =================================================================
+
+    /**
+     * CREATE - Tenant submits a rental application through an agent.
+     */
+    public RentalApplication submitRentalApplication(String tenantId, String propertyId,
+                                                      String agentId, java.time.LocalDate desiredMoveIn,
+                                                      double offeredRent, String message) {
+        Tenant t   = findTenantById(tenantId);
+        Property p = findPropertyById(propertyId);
+        Agent a    = findAgentById(agentId);
+
+        if (t == null) { System.out.println("  [ERROR] Tenant not found."); return null; }
+        if (p == null) { System.out.println("  [ERROR] Property not found."); return null; }
+        if (a == null) { System.out.println("  [ERROR] Agent not found."); return null; }
+        if (p.getStatus() != Property.PropertyStatus.AVAILABLE) {
+            System.out.println("  [ERROR] Property is not available for rental application.");
+            return null;
+        }
+
+        // Check for duplicate pending application
+        for (RentalApplication ra : rentalApplications) {
+            if (ra.getTenant().getPersonId().equalsIgnoreCase(tenantId)
+                    && ra.getProperty().getPropertyId().equalsIgnoreCase(propertyId)
+                    && ra.getStatus() == RentalApplication.ApplicationStatus.PENDING) {
+                System.out.println("  [ERROR] You already have a pending application for this property.");
+                return null;
+            }
+        }
+
+        String id = "APP" + String.format("%03d", rentalAppCount++);
+        RentalApplication ra = new RentalApplication(id, t, p, a, desiredMoveIn, offeredRent, message);
+        rentalApplications.add(ra);
+        System.out.println("  [SUCCESS] Rental application submitted: " + id);
+        System.out.println("  [INFO] Agent " + a.getName() + " will review your application.");
+        return ra;
+    }
+
+    /**
+     * READ - Show all rental applications assigned to a specific agent.
+     */
+    public void listApplicationsForAgent(String agentId) {
+        System.out.println("\n  ========== RENTAL APPLICATIONS (MY QUEUE) ==========");
+        boolean found = false;
+        for (RentalApplication ra : rentalApplications) {
+            if (ra.getAgent() != null
+                    && ra.getAgent().getPersonId().equalsIgnoreCase(agentId)) {
+                ra.displayInfo();
+                found = true;
+            }
+        }
+        if (!found) System.out.println("  No rental applications found.");
+    }
+
+    /**
+     * READ - Show all rental applications submitted by a tenant.
+     */
+    public void listApplicationsByTenant(String tenantId) {
+        System.out.println("\n  ========== MY RENTAL APPLICATIONS ==========");
+        boolean found = false;
+        for (RentalApplication ra : rentalApplications) {
+            if (ra.getTenant().getPersonId().equalsIgnoreCase(tenantId)) {
+                ra.displayInfo();
+                found = true;
+            }
+        }
+        if (!found) System.out.println("  No rental applications found.");
+    }
+
+    /**
+     * UPDATE - Agent approves or rejects a rental application.
+     */
+    public boolean respondToApplication(String applicationId, boolean approve, String reply) {
+        for (RentalApplication ra : rentalApplications) {
+            if (ra.getApplicationId().equalsIgnoreCase(applicationId)) {
+                if (ra.getStatus() != RentalApplication.ApplicationStatus.PENDING) {
+                    System.out.println("  [ERROR] This application has already been responded to.");
+                    return false;
+                }
+                if (approve) ra.approve(reply);
+                else         ra.reject(reply);
+                System.out.println("  [SUCCESS] Application " + applicationId
+                        + (approve ? " APPROVED." : " REJECTED."));
+                return true;
+            }
+        }
+        System.out.println("  [ERROR] Application not found: " + applicationId);
+        return false;
+    }
+
+    public RentalApplication findApplicationById(String id) {
+        for (RentalApplication ra : rentalApplications) {
+            if (ra.getApplicationId().equalsIgnoreCase(id)) return ra;
+        }
+        return null;
+    }
+
 }
