@@ -38,10 +38,9 @@ public class Tenant extends UserInfo {
   
     
     
-    // display user information
     public String toString() {
         return super.toString()
-                + String.format("%s7 %s\n", "IC Number", icNumber)
-                + String.format("%s7 %s\n", "Overdue Payment", overduePayment);
+                + String.format("%-16s : %s\n", "IC Number", icNumber)
+                + String.format("%-16s : %s\n", "Overdue Payment", overduePayment);
     }
 }

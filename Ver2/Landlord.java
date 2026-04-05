@@ -45,7 +45,7 @@ public class Landlord extends UserInfo {
     @Override
     public String toString(){
         return super.toString()
-        + String.format("%s7 %s\n", "Owned Property", ownedProperty.size());
+        + String.format("%-16s : %s\n", "Owned Property", ownedProperty.size());
     }
 
 }

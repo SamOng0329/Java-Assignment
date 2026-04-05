@@ -27,6 +27,6 @@ public class Agent extends UserInfo {
     @Override
     public String toString(){
         return super.toString()
-        + String.format("%s : %s\n", "Deals", totalDealsCompleted);
+        + String.format("%-16s : %s\n", "Deals", totalDealsCompleted);
     }
 }

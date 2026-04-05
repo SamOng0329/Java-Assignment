@@ -3,7 +3,7 @@ public class Login {
     public static void main (String[] args){
         Scanner scanner = new Scanner(System.in);
         PropertyFunction pf  = PropertyFunction.getInstance();
-        Uimaterial.clearscreen();
+        UiMaterial.clearscreen();
 
         boolean Running = false;
         do {
@@ -17,14 +17,14 @@ public class Login {
             scanner.nextLine();
             switch (choice){
                 case 1:
-                    Uimaterial.clearscreen();
+                    UiMaterial.clearscreen();
 
                     System.out.print("Enter username: ");
                     String username = scanner.nextLine();
                     System.out.print("Enter password: ");
                     String password = scanner.nextLine();
                     
-                    boolean Loginstatus = pf.Login(username, password);
+                    boolean Loginstatus = pf.login(username, password);
                     if (Loginstatus) {
                         UserRole loggedUser = pf.isUsernameExists(username);
                         if (loggedUser.getLinkedPerson() != null) {
@@ -39,8 +39,8 @@ public class Login {
                             tenantUI.displayTenantMenu(loggedUser);
                         }
                         else if (loggedUser.getRole().equals(UserRole.Role.STAFF)) {
-                            StaffUI staffUI = new StaffUI();
-                            staffUI.StaffMenu(loggedUser, pf.getTenantList(), pf.getLandlordList(), pf.getAgentList(), pf.getPropertyList());
+                            StaffFunction staffUI = new StaffFunction();
+                            staffUI.staffMenu(loggedUser);
                         }
                         else if (loggedUser.getRole().equals(UserRole.Role.AGENT)) {
                             AgentUI agentUI = new AgentUI();
@@ -57,7 +57,7 @@ public class Login {
                         
                         
                     } else {
-                        Uimaterial.clearscreen();
+                        UiMaterial.clearscreen();
                         System.out.println("Invalid username or password. Please try again.");
                     }
                     break;
@@ -76,7 +76,7 @@ public class Login {
                     String newPassword = scanner.nextLine();
                     
                     Tenant newTenant = pf.registerTenant(name, email, phone, ic, newUsername, newPassword);
-                    Uimaterial.clearscreen();
+                    UiMaterial.clearscreen();
 
                     if (newTenant != null) {
                         System.out.println("Registration successful! You can now log in with your credentials.");
@@ -94,11 +94,12 @@ public class Login {
             }
         }
             catch (Exception e){
-                Uimaterial.clearscreen();
+                UiMaterial.clearscreen();
                 System.out.println("Invalid input. Please try again.");
                 scanner.nextLine();
             }
 
         } while (Running != true);
+        scanner.close();
     }
 }

@@ -79,21 +79,20 @@ public class UserRole {
     // Display Info
     // ====================================================================================================
     public void displayInfo() {
-        System.out.printf("%s15 : %s15", "Username", username);
-        System.out.printf("%s15 : %s15", "Role", role);
-        if (linkedPerson != null) {
-            System.out.printf("%s15 : %s15", "Linked To", linkedPerson.getName());
-            System.out.printf("%s15 : %s15", "Person ID", linkedPerson.getPersonId());
-        }
+        System.out.println("\n--- Profile Information ---");
+        System.out.println(this.toString());
+        System.out.println("---------------------------\n");
     }
 
-    public String  toString(){
+    @Override
+    public String toString() {
         if (linkedPerson != null) {
-            return String.format("%s`15 : %s15\n%s15 : %s15\n%s15 : %s15\n%s15 : %s15", "Username", username, "Role", role, "Linked To", linkedPerson.getName(), "Person ID", linkedPerson.getPersonId());
+            return String.format("%-16s : %s\n%-16s : %s\n%-16s : %s\n%-16s : %s", 
+                "Username", username, "Role", role, "Linked To", linkedPerson.getName(), "Person ID", linkedPerson.getPersonId());
         } else {
-            return String.format("%s : %s\n%s : %s", "Username", username, "Role", role);
+            return String.format("%-16s : %s\n%-16s : %s", 
+                "Username", username, "Role", role);
         }
-
     }
     // ====================================================================================================
 }
