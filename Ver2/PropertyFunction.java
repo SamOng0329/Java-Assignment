@@ -484,6 +484,9 @@ public class PropertyFunction {
                 furnished);
         propertyList.add(newRes);
 
+        System.out.println("\n");
+        System.out.println("=".repeat(40));
+        System.out.println("|    New Residential Property Added");
         newRes.displayInfo();
     }
 
