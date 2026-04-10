@@ -764,16 +764,16 @@ public class PropertyFunction {
     }
 
     public void generateAgentPerformanceReport(){
-        System.out.println("\n  ========== AGENT PERFORMANCE REPORT ==========");
+        System.out.println("\n============ AGENT PERFORMANCE REPORT ============");
         if(agentList.isEmpty()){
-            System.out.println("  No agents found.");
+            System.out.println("|  No agents found.");
             return;
         }
         for(Agent a : agentList){
-            System.out.println("  " + a.getName() + a.getPersonId());
-            System.out.printf("%s10 : [%s6] - Deals: %d\n", a.getName(), a.getPersonId(), a.getTotalDealsCompleted());
+            System.out.println("| " + a.getName() + a.getPersonId());
+            System.out.printf("| %s10 : [%s6] - Deals: %d\n", a.getName(), a.getPersonId(), a.getTotalDealsCompleted());
         }
-        System.out.println("  =====================================");
+        System.out.println("==================================================");
     }
     // ====================================================================================================
 
