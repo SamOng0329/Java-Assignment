@@ -755,12 +755,12 @@ public class PropertyFunction {
                 case SOLD: sold++; break;
             }
         }
-        System.out.println("\n  ========== PROPERTY REPORT ==========");
-        System.out.println("  Total Properties: " + total);
-        System.out.println("  Rented Properties: " + rented);
-        System.out.println("  Available Properties: " + available);
-        System.out.println("  Sold Properties: " + sold);
-        System.out.println("  =====================================");
+        System.out.println("\n============= PROPERTY REPORT =============");
+        System.out.println("| Total Properties: " + total);
+        System.out.println("| Rented Properties: " + rented);
+        System.out.println("| Available Properties: " + available);
+        System.out.println("| Sold Properties: " + sold);
+        System.out.println("===========================================");
     }
 
     public void generateAgentPerformanceReport(){
