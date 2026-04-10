@@ -204,4 +204,25 @@ public class UiMaterial {
         System.out.flush();
         displaybanner();
     }
+
+
+    public static void displayVisitRequestMenu() {
+        System.out.println("\n--- VISIT REQUEST MANAGEMENT ---");
+        System.out.println("1. View all Visit Requests");
+        System.out.println("2. Approve/Reject a Visit Request");
+        System.out.println("0. Back");
+    }
+
+
+    public static void displayVisitRequestStatus(VisitRequest visitRequest) {
+        System.out.println("\n--- VISIT REQUEST STATUS ---");
+        System.out.println("Request ID: " + visitRequest.getRequestId());
+        System.out.println("Tenant ID: " + visitRequest.getTenant().getTenantId());
+        System.out.println("Property ID: " + visitRequest.getProperty().getPropertyId());
+        System.out.println("Visit Date: " + visitRequest.getVisitDate());
+        System.out.println("Status: " + visitRequest.getStatus());
+    }
+
+
+    
 }

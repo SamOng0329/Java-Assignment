@@ -34,6 +34,10 @@ public class Tenant extends UserInfo {
         return overduePayment;
     }
 
+    public  String getTenantId() {
+        return super.getPersonId();
+    }
+
 
   
     

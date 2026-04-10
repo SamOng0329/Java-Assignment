@@ -2,6 +2,7 @@ import java.rmi.dgc.Lease;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
+
 public class PropertyFunction {
     // Creating Arraylist for all object
     public ArrayList<Property> propertyList;
@@ -11,6 +12,7 @@ public class PropertyFunction {
     public ArrayList<LeaseRecord> leaseRecordList;
     public ArrayList<PaymentRecord> paymentRecordList;
     public ArrayList<UserRole> userRoleList;
+    public ArrayList<VisitRequest> visitRequestList;
     // instance( for initialization checking)
 
     private static PropertyFunction instance = null;
@@ -24,6 +26,8 @@ public class PropertyFunction {
         leaseRecordList = new ArrayList<>();
         paymentRecordList = new ArrayList<>();
         userRoleList = new ArrayList<>();
+        visitRequestList = new ArrayList<>();
+
 
         initializeUsers();
     }
@@ -35,7 +39,7 @@ public class PropertyFunction {
     private int leaseCount = 1;
     private int paymentCount = 1;
     private int landlordCount = 2;  // Start from 2 since we already have 1 landlord initialized
-
+    private int visitRequestCount = 1;
 
     // Getters
     public ArrayList<Property> getPropertyList() {
@@ -67,12 +71,13 @@ public class PropertyFunction {
     }
 
     // Setter for counters
-    public void setCounters(int prop, int tent, int agt, int lease, int pay) {
+    public void setCounters(int prop, int tent, int agt, int lease, int pay, int visitRequest) {
         this.propertyCount = prop;
         this.tenantCount = tent;
         this.agentCount = agt;
         this.leaseCount = lease;
         this.paymentCount = pay;
+        this.visitRequestCount = visitRequest;
     }
 
     // function of adding admin
@@ -778,6 +783,53 @@ public class PropertyFunction {
     }
     // ====================================================================================================
 
-    
+    public VisitRequest requestVisit(String tenantId, String propertyId, String agentId, LocalDate visitDate) {
+        Tenant t = findTenantById(tenantId);
+        Property p = findPropertyById(propertyId);
+        Agent a= findAgentById(agentId);
+
+
+        if (t == null) {
+            System.out.println("  [ERROR] Tenant not found: " + tenantId);
+            return null;
+        }
+        if (p == null) {
+            System.out.println("  [ERROR] Property not found: " + propertyId);
+            return null;
+        }
+        if (a == null) {
+            System.out.println("  [ERROR] Agent not found: " + agentId);
+            return null;
+        }
+
+
+        String requestId = "VR" + String.format("%03d", visitRequestCount++);
+        VisitRequest visitRequest = new VisitRequest(requestId, t, a, p, visitDate);
+        System.out.println("  [SUCCESS] Visit request created with ID: " + requestId);
+        return visitRequest;
+    }
+
+
+    public ArrayList<VisitRequest> findVisitRequestsByAgentId(String agentId) {
+        ArrayList<VisitRequest> matchedRequests = new ArrayList<>();
+        for (VisitRequest request : visitRequestList) {
+            if (request.getAgent().getPersonId().equals(agentId)) {
+                matchedRequests.add(request);
+            }
+        }
+        return matchedRequests;
+    }
+
+
+    public void listAllVisitRequests() {
+        if (visitRequestList.isEmpty()) {
+            System.out.println("  No visit requests found.");
+            return;
+        }
+        for (VisitRequest vr : visitRequestList) {
+            vr.displayInfo();
+        }
+    }
+
     
 }

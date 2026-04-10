@@ -6,16 +6,18 @@ public class VisitRequest {
 
 
     private String requestId;
-    private String tenantId;
-    private String propertyId;
+    private Tenant tenant;
+    private Property property;
     private LocalDate visitDate;
     private VisitStatus status;
+    private Agent agent;
 
 
-    public VisitRequest(String requestId, String tenantId, String propertyId, LocalDate visitDate) {
+    public VisitRequest(String requestId, Tenant tenant, Agent agent, Property property, LocalDate visitDate) {
         this.requestId = requestId;
-        this.tenantId = tenantId;
-        this.propertyId = propertyId;
+        this.tenant = tenant;
+        this.agent = agent;
+        this.property = property;
         this.visitDate = visitDate;
         this.status = VisitStatus.PENDING; // Default status
     }
@@ -35,12 +37,16 @@ public class VisitRequest {
         return requestId;
     }
 
-    public String getTenantId() {
-        return tenantId;
+    public Tenant getTenant() {
+        return tenant;
     }
 
-    public String getPropertyId() {
-        return propertyId;
+    public Agent getAgent() {
+        return agent ;
+    }
+
+    public Property getProperty() {
+        return property;
     }
 
     public LocalDate getVisitDate() {
@@ -65,5 +71,14 @@ public class VisitRequest {
         }
     }
     
+
+    public void displayInfo() {
+        System.out.println("  ==========================================");
+        System.out.println("  Request ID: " + requestId);
+        System.out.println("  Tenant Name: " + tenant.getName());
+        System.out.println("  Property Location: " + property.getLocation());
+        System.out.println("  Visit Date: " + visitDate);
+        System.out.println("  Status: " + status);
+    }
     
 }
