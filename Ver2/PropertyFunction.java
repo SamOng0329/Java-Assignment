@@ -497,6 +497,9 @@ public class PropertyFunction {
         CommercialProperty newCom = new CommercialProperty(id, location, price, sqft, commType, parking, loadingDock);
         propertyList.add(newCom);
 
+        System.out.println("\n");
+        System.out.println("=".repeat(40));
+        System.out.println("|    New Commercial Property Added");
         newCom.displayInfo();
     }
 
