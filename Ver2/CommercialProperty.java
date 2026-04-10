@@ -55,6 +55,8 @@ public class CommercialProperty extends Property {
         super.displayInfo();
         System.out.printf("%-16s : %d\n", "Parking Spots", numParkingSpots);
         System.out.printf("%-16s : %s\n", "Loading Dock", (hasLoadingDock ? "Yes" : "No"));
+        System.out.println("=".repeat(40));
+        System.out.println("\n");
     }
 
 }
