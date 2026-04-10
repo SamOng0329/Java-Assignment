@@ -13,7 +13,7 @@ public class LeaseRecord {
     private boolean leaseStatus; // false = active, true = terminated
 
     public LeaseRecord(String leaseId, Property property, Agent agent, Tenant tenant, LocalDate startDate,
-            LocalDate endDate, double monthlyRent, double deposit) {
+            LocalDate endDate, double monthlyRent, double deposit, boolean leaseStatus) {
 
         // Validation
         if (leaseId == null || property == null || tenant == null || startDate == null || endDate == null
@@ -29,7 +29,7 @@ public class LeaseRecord {
         this.endDate = endDate;
         this.monthlyRent = monthlyRent;
         this.deposit = monthlyRent * 2; // deposit is 2 months rent
-        this.leaseStatus = false; // false = active lease
+        this.leaseStatus = leaseStatus;
 
         // Update the status of the property
         property.setStatus(Property.PropertyStatus.RENTED);
