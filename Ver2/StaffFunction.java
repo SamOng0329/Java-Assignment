@@ -24,7 +24,7 @@ public class StaffFunction {
                     case 4 -> manageLease(sc, pf);
                     case 5 -> manageReport(sc, pf);
                     case 6 -> loggedUser.displayInfo();
-                    case 0 -> System.out.println("Exit");
+                    case 7 -> logout = true;
                     default -> System.out.println("Error! ");
                 }
             } catch (Exception e) {
