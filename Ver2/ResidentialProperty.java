@@ -44,9 +44,10 @@ public class ResidentialProperty extends Property {
     @Override   
     public void displayInfo(){
         super.displayInfo();
-        System.out.printf("%-16s : %d\n", "Bedrooms", numBedrooms);
-        System.out.printf("%-16s : %d\n", "Bathrooms", numBathrooms);
-        System.out.printf("%-16s : %s\n", "Furnished", (isFurnished ? "Yes" : "No"));
+        System.out.printf("| %-16s : %d\n", "Bedrooms", numBedrooms);
+        System.out.printf("| %-16s : %d\n", "Bathrooms", numBathrooms);
+        System.out.printf("| %-16s : %s\n", "Furnished", (isFurnished ? "Yes" : "No"));
+        System.out.println("=".repeat(40));
     }
 
 }
