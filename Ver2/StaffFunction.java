@@ -581,14 +581,18 @@ public class StaffFunction {
             double sqft = sc.nextDouble();
             sc.nextLine();
 
-            System.out.print("Type (1. OFFICE, 2. RETAIL, 3. INDUSTRIAL): ");
-            int typeChoice = sc.nextInt();
-            CommercialProperty.CommercialType commType = switch (typeChoice) {
-                case 1 -> CommercialProperty.CommercialType.OFFICE;
-                case 2 -> CommercialProperty.CommercialType.RETAIL;
-                case 3 -> CommercialProperty.CommercialType.INDUSTRIAL;
-                default -> CommercialProperty.CommercialType.OFFICE;
-            };
+            CommercialProperty.CommercialType commType = null;
+            do{
+                System.out.print("Type (1. OFFICE, 2. RETAIL, 3. INDUSTRIAL): ");
+                int typeChoice = sc.nextInt();
+                commType = switch (typeChoice) {
+                    case 1 -> CommercialProperty.CommercialType.OFFICE;
+                    case 2 -> CommercialProperty.CommercialType.RETAIL;
+                    case 3 -> CommercialProperty.CommercialType.INDUSTRIAL;
+                    default -> {System.out.println("\nInvalid choice. Please try again.\n");
+                        yield null;}
+                };
+            } while (commType == null) ;
 
             System.out.print("Parking Spaces: ");
             int parking = sc.nextInt();
