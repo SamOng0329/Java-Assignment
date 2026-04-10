@@ -30,11 +30,12 @@ public class PropertyFunction {
 
     // Auto-increment ID counters
     private int propertyCount = 1;
-    private int tenantCount = 1;
-    private int agentCount = 1;
+    private int tenantCount = 2;  // Start from 2 since we already have 1 tenant initialized
+    private int agentCount = 2;   // Start from 2 since we already have 1 agent initialized
     private int leaseCount = 1;
     private int paymentCount = 1;
-    private int landlordCount = 1;
+    private int landlordCount = 2;  // Start from 2 since we already have 1 landlord initialized
+
 
     // Getters
     public ArrayList<Property> getPropertyList() {
