@@ -691,7 +691,7 @@ public class PropertyFunction {
         String leaseId = "LEA" + String.format("%03d", leaseCount++);
 
         // Create a lease record
-        LeaseRecord lease = new LeaseRecord(leaseId, p, a, t, startDate, endDate, monthlyRent, monthlyRent * 2);
+        LeaseRecord lease = new LeaseRecord(leaseId, p, a, t, startDate, endDate, monthlyRent, monthlyRent * 2,false);
         leaseRecordList.add(lease);
         return lease;
     }
