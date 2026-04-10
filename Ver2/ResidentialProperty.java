@@ -48,6 +48,7 @@ public class ResidentialProperty extends Property {
         System.out.printf("| %-16s : %d\n", "Bathrooms", numBathrooms);
         System.out.printf("| %-16s : %s\n", "Furnished", (isFurnished ? "Yes" : "No"));
         System.out.println("=".repeat(40));
+        System.out.println("\n");
     }
 
 }
