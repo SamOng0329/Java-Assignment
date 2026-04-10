@@ -108,7 +108,7 @@ public class PropertyFunction {
         addTenant(t1, new UserRole("johndoe", "password123", UserRole.Role.TENANT, t1));
         Agent a1 = new Agent("AGT001", "Jane Doe", "jane.doe@example.com", "0987654321");
         addAgent(a1, new UserRole("janedoe", "password456", UserRole.Role.AGENT, a1));
-        Landlord l1 = new Landlord("LLD001", "Jace Doe", "jace.doe@example.com", "1111111111");
+        Landlord l1 = new Landlord("LAN001", "Jace Doe", "jace.doe@example.com", "1111111111");
         addLandLord(l1, new UserRole("jacedoe", "password789", UserRole.Role.LANDLORD, l1));
     }
 
