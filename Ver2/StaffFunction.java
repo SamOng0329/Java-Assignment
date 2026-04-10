@@ -541,13 +541,19 @@ public class StaffFunction {
             double sqft = sc.nextDouble();
             sc.nextLine();
 
-            System.out.print("Type (1. APARTMENT, 2. HOUSE): ");
-            int typeChoice = sc.nextInt();
-            ResidentialProperty.ResidentialType resType = switch (typeChoice) {
-                case 1 -> ResidentialProperty.ResidentialType.APARTMENT;
-                case 2 -> ResidentialProperty.ResidentialType.HOUSE;
-                default -> ResidentialProperty.ResidentialType.APARTMENT;
-            };
+            ResidentialProperty.ResidentialType resType = null;
+            do {
+                System.out.print("Type (1. APARTMENT, 2. HOUSE): ");
+                int typeChoice = sc.nextInt();
+                resType = switch (typeChoice) {
+                    case 1 -> ResidentialProperty.ResidentialType.APARTMENT;
+                    case 2 -> ResidentialProperty.ResidentialType.HOUSE;
+                    default -> {
+                        System.out.println("\nInvalid choice. Please try again.\n");
+                        yield null;
+                    }
+                };
+            } while (resType == null);
 
             System.out.print("Bedrooms: ");
             int bed = sc.nextInt();
