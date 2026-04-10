@@ -81,10 +81,10 @@ public abstract class Property {
 
     public void displayInfo() {
         System.out.println("=".repeat(40));
-        System.out.println("| Property ID : " + propertyId);
-        System.out.println("| Type        : " + getPropertyType());
-        System.out.println("| Location    : " + location);
-        System.out.println("| Price       : RM " + String.format("%.2f", listingPrice));
-        System.out.println("| Size        : " + squareFootage + " sqft");
-        System.out.println("| Status      : " + status);
+        System.out.println("| Property ID      : " + propertyId);
+        System.out.println("| Type             : " + getPropertyType());
+        System.out.println("| Location         : " + location);
+        System.out.println("| Price            : RM " + String.format("%.2f", listingPrice));
+        System.out.println("| Size             : " + squareFootage + " sqft");
+        System.out.println("| Status           : " + status);
 }}
