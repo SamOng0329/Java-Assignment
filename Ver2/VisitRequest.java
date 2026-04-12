@@ -77,6 +77,7 @@ public class VisitRequest {
         System.out.println("| Location         : " + property.getLocation());
         System.out.println("| Visit Date       : " + visitDate);
         System.out.println("| Status           : " + status);
+        System.out.println("=".repeat(40));
 }
     
 }
