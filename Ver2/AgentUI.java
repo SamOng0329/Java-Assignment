@@ -11,11 +11,11 @@ public class AgentUI {
 
         do {
             try {
-                UiMaterial.displayoperationmenu(loggedUser); // Calling the operation menu from UiMaterial class
+                Uimaterial.displayoperationmenu(loggedUser); // Calling the operation menu from UiMaterial class
                 System.out.print("Enter your choice:");
                 int choice = sc.nextInt();
                 sc.nextLine();
-                UiMaterial.clearscreen();
+                Uimaterial.clearscreen();
 
                 switch (choice) {
                     case 1 -> manageProperty(sc, pf);
@@ -40,11 +40,11 @@ public class AgentUI {
         boolean back = false;
         do {
             try {
-                UiMaterial.displayPropertyManagementMenu();
+                Uimaterial.displayPropertyManagementMenu();
                 System.out.print("Enter your choice: ");
                 int choice = sc.nextInt();
                 sc.nextLine();
-                UiMaterial.clearscreen();
+                Uimaterial.clearscreen();
                 switch (choice) {
                     case 1 -> pf.listAllProperties();
                     case 2 -> addResidentialProperty(sc, pf);
@@ -199,11 +199,11 @@ public class AgentUI {
     public static void manageLease(Scanner sc, PropertyFunction pf, UserRole loggedUser) {
         boolean back = false;
         do {
-            UiMaterial.displayLeaseManagementMenu();
+            Uimaterial.displayLeaseManagementMenu();
             System.out.print("Enter your choice: ");
             int choice = sc.nextInt();
             sc.nextLine();
-            UiMaterial.clearscreen();
+            Uimaterial.clearscreen();
             switch (choice) {
                 case 1 -> createLease(sc, pf);
                 case 2 -> viewAllLease(sc, pf, loggedUser);
@@ -302,11 +302,11 @@ public class AgentUI {
         boolean back = false;
         do {
             try {
-                UiMaterial.displayVisitRequestMenu(loggedUser);
+                Uimaterial.displayVisitRequestMenu(loggedUser);
                 System.out.print("Enter your choice: ");
                 int choice = sc.nextInt();
                 sc.nextLine();
-                UiMaterial.clearscreen();
+                Uimaterial.clearscreen();
                 switch (choice) {
                     case 1 -> ListVisitRequests(sc, pf, loggedUser);
                     case 2 -> {
@@ -346,11 +346,11 @@ public class AgentUI {
         boolean back = false;
         do {
             try {
-                UiMaterial.displayPaymentManagementMenu();
+                Uimaterial.displayPaymentManagementMenu();
                 System.out.print("Enter your choice: ");
                 int choice = sc.nextInt();
                 sc.nextLine();
-                UiMaterial.clearscreen();
+                Uimaterial.clearscreen();
                 switch (choice) {
                     case 1 -> pf.listAllPayments();
                     case 2 -> createPayment(sc, pf);
@@ -431,11 +431,11 @@ public class AgentUI {
 
         do {
             try {
-                UiMaterial.displayUserManagementMenu(loggedUser);
+                Uimaterial.displayUserManagementMenu(loggedUser);
                 System.out.print("Enter your choice: ");
                 int choice = sc.nextInt();
                 sc.nextLine();
-                UiMaterial.clearscreen();
+                Uimaterial.clearscreen();
 
                 switch (choice) {
                     case 1 -> manageTenant(sc, pf);
@@ -459,11 +459,11 @@ public class AgentUI {
 
         do {
             try {
-                UiMaterial.displayManageTenantMenu();
+                Uimaterial.displayManageTenantMenu();
                 System.out.print("Enter your choice: ");
                 int choice = sc.nextInt();
                 sc.nextLine();
-                UiMaterial.clearscreen();
+                Uimaterial.clearscreen();
 
                 switch (choice) {
                     case 1 -> pf.listAllTenants(); // direct call the funciton
@@ -545,11 +545,11 @@ public class AgentUI {
 
         do {
             try {
-                UiMaterial.displayManageLandlordMenu();
+                Uimaterial.displayManageLandlordMenu();
                 System.out.print("Enter your choice: ");
                 int choice = sc.nextInt();
                 sc.nextLine();
-                UiMaterial.clearscreen();
+                Uimaterial.clearscreen();
 
                 switch (choice) {
                     case 1 -> pf.listAllLandlord();
