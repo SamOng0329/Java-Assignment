@@ -3,7 +3,7 @@ public class Login {
     public static void main (String[] args){
         Scanner scanner = new Scanner(System.in);
         PropertyFunction pf  = PropertyFunction.getInstance();
-        UiMaterial.clearscreen();
+        Uimaterial.clearscreen();
 
         boolean Running = false;
         do {
@@ -17,7 +17,7 @@ public class Login {
             scanner.nextLine();
             switch (choice){
                 case 1:
-                    UiMaterial.clearscreen();
+                    Uimaterial.clearscreen();
 
                     System.out.print("Enter username: ");
                     String username = scanner.nextLine();
@@ -57,7 +57,7 @@ public class Login {
                         
                         
                     } else {
-                        UiMaterial.clearscreen();
+                        Uimaterial.clearscreen();
                         System.out.println("Invalid username or password. Please try again.");
                     }
                     break;
@@ -76,7 +76,7 @@ public class Login {
                     String newPassword = scanner.nextLine();
                     
                     Tenant newTenant = pf.registerTenant(name, email, phone, ic, newUsername, newPassword);
-                    UiMaterial.clearscreen();
+                    Uimaterial.clearscreen();
 
                     if (newTenant != null) {
                         System.out.println("Registration successful! You can now log in with your credentials.");
@@ -94,7 +94,7 @@ public class Login {
             }
         }
             catch (Exception e){
-                UiMaterial.clearscreen();
+                Uimaterial.clearscreen();
                 System.out.println("Invalid input. Please try again.");
                 scanner.nextLine();
             }
