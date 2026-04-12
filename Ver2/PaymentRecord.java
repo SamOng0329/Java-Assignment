@@ -49,13 +49,13 @@ public class PaymentRecord {
 
     // Display Info
     public void displayInfo() {
-        System.out.println("  ==========================================");
-        System.out.printf("%s15 : %s5", "Payment ID", paymentId);
-        System.out.printf("%s15 : %s5", "Lease Record", leaseRecord.getLeaseId());
-        System.out.printf("%s15 : %s5", "Amount", String.format("RM %.2f", amount));
-        System.out.printf("%s15 : %s5", "Payment Date", paymentDate);
-        System.out.printf("%s15 : %s5", "Payment Method", paymentMethod);
-        System.out.printf("%s15 : %s5", "Paid", (isPaid ? "Yes" : "No"));
-        System.out.println("  ==========================================");
+        System.out.println("==========================================");
+        System.out.printf("%-15s : %5s\n", "Payment ID", paymentId);
+        System.out.printf("%-15s : %5s\n", "Lease Record", leaseRecord.getLeaseId());
+        System.out.printf("%-15s : %5s\n", "Amount", String.format("RM %.2f", amount));
+        System.out.printf("%-15s : %5s\n", "Payment Date", paymentDate);
+        System.out.printf("%-15s : %5s\n", "Payment Method", paymentMethod);
+        System.out.printf("%-15s : %5s\n", "Paid", (isPaid ? "Yes" : "No"));
+        System.out.println("==========================================");
     }
 }

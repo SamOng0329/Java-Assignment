@@ -3,7 +3,7 @@
 public abstract class Property {
 
     public enum PropertyStatus {
-        AVAILABLE, RENTED, SOLD
+        AVAILABLE, RENTED,SOLD
     }
     public enum PropertyType {
         RESIDENTIAL, COMMERCIAL

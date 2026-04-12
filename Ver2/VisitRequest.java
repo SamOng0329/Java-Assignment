@@ -57,28 +57,26 @@ public class VisitRequest {
         return status;
     }
 
-    public void approvedecision(String landlordReply, boolean isApproved) {
+        public void approvedecision(boolean isApproved) {
+        if(VisitStatus.PENDING != this.status){
+            System.out.println("This request has already been processed.");
+            return;
+        }
         if (isApproved) {
             this.status = VisitStatus.APPROVED;
-            if (landlordReply != null && !landlordReply.isEmpty()) {
-                System.out.println("Landlord's message: " + landlordReply);
-            }
         } else {
             this.status = VisitStatus.REJECTED;
-            if (landlordReply != null && !landlordReply.isEmpty()) {
-                System.out.println("Landlord's message: " + landlordReply);
-            }
         }
     }
-    
+
 
     public void displayInfo() {
-        System.out.println("  ==========================================");
-        System.out.println("  Request ID: " + requestId);
-        System.out.println("  Tenant Name: " + tenant.getName());
-        System.out.println("  Property Location: " + property.getLocation());
-        System.out.println("  Visit Date: " + visitDate);
-        System.out.println("  Status: " + status);
-    }
+        System.out.println("=".repeat(40));
+        System.out.println("| Request ID       : " + requestId);
+        System.out.println("| Tenant           : " + tenant.getName());
+        System.out.println("| Location         : " + property.getLocation());
+        System.out.println("| Visit Date       : " + visitDate);
+        System.out.println("| Status           : " + status);
+}
     
 }

@@ -81,20 +81,26 @@ public class LeaseRecord {
         return leaseStatus;
     }
 
+
+    public void setLeasestatus(boolean leaseStatus) {
+        this.leaseStatus = leaseStatus;
+        
+    }
+
     // No setter due to it is only for reads 
 
     // Display Info
     public void displayInfo() {
-        System.out.println("  ==========================================");
-        System.out.printf("%s15 : %s5", "Lease ID", leaseId);
-        System.out.printf("%s15 : %s5", "Property", property.getPropertyId() + " (" + property.getLocation() + ")");
-        System.out.printf("%s15 : %s5", "Tenant", tenant.getName() + " (" + tenant.getPersonId() + ")");
-        System.out.printf("%s15 : %s5", "Agent", (agent != null ? agent.getName() : "None"));
-        System.out.printf("%s15 : %s5", "Start Date", startDate);
-        System.out.printf("%s15 : %s5", "End Date", endDate);
-        System.out.printf("%s15 : %s5", "Monthly Rent", String.format("RM %.2f", monthlyRent));
-        System.out.printf("%s15 : %s5", "Deposit", String.format("RM %.2f", deposit));
-        System.out.printf("%s15 : %s5", "Status", (leaseStatus ? "Active" : "Terminated"));
-        System.out.println("  ==========================================");
+        System.out.println("==========================================");
+        System.out.printf("%-15s : %5s\n", "Lease ID", leaseId);
+        System.out.printf("%-15s : %5s\n", "Property", property.getPropertyId() + " (" + property.getLocation() + ")");
+        System.out.printf("%-15s : %5s\n", "Tenant", tenant.getName() + " (" + tenant.getPersonId() + ")");
+        System.out.printf("%-15s : %5s\n", "Agent", (agent != null ? agent.getName() : "None"));
+        System.out.printf("%-15s : %5s\n", "Start Date", startDate);
+        System.out.printf("%-15s : %5s\n", "End Date", endDate);
+        System.out.printf("%-15s : %5s\n", "Monthly Rent", String.format("RM %.2f", monthlyRent));
+        System.out.printf("%-15s : %5s\n", "Deposit", String.format("RM %.2f", deposit));
+        System.out.printf("%-15s : %5s\n", "Status", (getLeaseStatus() == true ? "Unactive" : "Active"));
+        System.out.println("==========================================");
     }
 }

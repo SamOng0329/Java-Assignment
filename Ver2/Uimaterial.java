@@ -1,3 +1,4 @@
+
 public class UiMaterial {
 
     // Banner
@@ -35,13 +36,17 @@ public class UiMaterial {
             System.out.println("3. Manage Payment");
             System.out.println("4. Manage Lease");
             System.out.println("5. View Reports");
-            System.out.println("6. Show profile");
-            System.out.println("7. Logout");
+            System.out.println("6. Manage Visit Requests");
+            System.out.println("7. Show profile");
+            System.out.println("8. Logout");
         } else if (role.getRole().equals(UserRole.Role.AGENT)) {
-            System.out.println("1. View Assigned Properties");
-            System.out.println("2. Update Property Status");
-            System.out.println("3. Show profile");
-            System.out.println("4. Logout");
+            System.out.println("1. Property Management");
+            System.out.println("2. Manage Lease");
+            System.out.println("3. Manage Visit Requests");
+            System.out.println("4. Manage Payment");
+            System.out.println("5. User management");
+            System.out.println("6. Edit profile");
+            System.out.println("7. Logout");
         } else if (role.getRole().equals(UserRole.Role.LANDLORD)) {
             System.out.println("1. View Available Properties");
             System.out.println("2. View Current Haved Properties");
@@ -59,6 +64,13 @@ public class UiMaterial {
             System.out.println("1. Manage Tenant");
             System.out.println("2. Manage Landlord");
             System.out.println("3. Manage Agent");
+            System.out.println("0. Back to Main Menu");
+        }
+
+        else if (role.getRole().equals(UserRole.Role.AGENT)) {
+            System.out.println("\n===== User Management =====");
+            System.out.println("1. View Tenant List");
+            System.out.println("2. View Landlord List");
             System.out.println("0. Back to Main Menu");
         }
     }
@@ -158,7 +170,7 @@ public class UiMaterial {
         System.out.println("1. View all Properties");
         System.out.println("2. Add Residential Property");
         System.out.println("3. Add Commercial Property");
-        System.out.println("4. Update Property Price");
+        System.out.println("4. Update Property Rent Price");
         System.out.println("5. Update Property Status");
         System.out.println("6. Delete Property");
         System.out.println("0. Back");
@@ -206,11 +218,21 @@ public class UiMaterial {
     }
 
 
-    public static void displayVisitRequestMenu() {
-        System.out.println("\n--- VISIT REQUEST MANAGEMENT ---");
-        System.out.println("1. View all Visit Requests");
-        System.out.println("2. Approve/Reject a Visit Request");
-        System.out.println("0. Back");
+
+    public static void displayVisitRequestMenu(UserRole role) {
+        if (role.getRole().equals(UserRole.Role.STAFF)) {
+            System.out.println("\n--- VISIT REQUEST MANAGEMENT ---");
+            System.out.println("1. View all Visit Requests");
+            System.out.println("2. Delete a Visit Request");
+            System.out.println("0. Back");
+        } else if (role.getRole().equals(UserRole.Role.AGENT)) {
+            System.out.println("\n--- VISIT REQUEST MANAGEMENT ---");
+            System.out.println("1. View all Visit Requests");
+            System.out.println("2. Approve/Reject a Visit Request");
+            System.out.println("0. Back");
+        }
+
+
     }
 
 

@@ -23,8 +23,9 @@ public class StaffFunction {
                     case 3 -> managePayment(sc, pf);
                     case 4 -> manageLease(sc, pf);
                     case 5 -> manageReport(sc, pf);
-                    case 6 -> loggedUser.displayInfo();
-                    case 7 -> logout = true;
+                    case 6 -> manageVisitRequest(sc, pf, loggedUser);
+                    case 7 -> loggedUser.displayInfo();
+                    case 8 -> logout = true;
                     default -> System.out.println("Error! ");
                 }
             } catch (Exception e) {
@@ -350,9 +351,7 @@ public class StaffFunction {
             System.out.print("END Date   (YYYY-MM-DD): ");
             String endDate = sc.nextLine();
             LocalDate end = LocalDate.parse(endDate);
-            System.out.print("Monthly Rent (RM): ");
-            double rent = sc.nextInt();
-            sc.nextLine();
+            double rent = pf.findPropertyById(propId).getListingPrice();
             pf.createLeaseRecord(propId, tenantId, agentId, start, end, rent);
         } catch (Exception e) {
             System.out.println("Invalid input. Please try again.");
@@ -542,7 +541,7 @@ public class StaffFunction {
             System.out.println("\n--- Add Residential Property ---");
             System.out.print("Location: ");
             String location = sc.nextLine();
-            System.out.print("Price: ");
+            System.out.print("Rent Price: ");
             double price = sc.nextDouble();
             System.out.print("Size (sqft): ");
             double sqft = sc.nextDouble();
@@ -582,7 +581,7 @@ public class StaffFunction {
             System.out.println("\n--- Add Commercial Property ---");
             System.out.print("Location: ");
             String location = sc.nextLine();
-            System.out.print("Price: ");
+            System.out.print("Rent Price: ");
             double price = sc.nextDouble();
             System.out.print("Size (sqft): ");
             double sqft = sc.nextDouble();
@@ -616,14 +615,14 @@ public class StaffFunction {
 
     public static void updatePropertyPrice(Scanner sc, PropertyFunction pf) {
         try {
-            System.out.println("\n--- Update Property Price ---");
+            System.out.println("\n--- Update Property Rent Price ---");
             System.out.print("Property ID: ");
             String id = sc.nextLine();
-            System.out.print("New Price: ");
+            System.out.print("New Rent Price: ");
             double newPrice = sc.nextDouble();
             sc.nextLine();
             if (pf.updatePropertyPrice(id, newPrice)) {
-                System.out.println("Price updated successfully!");
+                System.out.println("Rent Price updated successfully!");
             } else {
                 System.out.println("Update failed. Property not found.");
             }
@@ -645,6 +644,7 @@ public class StaffFunction {
                 case 1 -> Property.PropertyStatus.AVAILABLE;
                 case 2 -> Property.PropertyStatus.RENTED;
                 case 3 -> Property.PropertyStatus.SOLD;
+  
                 default -> null;
             };
             if (status != null) {
@@ -666,7 +666,31 @@ public class StaffFunction {
     }
     // ==========================================================
     
-
+    public static void manageVisitRequest(Scanner sc, PropertyFunction pf, UserRole loggedUser) {
+        boolean back = false;
+        do {
+            try {
+                UiMaterial.displayVisitRequestMenu(loggedUser);
+                System.out.print("Enter your choice: ");
+                int choice = sc.nextInt();
+                sc.nextLine();
+                UiMaterial.clearscreen();
+                switch (choice) {
+                    case 1 -> pf.listAllVisitRequests();
+                    case 2 -> {
+                        System.out.print("Enter Visit Request ID to delete: ");
+                        String requestId = sc.nextLine();
+                        pf.deleteVisitRequest(requestId);
+                    }
+                    case 0 -> back = true;
+                    default -> System.out.println("Invalid choice. Please try again.");
+                }
+            } catch (Exception e) {
+                System.out.println("Invalid input. Please try again.");
+                sc.nextLine();
+            }
+        } while (!back);
+    }
 
 
 

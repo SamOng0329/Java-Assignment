@@ -44,7 +44,7 @@ public class Login {
                         }
                         else if (loggedUser.getRole().equals(UserRole.Role.AGENT)) {
                             AgentUI agentUI = new AgentUI();
-                            agentUI.displayAgentMenu(loggedUser);
+                            agentUI.agentMenu(loggedUser);
                         }
                         else if (loggedUser.getRole().equals(UserRole.Role.LANDLORD)) {
                             LandLordUI landLordUI = new LandLordUI();

@@ -3,6 +3,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 
+
+
 public class PropertyFunction {
     // Creating Arraylist for all object
     public ArrayList<Property> propertyList;
@@ -70,6 +72,11 @@ public class PropertyFunction {
         return userRoleList;
     }
 
+
+    public ArrayList<VisitRequest> getVisitRequestList() {
+        return visitRequestList;
+    }
+
     // Setter for counters
     public void setCounters(int prop, int tent, int agt, int lease, int pay, int visitRequest) {
         this.propertyCount = prop;
@@ -115,6 +122,9 @@ public class PropertyFunction {
         addAgent(a1, new UserRole("janedoe", "password456", UserRole.Role.AGENT, a1));
         Landlord l1 = new Landlord("LAN001", "Jace Doe", "jace.doe@example.com", "1111111111");
         addLandLord(l1, new UserRole("jacedoe", "password789", UserRole.Role.LANDLORD, l1));
+        addResidentialProperty("123 Main St", 1500.00, 850, ResidentialProperty.ResidentialType.APARTMENT, 2, 1, true);
+        createLeaseRecord("RES001", "TEN001", "AGT001", LocalDate.of(2025, 3, 1), LocalDate.of(2026, 4, 28), 1500.00);
+        requestVisit("TEN001", "RES001","AGT001", LocalDate.of(2025, 2, 20));
     }
 
     public boolean login(String username, String password) {
@@ -588,7 +598,7 @@ public class PropertyFunction {
         }
 
         // Cannot pay for the terminated lease
-        if (l.getLeaseStatus()) {
+        if (l.getLeaseStatus() == false ) {
             System.out.println("  [ERROR] Lease is already completed: " + leaseId);
             return null;
         }
@@ -604,6 +614,7 @@ public class PropertyFunction {
         // Create a new payment record
         PaymentRecord payment = new PaymentRecord(paymentId, l, amount, LocalDate.now(), paymentMethod, true);
         paymentRecordList.add(payment);
+        l.setLeasestatus(false); // Mark lease as completed after payment
 
         System.out.println("  [SUCCESS] Payment record created: " + paymentId);
         return payment;
@@ -696,10 +707,21 @@ public class PropertyFunction {
         String leaseId = "LEA" + String.format("%03d", leaseCount++);
 
         // Create a lease record
-        LeaseRecord lease = new LeaseRecord(leaseId, p, a, t, startDate, endDate, monthlyRent, monthlyRent * 2,false);
+        LeaseRecord lease = new LeaseRecord(leaseId, p, a, t, startDate, endDate, monthlyRent, monthlyRent * 2,true);
         leaseRecordList.add(lease);
         return lease;
     }
+
+    public void deleteLeaseRecord(String leaseId) {
+        LeaseRecord l = findLeaseById(leaseId);
+        if (l == null) {
+            System.out.println("  [ERROR] Lease not found: " + leaseId);
+            return;
+        }
+        leaseRecordList.remove(l);
+        System.out.println("  [SUCCESS] Lease " + leaseId + " deleted.");
+    }
+
 
     // Find lease by ID
     public LeaseRecord findLeaseById(String leaseId) {
@@ -720,6 +742,22 @@ public class PropertyFunction {
         for (LeaseRecord l : leaseRecordList) {
             l.displayInfo();
         }
+    }
+
+
+    public void  AgentLeaseTermination(String leaseId, Agent agent) {
+        LeaseRecord l = findLeaseById(leaseId);
+        if (l == null) {
+            System.out.println("  [ERROR] Lease not found: " + leaseId);
+            return;
+        }
+
+        if (l.getAgent() == null || !l.getAgent().getPersonId().equals(agent.getPersonId())) {
+            System.out.println("  [ERROR] You are not the agent responsible for this lease.");
+            return;
+        }
+        l.terminationLease();
+        System.out.println("  [SUCCESS] Lease " + leaseId + " marked as terminated.");
     }
 
     // Display lease by tenant ID
@@ -805,6 +843,7 @@ public class PropertyFunction {
 
         String requestId = "VR" + String.format("%03d", visitRequestCount++);
         VisitRequest visitRequest = new VisitRequest(requestId, t, a, p, visitDate);
+        visitRequestList.add(visitRequest);
         System.out.println("  [SUCCESS] Visit request created with ID: " + requestId);
         return visitRequest;
     }
@@ -821,6 +860,16 @@ public class PropertyFunction {
     }
 
 
+    public VisitRequest findVisitRequestById(String requestId) {
+        for (VisitRequest vr : visitRequestList) {
+            if (vr.getRequestId().equals(requestId)) {
+                return vr;
+            }
+        }
+        return null;
+    }   
+
+
     public void listAllVisitRequests() {
         if (visitRequestList.isEmpty()) {
             System.out.println("  No visit requests found.");
@@ -830,6 +879,37 @@ public class PropertyFunction {
             vr.displayInfo();
         }
     }
+
+
+    public void deleteVisitRequest(String requestId) {
+        VisitRequest vr = findVisitRequestById(requestId);
+        if (vr == null) {
+            System.out.println("  [ERROR] Visit request not found: " + requestId);
+            return;
+        }
+        visitRequestList.remove(vr);
+        System.out.println("  [SUCCESS] Visit request " + requestId + " deleted.");
+    }
+
+    public void processVisitRequest(String requestId, boolean isApproved,UserRole loggedUser) {
+        VisitRequest vr = findVisitRequestById(requestId);
+        if (vr == null) {
+            System.out.println("  [ERROR] Visit request not found: " + requestId);
+            return;
+        }
+        if (loggedUser.getLinkedPerson().getPersonId().equals(vr.getAgent().getPersonId())) {
+            vr.approvedecision(isApproved);
+            System.out.println("  [SUCCESS] Visit request " + requestId + " processed.");
+     
+        }
+        else {
+            System.out.println("  [ERROR] You are not authorized to process this visit request.");
+        }
+
+    }
+
+
+    
 
     
 }
