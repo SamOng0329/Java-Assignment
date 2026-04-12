@@ -1,5 +1,5 @@
 
-public class UiMaterial {
+public class Uimaterial {
 
     // Banner
     public static void displaybanner() {
