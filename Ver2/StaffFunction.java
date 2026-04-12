@@ -11,11 +11,11 @@ public class StaffFunction {
 
         do {
             try {
-                UiMaterial.displayoperationmenu(loggedUser); // Calling the operation menu from UiMaterial class
+                Uimaterial.displayoperationmenu(loggedUser); // Calling the operation menu from UiMaterial class
                 System.out.print("Enter your choice:");
                 int choice = sc.nextInt();
                 sc.nextLine();
-                UiMaterial.clearscreen();
+                Uimaterial.clearscreen();
 
                 switch (choice) {
                     case 1 -> manageProperty(sc, pf);
@@ -42,11 +42,11 @@ public class StaffFunction {
 
         do {
             try {
-                UiMaterial.displayUserManagementMenu(loggedUser);
+                Uimaterial.displayUserManagementMenu(loggedUser);
                 System.out.print("Enter your choice: ");
                 int choice = sc.nextInt();
                 sc.nextLine();
-                UiMaterial.clearscreen();
+                Uimaterial.clearscreen();
 
                 switch (choice) {
                     case 1 -> manageTenant(sc, pf);
@@ -71,11 +71,11 @@ public class StaffFunction {
 
         do {
             try {
-                UiMaterial.displayManageTenantMenu();
+                Uimaterial.displayManageTenantMenu();
                 System.out.print("Enter your choice: ");
                 int choice = sc.nextInt();
                 sc.nextLine();
-                UiMaterial.clearscreen();
+                Uimaterial.clearscreen();
 
                 switch (choice) {
                     case 1 -> pf.listAllTenants(); // direct call the funciton
@@ -164,11 +164,11 @@ public class StaffFunction {
 
         do {
             try {
-                UiMaterial.displayManageLandlordMenu();
+                Uimaterial.displayManageLandlordMenu();
                 System.out.print("Enter your choice: ");
                 int choice = sc.nextInt();
                 sc.nextLine();
-                UiMaterial.clearscreen();
+                Uimaterial.clearscreen();
 
                 switch (choice) {
                     case 1 -> pf.listAllLandlord();
@@ -240,11 +240,11 @@ public class StaffFunction {
         boolean back = false;
         do {
             try {
-                UiMaterial.displayManageAgentMenu();
+                Uimaterial.displayManageAgentMenu();
                 System.out.print("Enter your choice: ");
                 int choice = sc.nextInt();
                 sc.nextLine();
-                UiMaterial.clearscreen();
+                Uimaterial.clearscreen();
                 switch (choice) {
                     case 1 -> pf.listAllAgents();
                     case 2 -> registerAgent(sc, pf);
@@ -314,11 +314,11 @@ public class StaffFunction {
     public static void manageLease(Scanner sc, PropertyFunction pf) {
         boolean back = false;
         do {
-            UiMaterial.displayLeaseManagementMenu();
+            Uimaterial.displayLeaseManagementMenu();
             System.out.print("Enter your choice: ");
             int choice = sc.nextInt();
             sc.nextLine();
-            UiMaterial.clearscreen();
+            Uimaterial.clearscreen();
             switch (choice) {
                 case 1 -> createLease(sc, pf);
                 case 2 -> viewAllLease(sc, pf);
@@ -404,11 +404,11 @@ public class StaffFunction {
         boolean back = false;
         do {
             try {
-                UiMaterial.displayPaymentManagementMenu();
+                Uimaterial.displayPaymentManagementMenu();
                 System.out.print("Enter your choice: ");
                 int choice = sc.nextInt();
                 sc.nextLine();
-                UiMaterial.clearscreen();
+                Uimaterial.clearscreen();
                 switch (choice) {
                     case 1 -> pf.listAllPayments();
                     case 2 -> createPayment(sc, pf);
@@ -489,11 +489,11 @@ public class StaffFunction {
         boolean back = false;
         do {
             try {
-                UiMaterial.displayReportMenu();
+                Uimaterial.displayReportMenu();
                 System.out.print("Enter your choice: ");
                 int choice = sc.nextInt();
                 sc.nextLine();
-                UiMaterial.clearscreen();
+                Uimaterial.clearscreen();
                 switch (choice) {
                     case 1 -> pf.generatePropertyReport();
                     case 2 -> pf.generateAgentPerformanceReport();
@@ -514,11 +514,11 @@ public class StaffFunction {
         boolean back = false;
         do {
             try {
-                UiMaterial.displayPropertyManagementMenu();
+                Uimaterial.displayPropertyManagementMenu();
                 System.out.print("Enter your choice: ");
                 int choice = sc.nextInt();
                 sc.nextLine();
-                UiMaterial.clearscreen();
+                Uimaterial.clearscreen();
                 switch (choice) {
                     case 1 -> pf.listAllProperties();
                     case 2 -> addResidentialProperty(sc, pf);
@@ -670,11 +670,11 @@ public class StaffFunction {
         boolean back = false;
         do {
             try {
-                UiMaterial.displayVisitRequestMenu(loggedUser);
+                Uimaterial.displayVisitRequestMenu(loggedUser);
                 System.out.print("Enter your choice: ");
                 int choice = sc.nextInt();
                 sc.nextLine();
-                UiMaterial.clearscreen();
+                Uimaterial.clearscreen();
                 switch (choice) {
                     case 1 -> pf.listAllVisitRequests();
                     case 2 -> {
