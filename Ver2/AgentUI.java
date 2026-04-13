@@ -11,20 +11,21 @@ public class AgentUI {
 
         do {
             try {
-                Uimaterial.displayoperationmenu(loggedUser); // Calling the operation menu from UiMaterial class
+                UiMaterial.displayoperationmenu(loggedUser); // Calling the operation menu from UiMaterial class
                 System.out.print("Enter your choice:");
                 int choice = sc.nextInt();
                 sc.nextLine();
-                Uimaterial.clearscreen();
+                UiMaterial.clearscreen();
 
                 switch (choice) {
                     case 1 -> manageProperty(sc, pf);
                     case 2 -> manageLease(sc, pf, loggedUser);
                     case 3 -> manageVisitRequest(sc, pf, loggedUser);
-                    case 4 -> managePayment(sc, pf);
+                    case 4 -> managePayment(sc, pf, loggedUser);
                     case 5 -> userManagement(loggedUser, sc, pf);
                     case 6 -> editAgentProfile(sc, pf, loggedUser);
-                    case 7 -> logout = true;
+                    case 7 -> showProfile(loggedUser);
+                    case 8 -> logout = true;
                     default -> System.out.println("Error! ");
                 }
             } catch (Exception e) {
@@ -40,11 +41,11 @@ public class AgentUI {
         boolean back = false;
         do {
             try {
-                Uimaterial.displayPropertyManagementMenu();
+                UiMaterial.displayPropertyManagementMenu();
                 System.out.print("Enter your choice: ");
                 int choice = sc.nextInt();
                 sc.nextLine();
-                Uimaterial.clearscreen();
+                UiMaterial.clearscreen();
                 switch (choice) {
                     case 1 -> pf.listAllProperties();
                     case 2 -> addResidentialProperty(sc, pf);
@@ -72,6 +73,10 @@ public class AgentUI {
             System.out.print("Size (sqft): ");
             double sqft = sc.nextDouble();
             sc.nextLine();
+            System.out.print("Landlord ID: ");
+            String landlordId = sc.nextLine();
+            Landlord landlord = pf.findLandlordById(landlordId);
+            sc.nextLine();
 
             ResidentialProperty.ResidentialType resType = null;
             do {
@@ -95,7 +100,7 @@ public class AgentUI {
             boolean furnished = sc.nextBoolean();
             sc.nextLine();
 
-            pf.addResidentialProperty(location, price, sqft, resType, bed, bath, furnished);
+            pf.addResidentialProperty(location, price, sqft, resType, bed, bath, furnished, landlord);
         } catch (Exception e) {
             System.out.println("Invalid input!");
             sc.nextLine();
@@ -111,6 +116,10 @@ public class AgentUI {
             double price = sc.nextDouble();
             System.out.print("Size (sqft): ");
             double sqft = sc.nextDouble();
+            sc.nextLine();
+            System.out.print("Landlord ID: ");
+            String landlordId = sc.nextLine();
+            Landlord landlord = pf.findLandlordById(landlordId);
             sc.nextLine();
 
             CommercialProperty.CommercialType commType = null;
@@ -132,7 +141,7 @@ public class AgentUI {
             boolean loadingDock = sc.nextBoolean();
             sc.nextLine();
 
-            pf.addCommercialProperty(location, price, sqft, commType, parking, loadingDock);
+            pf.addCommercialProperty(location, price, sqft, commType, parking, loadingDock, landlord);
         } catch (Exception e) {
             System.out.println("Invalid input!");
             sc.nextLine();
@@ -199,16 +208,17 @@ public class AgentUI {
     public static void manageLease(Scanner sc, PropertyFunction pf, UserRole loggedUser) {
         boolean back = false;
         do {
-            Uimaterial.displayLeaseManagementMenu();
+            UiMaterial.displayLeaseManagementMenu(loggedUser);
             System.out.print("Enter your choice: ");
             int choice = sc.nextInt();
             sc.nextLine();
-            Uimaterial.clearscreen();
+            UiMaterial.clearscreen();
             switch (choice) {
                 case 1 -> createLease(sc, pf);
                 case 2 -> viewAllLease(sc, pf, loggedUser);
                 case 3 -> viewOverdueLease(sc, pf, loggedUser);
                 case 4 -> terminateLease(sc, pf, (Agent) loggedUser.getLinkedPerson());
+                case 5 -> acceptLeaseRequest(sc, pf, (Agent) loggedUser.getLinkedPerson());
                 case 0 -> back = true;
                 default -> System.out.println("Invalid choice. Please try again.");
             }
@@ -237,7 +247,7 @@ public class AgentUI {
             String endDate = sc.nextLine();
             LocalDate end = LocalDate.parse(endDate);
             double rent = pf.findPropertyById(propId).getListingPrice();
-            pf.createLeaseRecord(propId, tenantId, agentId, start, end, rent);
+            pf.createLeaseRecord(propId, tenantId, agentId, start, end, rent,false);
         } catch (Exception e) {
             System.out.println("Invalid input. Please try again.");
             sc.nextLine();
@@ -295,6 +305,21 @@ public class AgentUI {
         System.out.println("[SUCCESS] Lease " + leaseId + " has been terminated.");
     }
 
+    public static void acceptLeaseRequest(Scanner sc, PropertyFunction pf, Agent agent) {
+        System.out.print("Enter Lease ID to accept: ");
+        String leaseId = sc.nextLine();
+        LeaseRecord lease = pf.findLeaseById(leaseId);
+        if (lease == null) {
+            System.out.println("Lease not found.");
+            return;
+        }
+        if (lease.getLeaseStatus() == false) {
+             System.out.println("Lease is already active.");
+            return;
+        }
+        pf.Agentacceptlease(leaseId, agent);
+    }
+
 
 
 
@@ -302,11 +327,11 @@ public class AgentUI {
         boolean back = false;
         do {
             try {
-                Uimaterial.displayVisitRequestMenu(loggedUser);
+                UiMaterial.displayVisitRequestMenu(loggedUser);
                 System.out.print("Enter your choice: ");
                 int choice = sc.nextInt();
                 sc.nextLine();
-                Uimaterial.clearscreen();
+                UiMaterial.clearscreen();
                 switch (choice) {
                     case 1 -> ListVisitRequests(sc, pf, loggedUser);
                     case 2 -> {
@@ -342,15 +367,15 @@ public class AgentUI {
     }
 
 
-    public static void managePayment(Scanner sc, PropertyFunction pf) {
+    public static void managePayment(Scanner sc, PropertyFunction pf,UserRole loggedUser) {
         boolean back = false;
         do {
             try {
-                Uimaterial.displayPaymentManagementMenu();
+                UiMaterial.displayPaymentManagementMenu(loggedUser);
                 System.out.print("Enter your choice: ");
                 int choice = sc.nextInt();
                 sc.nextLine();
-                Uimaterial.clearscreen();
+                UiMaterial.clearscreen();
                 switch (choice) {
                     case 1 -> pf.listAllPayments();
                     case 2 -> createPayment(sc, pf);
@@ -431,11 +456,11 @@ public class AgentUI {
 
         do {
             try {
-                Uimaterial.displayUserManagementMenu(loggedUser);
+                UiMaterial.displayUserManagementMenu(loggedUser);
                 System.out.print("Enter your choice: ");
                 int choice = sc.nextInt();
                 sc.nextLine();
-                Uimaterial.clearscreen();
+                UiMaterial.clearscreen();
 
                 switch (choice) {
                     case 1 -> manageTenant(sc, pf);
@@ -459,11 +484,11 @@ public class AgentUI {
 
         do {
             try {
-                Uimaterial.displayManageTenantMenu();
+                UiMaterial.displayManageTenantMenu();
                 System.out.print("Enter your choice: ");
                 int choice = sc.nextInt();
                 sc.nextLine();
-                Uimaterial.clearscreen();
+                UiMaterial.clearscreen();
 
                 switch (choice) {
                     case 1 -> pf.listAllTenants(); // direct call the funciton
@@ -523,7 +548,7 @@ public class AgentUI {
             String newValue = sc.nextLine();
             pf.updateTenantDetails(TenId, choice, newValue);
         } else {
-            System.out.println("\nTenant not found. ");
+            System.out.println("Tenant not found.");
         }
     }
 
@@ -552,11 +577,11 @@ public class AgentUI {
 
         do {
             try {
-                Uimaterial.displayManageLandlordMenu();
+                UiMaterial.displayManageLandlordMenu();
                 System.out.print("Enter your choice: ");
                 int choice = sc.nextInt();
                 sc.nextLine();
-                Uimaterial.clearscreen();
+                UiMaterial.clearscreen();
 
                 switch (choice) {
                     case 1 -> pf.listAllLandlord();
@@ -595,15 +620,12 @@ public class AgentUI {
         System.out.print("Enter Landlord ID: ");
         String id = sc.nextLine();
         Landlord landlord = pf.findLandlordById(id);
-        if (landlord == null) {
-            System.out.println("Landlord not found.");
-            return;
-        }
-       int choice = 0;
-        do{
+        int choice = 0;
+        if (landlord != null) {
+            do{
                 System.out.println("\nWhich detail you want to update?");
                 System.out.println("=".repeat(20));
-                System.out.println("| 1. Name          |\n| 2. Email         |\n| 3. Phone         |");
+                System.out.println("| 1. Name          |\n| 2. Phone         |\n| 3. Email         |");
                 System.out.println("=".repeat(20));
                 System.out.print("| Enter Choice: ");
                 choice = sc.nextInt();
@@ -613,7 +635,10 @@ public class AgentUI {
             }while(choice >= 4 || choice <= 0);
         System.out.print("Enter new value: ");
         String newValue = sc.nextLine();
-        pf.updateLandlordDetails(id, choice, newValue);
+        pf.updateLandlordDetails(id, choice, newValue);}
+        else{
+            System.out.println("Landlord not found.");
+        }
     }
 
     // Delete Landlord Profile
@@ -631,21 +656,35 @@ public class AgentUI {
     public static void editAgentProfile(Scanner sc, PropertyFunction pf,UserRole loggedUser) {
         
         String id = loggedUser.getLinkedPerson().getPersonId();
-        Agent agent = pf.findAgentById(id);
-        if (agent == null) {
-            System.out.println("Agent not found.");
-            return;
-        }
-        System.out.println("Which detail you want to update?");
-        System.out.println("1. Name\n2. Email\n3. Phone");
-        System.out.print("Enter Choice: ");
-        int choice = sc.nextInt();
-        sc.nextLine();
+        int choice = 0;
+        do{
+                System.out.println("\nWhich detail you want to update?");
+                System.out.println("=".repeat(20));
+                System.out.println("| 1. Name          |\n| 2. Phone         |\n| 3. Email         |");
+                System.out.println("=".repeat(20));
+                System.out.print("| Enter Choice: ");
+                choice = sc.nextInt();
+                System.out.println("=".repeat(20));
+                sc.nextLine();
+                
+            }while(choice >= 4 || choice <= 0);
         System.out.print("Enter new value: ");
         String newValue = sc.nextLine();
         pf.updateAgentDetails(id, choice, newValue);
     }
 
-  
+    public static void showProfile(UserRole loggedUser) {
+        Agent agent = (Agent) loggedUser.getLinkedPerson();
+        System.out.println("\n--- Agent Profile ---");
+        System.out.println("ID: " + agent.getPersonId());
+        System.out.println("Name: " + agent.getName());
+        System.out.println("Email: " + agent.getEmail());
+        System.out.println("Phone: " + agent.getPhone());
+        System.out.println("Total Deals Completed: " + agent.getTotalDealsCompleted());
+    }
+
+
+
+ 
 
 }

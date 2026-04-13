@@ -32,7 +32,11 @@ public class LeaseRecord {
         this.leaseStatus = leaseStatus;
 
         // Update the status of the property
-        property.setStatus(Property.PropertyStatus.RENTED);
+        if (this.leaseStatus == false){// only update if the lease is active
+        property.setStatus(Property.PropertyStatus.RENTED);}
+        else {
+            property.setStatus(Property.PropertyStatus.AVAILABLE);
+        }
 
         if (agent != null) {
             agent.addDeal();
@@ -42,6 +46,10 @@ public class LeaseRecord {
     // Update the status of lease termination/free up
     public void terminationLease() {
         this.leaseStatus = true; // true = terminated
+    }
+
+    public void acceptLease() {
+        this.leaseStatus = false; // false = active
     }
 
     // Getters

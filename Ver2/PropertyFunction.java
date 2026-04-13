@@ -1,6 +1,7 @@
 import java.rmi.dgc.Lease;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 
 
@@ -122,8 +123,8 @@ public class PropertyFunction {
         addAgent(a1, new UserRole("janedoe", "password456", UserRole.Role.AGENT, a1));
         Landlord l1 = new Landlord("LAN001", "Jace Doe", "jace.doe@example.com", "1111111111");
         addLandLord(l1, new UserRole("jacedoe", "password789", UserRole.Role.LANDLORD, l1));
-        addResidentialProperty("123 Main St", 1500.00, 850, ResidentialProperty.ResidentialType.APARTMENT, 2, 1, true);
-        createLeaseRecord("RES001", "TEN001", "AGT001", LocalDate.of(2025, 3, 1), LocalDate.of(2026, 4, 28), 1500.00);
+        addResidentialProperty("123 Main St", 1500.00, 850, ResidentialProperty.ResidentialType.APARTMENT, 2, 1, true, l1);
+        createLeaseRecord("RES001", "TEN001", "AGT001", LocalDate.of(2025, 3, 1), LocalDate.of(2026, 4, 28), 1500.00, true);
         requestVisit("TEN001", "RES001","AGT001", LocalDate.of(2025, 2, 20));
     }
 
@@ -244,15 +245,15 @@ public class PropertyFunction {
             }
 
             case 3 -> {
-                fieldName = "Phone";
-                oldValue = t.getPhone();
-                t.setPhone(newValue);
-            }
-
-            case 4 -> {
                 fieldName = "Email";
                 oldValue = t.getEmail();
                 t.setEmail(newValue);
+            }
+
+            case 4 -> {
+                fieldName = "Phone";
+                oldValue = t.getPhone();
+                t.setPhone(newValue);
             }
 
             default -> {
@@ -493,13 +494,15 @@ public class PropertyFunction {
     // Create Residential
 
     public void addResidentialProperty(String location, double price, double sqft,
-            ResidentialProperty.ResidentialType resType, int bedroom, int bathroom, boolean furnished) {
+            ResidentialProperty.ResidentialType resType, int bedroom, int bathroom, boolean furnished,  Landlord landlord) {
         String id = "RES" + String.format("%03d", propertyCount++);
 
         ResidentialProperty newRes = new ResidentialProperty(id, location, price, resType, sqft, bedroom, bathroom,
                 furnished);
         propertyList.add(newRes);
-
+        if (landlord != null) {
+            landlord.addProperty(newRes); // Link property to landlord
+        }
         System.out.println("\n");
         System.out.println("=".repeat(40));
         System.out.println("|    New Residential Property Added");
@@ -507,11 +510,15 @@ public class PropertyFunction {
     }
 
     public void addCommercialProperty(String location, double price, double sqft,
-            CommercialProperty.CommercialType commType, int parking, boolean loadingDock) {
+            CommercialProperty.CommercialType commType, int parking, boolean loadingDock, Landlord landlord) {
         String id = "COM" + String.format("%03d", propertyCount++);
 
         CommercialProperty newCom = new CommercialProperty(id, location, price, sqft, commType, parking, loadingDock);
         propertyList.add(newCom);
+
+        if (landlord != null) {
+            landlord.addProperty(newCom); // Link property to landlord
+        }
 
         System.out.println("\n");
         System.out.println("=".repeat(40));
@@ -630,6 +637,16 @@ public class PropertyFunction {
         return null;
     }
 
+    public ArrayList<PaymentRecord> findPaymentByLeaseArrayList(String leaseId) {
+        ArrayList<PaymentRecord> payments = new ArrayList<>();
+        for (PaymentRecord p : paymentRecordList) {
+            if (p.getLeaseRecord().getLeaseId().equals(leaseId)) {
+                payments.add(p);
+            }
+        }
+        return payments;
+    }
+
     // Read and Display all payment records
     public void listAllPayments() {
         if (paymentRecordList.isEmpty()) {
@@ -674,7 +691,7 @@ public class PropertyFunction {
     // CRUD Lease Record
     // ====================================================================================================
     public LeaseRecord createLeaseRecord(String propertyId, String tenantId, String agentId, LocalDate startDate,
-            LocalDate endDate, double monthlyRent) {
+            LocalDate endDate, double monthlyRent, boolean status) {
         Property p = findPropertyById(propertyId);
         Tenant t = findTenantById(tenantId);
         Agent a = findAgentById(agentId);
@@ -707,7 +724,7 @@ public class PropertyFunction {
         String leaseId = "LEA" + String.format("%03d", leaseCount++);
 
         // Create a lease record
-        LeaseRecord lease = new LeaseRecord(leaseId, p, a, t, startDate, endDate, monthlyRent, monthlyRent * 2,true);
+        LeaseRecord lease = new LeaseRecord(leaseId, p, a, t, startDate, endDate, monthlyRent, monthlyRent * 2, status);
         leaseRecordList.add(lease);
         return lease;
     }
@@ -727,6 +744,15 @@ public class PropertyFunction {
     public LeaseRecord findLeaseById(String leaseId) {
         for (LeaseRecord l : leaseRecordList) {
             if (l.getLeaseId().equals(leaseId)) {
+                return l;
+            }
+        }
+        return null;
+    }
+
+    public LeaseRecord findLeaseByPropertyId(String propertyId) {
+        for (LeaseRecord l : leaseRecordList) {
+            if (l.getProperty().getPropertyId().equals(propertyId)) {
                 return l;
             }
         }
@@ -757,7 +783,23 @@ public class PropertyFunction {
             return;
         }
         l.terminationLease();
-        System.out.println("  [SUCCESS] Lease " + leaseId + " marked as terminated.");
+
+    }
+
+
+    public void Agentacceptlease(String leaseId, Agent agent) {
+        LeaseRecord l = findLeaseById(leaseId);
+        if (l == null) {
+            System.out.println("  [ERROR] Lease not found: " + leaseId);
+            return;
+        }
+        
+        if (l.getAgent() == null || !l.getAgent().getPersonId().equals(agent.getPersonId())) {
+            System.out.println("  [ERROR] You are not the agent responsible for this lease.");
+            return;
+        }
+        l.acceptLease();
+        System.out.println("  [SUCCESS] Lease " + leaseId + " accepted.");
     }
 
     // Display lease by tenant ID
@@ -773,6 +815,8 @@ public class PropertyFunction {
             System.out.println("  [INFO] No lease records found for tenant: " + tenantId);
         }
     }
+
+
 
     // find property by ID
     public Property findPropertyById(String propertyId) {

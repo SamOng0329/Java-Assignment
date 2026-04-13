@@ -1,5 +1,6 @@
+import files1.User;
 
-public class Uimaterial {
+public class UiMaterial {
 
     // Banner
     public static void displaybanner() {
@@ -46,13 +47,15 @@ public class Uimaterial {
             System.out.println("4. Manage Payment");
             System.out.println("5. User management");
             System.out.println("6. Edit profile");
-            System.out.println("7. Logout");
+            System.out.println("7. Show profile");
+            System.out.println("8. Logout");
         } else if (role.getRole().equals(UserRole.Role.LANDLORD)) {
-            System.out.println("1. View Available Properties");
-            System.out.println("2. View Current Haved Properties");
-            System.out.println("3. Edit profile");
-            System.out.println("4. Show profile");
-            System.out.println("5. Logout");
+            System.out.println("1. Property Management");
+            System.out.println("2. Manage Lease");
+            System.out.println("3. Manage Payment");
+            System.out.println("4. Edit profile");
+            System.out.println("5. Show profile");
+            System.out.println("6. Logout");
         }
     }
 
@@ -77,7 +80,7 @@ public class Uimaterial {
 
     // Manage Tenant Menu
     public static void displayManageTenantMenu() {
-        System.out.println("\n======== Manage Tenant ========");
+        System.out.println("\n===== Manage Tenant =====");
         System.out.println("1. List of Tenant");
         System.out.println("2. Register Tenant");
         System.out.println("3. Edit Tenant Profile");
@@ -87,7 +90,7 @@ public class Uimaterial {
 
     // Manage Landlord Menu
     public static void displayManageLandlordMenu() {
-        System.out.println("\n======== Manage Landlord ========");
+        System.out.println("\n===== Manage Landlord =====");
         System.out.println("1. List of Landlord");
         System.out.println("2. Register Landlord");
         System.out.println("3. Edit Landlord Profile");
@@ -97,7 +100,7 @@ public class Uimaterial {
 
     // Manage Agent Menu
     public static void displayManageAgentMenu() {
-        System.out.println("\n======== Manage Agent ========");
+        System.out.println("\n===== Manage Agent =====");
         System.out.println("1. List of Agent");
         System.out.println("2. Register Agent");
         System.out.println("3. Edit Agent Profile");
@@ -116,7 +119,7 @@ public class Uimaterial {
 
     // Edit Profile First Menu (used in StaffMain)
     public static void editprofileFirstMenu(UserRole role) {
-        System.out.println("\n======== Edit Profile ========");
+        System.out.println("\n===== Edit Profile =====");
         System.out.println("1. Edit Tenant Profile");
         System.out.println("2. Edit Landlord Profile");
         System.out.println("3. Edit Agent Profile");
@@ -153,13 +156,22 @@ public class Uimaterial {
     }
 
     // =========================================================================================
-    public static void displayPaymentManagementMenu() {
-        System.out.println("\n--- PAYMENT MANAGEMENT ---");
-        System.out.println("1. View all Payment History");
-        System.out.println("2. Record a Payment");
-        System.out.println("3. View Payment History for a Lease");
-        System.out.println("4. View Payment History for a Tenant");
-        System.out.println("0. Back");
+    public static void displayPaymentManagementMenu(UserRole loggedUser) {
+
+        if(loggedUser.getRole().equals(UserRole.Role.AGENT)||loggedUser.getRole().equals(UserRole.Role.STAFF)) {
+            System.out.println("\n--- PAYMENT MANAGEMENT ---");
+            System.out.println("1. View all Payment History");
+            System.out.println("2. Record a Payment");
+            System.out.println("3. View Payment History for a Lease");
+            System.out.println("4. View Payment History for a Tenant");
+            System.out.println("0. Back");
+        }
+
+        else if(loggedUser.getRole().equals(UserRole.Role.LANDLORD)) {
+            System.out.println("\n--- PAYMENT MANAGEMENT ---");
+            System.out.println("1. View Payment History for My Properties");
+            System.out.println("0. Back");
+        }
     }
     // =========================================================================================
 
@@ -179,25 +191,43 @@ public class Uimaterial {
 
     // Lease Management Menu
     // =========================================================================================
-    public static void displayLeaseManagementMenu() {
-        System.out.println("\n--- LEASE MANAGEMENT ---");
-        System.out.println("1. Create a Lease");
-        System.out.println("2. View all Lease");
-        System.out.println("3. View Overdue Lease");
-        System.out.println("4. Terminate a Lease");
-        System.out.println("0. Back");
+    public static void displayLeaseManagementMenu(UserRole role) {
+        if (role.getRole().equals(UserRole.Role.AGENT)) {
+            System.out.println("\n--- LEASE MANAGEMENT ---");
+            System.out.println("1. Create a Lease");
+            System.out.println("2. View all Lease");
+            System.out.println("3. View Overdue Lease");
+            System.out.println("4. Terminate a Lease");
+            System.out.println("5. Accept Lease Request");
+            System.out.println("0. Back");
+        } 
+        else if (role.getRole().equals(UserRole.Role.STAFF)) {
+            System.out.println("\n--- LEASE MANAGEMENT ---");
+            System.out.println("1. Create a Lease");
+            System.out.println("2. View all Lease");
+            System.out.println("3. View Overdue Lease");
+            System.out.println("4. Terminate a Lease");
+            System.out.println("0. Back");
+        }
+
+        else if (role.getRole().equals(UserRole.Role.LANDLORD)) {
+            System.out.println("\n--- LEASE MANAGEMENT ---");
+            System.out.println("1. View Current Leases for My Properties");
+            System.out.println("2. View Overdue Leases for My Properties");
+            System.out.println("0. Back");
+        }
+        else if (role.getRole().equals(UserRole.Role.TENANT)) {
+            System.out.println("\n--- LEASE MANAGEMENT ---");
+            System.out.println("1. View My Lease");
+            System.out.println("2. View Payment History for My Lease");
+            System.out.println("0. Back");
+        }
     }
     // =========================================================================================
 
     // Payment Management Menu
     // =========================================================================================
-    public static void displayPaymentManagemet() {
-        System.out.println("\n--- PAYMENT MANAGEMENT ---");
-        System.out.println("1. Record a Payment");
-        System.out.println("2. View all Payment History");
-        System.out.println("3. View Payment History for a Lease");
-        System.out.println("0. Back");
-    }
+
     // =========================================================================================
 
     // Report Menu

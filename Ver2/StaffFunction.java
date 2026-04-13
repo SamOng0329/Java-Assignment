@@ -1,6 +1,8 @@
 import java.time.LocalDate;
 import java.util.Scanner;
 
+import files1.User;
+
 public class StaffFunction {
     // Staff Main Menu
     // ==========================================================
@@ -11,17 +13,17 @@ public class StaffFunction {
 
         do {
             try {
-                Uimaterial.displayoperationmenu(loggedUser); // Calling the operation menu from UiMaterial class
+                UiMaterial.displayoperationmenu(loggedUser); // Calling the operation menu from UiMaterial class
                 System.out.print("Enter your choice:");
                 int choice = sc.nextInt();
                 sc.nextLine();
-                Uimaterial.clearscreen();
+                UiMaterial.clearscreen();
 
                 switch (choice) {
                     case 1 -> manageProperty(sc, pf);
                     case 2 -> userManagement(loggedUser, sc, pf);
-                    case 3 -> managePayment(sc, pf);
-                    case 4 -> manageLease(sc, pf);
+                    case 3 -> managePayment(sc, pf, loggedUser);
+                    case 4 -> manageLease(sc, pf, loggedUser);
                     case 5 -> manageReport(sc, pf);
                     case 6 -> manageVisitRequest(sc, pf, loggedUser);
                     case 7 -> loggedUser.displayInfo();
@@ -42,11 +44,11 @@ public class StaffFunction {
 
         do {
             try {
-                Uimaterial.displayUserManagementMenu(loggedUser);
+                UiMaterial.displayUserManagementMenu(loggedUser);
                 System.out.print("Enter your choice: ");
                 int choice = sc.nextInt();
                 sc.nextLine();
-                Uimaterial.clearscreen();
+                UiMaterial.clearscreen();
 
                 switch (choice) {
                     case 1 -> manageTenant(sc, pf);
@@ -71,11 +73,11 @@ public class StaffFunction {
 
         do {
             try {
-                Uimaterial.displayManageTenantMenu();
+                UiMaterial.displayManageTenantMenu();
                 System.out.print("Enter your choice: ");
                 int choice = sc.nextInt();
                 sc.nextLine();
-                Uimaterial.clearscreen();
+                UiMaterial.clearscreen();
 
                 switch (choice) {
                     case 1 -> pf.listAllTenants(); // direct call the funciton
@@ -164,11 +166,11 @@ public class StaffFunction {
 
         do {
             try {
-                Uimaterial.displayManageLandlordMenu();
+                UiMaterial.displayManageLandlordMenu();
                 System.out.print("Enter your choice: ");
                 int choice = sc.nextInt();
                 sc.nextLine();
-                Uimaterial.clearscreen();
+                UiMaterial.clearscreen();
 
                 switch (choice) {
                     case 1 -> pf.listAllLandlord();
@@ -240,11 +242,11 @@ public class StaffFunction {
         boolean back = false;
         do {
             try {
-                Uimaterial.displayManageAgentMenu();
+                UiMaterial.displayManageAgentMenu();
                 System.out.print("Enter your choice: ");
                 int choice = sc.nextInt();
                 sc.nextLine();
-                Uimaterial.clearscreen();
+                UiMaterial.clearscreen();
                 switch (choice) {
                     case 1 -> pf.listAllAgents();
                     case 2 -> registerAgent(sc, pf);
@@ -311,14 +313,14 @@ public class StaffFunction {
 
     // Manage Lease Function
     // ==========================================================
-    public static void manageLease(Scanner sc, PropertyFunction pf) {
+    public static void manageLease(Scanner sc, PropertyFunction pf,UserRole loggedUser) {
         boolean back = false;
         do {
-            Uimaterial.displayLeaseManagementMenu();
+            UiMaterial.displayLeaseManagementMenu(loggedUser);
             System.out.print("Enter your choice: ");
             int choice = sc.nextInt();
             sc.nextLine();
-            Uimaterial.clearscreen();
+            UiMaterial.clearscreen();
             switch (choice) {
                 case 1 -> createLease(sc, pf);
                 case 2 -> viewAllLease(sc, pf);
@@ -352,7 +354,7 @@ public class StaffFunction {
             String endDate = sc.nextLine();
             LocalDate end = LocalDate.parse(endDate);
             double rent = pf.findPropertyById(propId).getListingPrice();
-            pf.createLeaseRecord(propId, tenantId, agentId, start, end, rent);
+            pf.createLeaseRecord(propId, tenantId, agentId, start, end, rent, false);
         } catch (Exception e) {
             System.out.println("Invalid input. Please try again.");
             sc.nextLine();
@@ -396,19 +398,20 @@ public class StaffFunction {
         lease.terminationLease();
         System.out.println("[SUCCESS] Lease " + leaseId + " has been terminated.");
     }
+
     // ==========================================================
 
     // Payment management
     // ==========================================================
-    public static void managePayment(Scanner sc, PropertyFunction pf) {
+    public static void managePayment(Scanner sc, PropertyFunction pf, UserRole loggedUser) {
         boolean back = false;
         do {
             try {
-                Uimaterial.displayPaymentManagementMenu();
+                UiMaterial.displayPaymentManagementMenu(loggedUser);
                 System.out.print("Enter your choice: ");
                 int choice = sc.nextInt();
                 sc.nextLine();
-                Uimaterial.clearscreen();
+                UiMaterial.clearscreen();
                 switch (choice) {
                     case 1 -> pf.listAllPayments();
                     case 2 -> createPayment(sc, pf);
@@ -489,11 +492,11 @@ public class StaffFunction {
         boolean back = false;
         do {
             try {
-                Uimaterial.displayReportMenu();
+                UiMaterial.displayReportMenu();
                 System.out.print("Enter your choice: ");
                 int choice = sc.nextInt();
                 sc.nextLine();
-                Uimaterial.clearscreen();
+                UiMaterial.clearscreen();
                 switch (choice) {
                     case 1 -> pf.generatePropertyReport();
                     case 2 -> pf.generateAgentPerformanceReport();
@@ -514,11 +517,11 @@ public class StaffFunction {
         boolean back = false;
         do {
             try {
-                Uimaterial.displayPropertyManagementMenu();
+                UiMaterial.displayPropertyManagementMenu();
                 System.out.print("Enter your choice: ");
                 int choice = sc.nextInt();
                 sc.nextLine();
-                Uimaterial.clearscreen();
+                UiMaterial.clearscreen();
                 switch (choice) {
                     case 1 -> pf.listAllProperties();
                     case 2 -> addResidentialProperty(sc, pf);
@@ -545,6 +548,9 @@ public class StaffFunction {
             double price = sc.nextDouble();
             System.out.print("Size (sqft): ");
             double sqft = sc.nextDouble();
+            System.out.print("Landlord ID: ");
+            String landlordId = sc.nextLine();
+            Landlord landlord = pf.findLandlordById(landlordId);
             sc.nextLine();
 
             ResidentialProperty.ResidentialType resType = null;
@@ -569,7 +575,7 @@ public class StaffFunction {
             boolean furnished = sc.nextBoolean();
             sc.nextLine();
 
-            pf.addResidentialProperty(location, price, sqft, resType, bed, bath, furnished);
+            pf.addResidentialProperty(location, price, sqft, resType, bed, bath, furnished, landlord);
         } catch (Exception e) {
             System.out.println("Invalid input!");
             sc.nextLine();
@@ -585,6 +591,9 @@ public class StaffFunction {
             double price = sc.nextDouble();
             System.out.print("Size (sqft): ");
             double sqft = sc.nextDouble();
+            System.out.print("Landlord ID: ");
+            String landlordId = sc.nextLine();
+            Landlord landlord = pf.findLandlordById(landlordId);
             sc.nextLine();
 
             CommercialProperty.CommercialType commType = null;
@@ -606,7 +615,7 @@ public class StaffFunction {
             boolean loadingDock = sc.nextBoolean();
             sc.nextLine();
 
-            pf.addCommercialProperty(location, price, sqft, commType, parking, loadingDock);
+            pf.addCommercialProperty(location, price, sqft, commType, parking, loadingDock, landlord);
         } catch (Exception e) {
             System.out.println("Invalid input!");
             sc.nextLine();
@@ -670,11 +679,11 @@ public class StaffFunction {
         boolean back = false;
         do {
             try {
-                Uimaterial.displayVisitRequestMenu(loggedUser);
+                UiMaterial.displayVisitRequestMenu(loggedUser);
                 System.out.print("Enter your choice: ");
                 int choice = sc.nextInt();
                 sc.nextLine();
-                Uimaterial.clearscreen();
+                UiMaterial.clearscreen();
                 switch (choice) {
                     case 1 -> pf.listAllVisitRequests();
                     case 2 -> {

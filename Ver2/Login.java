@@ -3,7 +3,7 @@ public class Login {
     public static void main (String[] args){
         Scanner scanner = new Scanner(System.in);
         PropertyFunction pf  = PropertyFunction.getInstance();
-        Uimaterial.clearscreen();
+        UiMaterial.clearscreen();
 
         boolean Running = false;
         do {
@@ -17,7 +17,7 @@ public class Login {
             scanner.nextLine();
             switch (choice){
                 case 1:
-                    Uimaterial.clearscreen();
+                    UiMaterial.clearscreen();
 
                     System.out.print("Enter username: ");
                     String username = scanner.nextLine();
@@ -48,7 +48,7 @@ public class Login {
                         }
                         else if (loggedUser.getRole().equals(UserRole.Role.LANDLORD)) {
                             LandLordUI landLordUI = new LandLordUI();
-                            landLordUI.displayLandLordMenu(loggedUser);
+                            landLordUI.landLordMenu(loggedUser);
                         }
                         
                         else {
@@ -57,7 +57,7 @@ public class Login {
                         
                         
                     } else {
-                        Uimaterial.clearscreen();
+                        UiMaterial.clearscreen();
                         System.out.println("Invalid username or password. Please try again.");
                     }
                     break;
@@ -76,7 +76,7 @@ public class Login {
                     String newPassword = scanner.nextLine();
                     
                     Tenant newTenant = pf.registerTenant(name, email, phone, ic, newUsername, newPassword);
-                    Uimaterial.clearscreen();
+                    UiMaterial.clearscreen();
 
                     if (newTenant != null) {
                         System.out.println("Registration successful! You can now log in with your credentials.");
@@ -94,7 +94,7 @@ public class Login {
             }
         }
             catch (Exception e){
-                Uimaterial.clearscreen();
+                UiMaterial.clearscreen();
                 System.out.println("Invalid input. Please try again.");
                 scanner.nextLine();
             }
