@@ -505,18 +505,25 @@ public class AgentUI {
         System.out.println("Tenant ID: ");
         String TenId = sc.nextLine();
         Tenant tenant = pf.findTenantById(TenId);
+        int choice = 0;
         if (tenant != null) {
-            System.out.println("Which detail you want to update?");
-            System.out.println("1. Name\n2. IC Number\n3. Phone\n4. Email");
-            System.out.print("Enter Choice");
-            int choice = sc.nextInt();
-            sc.nextLine();
+            do{
+                System.out.println("\nWhich detail you want to update?");
+                System.out.println("=".repeat(20));
+                System.out.println("| 1. Name          |\n| 2. IC Number     |\n| 3. Phone         |\n| 4. Email         |");
+                System.out.println("=".repeat(20));
+                System.out.print("| Enter Choice: ");
+                choice = sc.nextInt();
+                System.out.println("=".repeat(20));
+                sc.nextLine();
+                
+            }while(choice >= 5 || choice <= 0);
 
             System.out.print("Enter the value you want to update: ");
             String newValue = sc.nextLine();
             pf.updateTenantDetails(TenId, choice, newValue);
         } else {
-            System.out.println("Tenant not found.");
+            System.out.println("\nTenant not found. ");
         }
     }
 
