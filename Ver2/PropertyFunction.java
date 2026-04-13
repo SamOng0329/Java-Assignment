@@ -244,15 +244,15 @@ public class PropertyFunction {
             }
 
             case 3 -> {
-                fieldName = "Email";
-                oldValue = t.getEmail();
-                t.setEmail(newValue);
-            }
-
-            case 4 -> {
                 fieldName = "Phone";
                 oldValue = t.getPhone();
                 t.setPhone(newValue);
+            }
+
+            case 4 -> {
+                fieldName = "Email";
+                oldValue = t.getEmail();
+                t.setEmail(newValue);
             }
 
             default -> {
