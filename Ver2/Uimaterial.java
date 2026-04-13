@@ -77,7 +77,7 @@ public class Uimaterial {
 
     // Manage Tenant Menu
     public static void displayManageTenantMenu() {
-        System.out.println("\n===== Manage Tenant =====");
+        System.out.println("\n======== Manage Tenant ========");
         System.out.println("1. List of Tenant");
         System.out.println("2. Register Tenant");
         System.out.println("3. Edit Tenant Profile");
@@ -87,7 +87,7 @@ public class Uimaterial {
 
     // Manage Landlord Menu
     public static void displayManageLandlordMenu() {
-        System.out.println("\n===== Manage Landlord =====");
+        System.out.println("\n======== Manage Landlord ========");
         System.out.println("1. List of Landlord");
         System.out.println("2. Register Landlord");
         System.out.println("3. Edit Landlord Profile");
@@ -97,7 +97,7 @@ public class Uimaterial {
 
     // Manage Agent Menu
     public static void displayManageAgentMenu() {
-        System.out.println("\n===== Manage Agent =====");
+        System.out.println("\n======== Manage Agent ========");
         System.out.println("1. List of Agent");
         System.out.println("2. Register Agent");
         System.out.println("3. Edit Agent Profile");
@@ -116,7 +116,7 @@ public class Uimaterial {
 
     // Edit Profile First Menu (used in StaffMain)
     public static void editprofileFirstMenu(UserRole role) {
-        System.out.println("\n===== Edit Profile =====");
+        System.out.println("\n======== Edit Profile ========");
         System.out.println("1. Edit Tenant Profile");
         System.out.println("2. Edit Landlord Profile");
         System.out.println("3. Edit Agent Profile");
