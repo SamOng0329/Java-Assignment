@@ -599,11 +599,18 @@ public class AgentUI {
             System.out.println("Landlord not found.");
             return;
         }
-        System.out.println("Which detail you want to update?");
-        System.out.println("1. Name\n2. Email\n3. Phone");
-        System.out.print("Enter Choice: ");
-        int choice = sc.nextInt();
-        sc.nextLine();
+       int choice = 0;
+        do{
+                System.out.println("\nWhich detail you want to update?");
+                System.out.println("=".repeat(20));
+                System.out.println("| 1. Name          |\n| 2. Email         |\n| 3. Phone         |");
+                System.out.println("=".repeat(20));
+                System.out.print("| Enter Choice: ");
+                choice = sc.nextInt();
+                System.out.println("=".repeat(20));
+                sc.nextLine();
+                
+            }while(choice >= 4 || choice <= 0);
         System.out.print("Enter new value: ");
         String newValue = sc.nextLine();
         pf.updateLandlordDetails(id, choice, newValue);
