@@ -214,7 +214,7 @@ public class AgentUI {
             sc.nextLine();
             UiMaterial.clearscreen();
             switch (choice) {
-                case 1 -> createLease(sc, pf);
+                case 1 -> createLease(sc, pf, loggedUser);
                 case 2 -> viewAllLease(sc, pf, loggedUser);
                 case 3 -> viewOverdueLease(sc, pf, loggedUser);
                 case 4 -> terminateLease(sc, pf, (Agent) loggedUser.getLinkedPerson());
@@ -226,18 +226,18 @@ public class AgentUI {
     }
 
     // Create lease
-    public static void createLease(Scanner sc, PropertyFunction pf) {
+    public static void createLease(Scanner sc, PropertyFunction pf, UserRole loggedUser) {
         try {
             System.out.print("\n--- Create Lease ---\n");
             System.out.print("Property ID: ");
             String propId = sc.nextLine();
             System.out.print("Tenant ID: ");
             String tenantId = sc.nextLine();
-            System.out.print("Agent ID (press Enter to skip): ");
-            String agentId = sc.nextLine();
+            String agentId = loggedUser.getLinkedPerson().getPersonId();
 
-            if (agentId.isEmpty()) {
-                agentId = null;
+            if (agentId.isEmpty()|| tenantId.isEmpty() || propId.isEmpty()) {
+                System.out.println("Error: Property ID, Tenant ID and Agent ID cannot be empty.");
+                return;
             }
 
             System.out.print("Start Date (YYYY-MM-DD): ");
@@ -533,6 +533,7 @@ public class AgentUI {
         int choice = 0;
         if (tenant != null) {
             do{
+                try{
                 System.out.println("\nWhich detail you want to update?");
                 System.out.println("=".repeat(20));
                 System.out.println("| 1. Name          |\n| 2. IC Number     |\n| 3. Phone         |\n| 4. Email         |");
@@ -540,7 +541,11 @@ public class AgentUI {
                 System.out.print("| Enter Choice: ");
                 choice = sc.nextInt();
                 System.out.println("=".repeat(20));
-                sc.nextLine();
+                sc.nextLine();}
+                catch(Exception e){
+                    System.out.println("Invalid input. Please try again.");
+                    sc.nextLine();
+                }
                 
             }while(choice >= 5 || choice <= 0);
 
@@ -623,6 +628,7 @@ public class AgentUI {
         int choice = 0;
         if (landlord != null) {
             do{
+                try{
                 System.out.println("\nWhich detail you want to update?");
                 System.out.println("=".repeat(20));
                 System.out.println("| 1. Name          |\n| 2. Phone         |\n| 3. Email         |");
@@ -631,6 +637,11 @@ public class AgentUI {
                 choice = sc.nextInt();
                 System.out.println("=".repeat(20));
                 sc.nextLine();
+            }
+                catch(Exception e){
+                    System.out.println("Invalid input. Please try again.");
+                    sc.nextLine();
+                }
                 
             }while(choice >= 4 || choice <= 0);
         System.out.print("Enter new value: ");
@@ -658,6 +669,7 @@ public class AgentUI {
         String id = loggedUser.getLinkedPerson().getPersonId();
         int choice = 0;
         do{
+            try{
                 System.out.println("\nWhich detail you want to update?");
                 System.out.println("=".repeat(20));
                 System.out.println("| 1. Name          |\n| 2. Phone         |\n| 3. Email         |");
@@ -665,7 +677,11 @@ public class AgentUI {
                 System.out.print("| Enter Choice: ");
                 choice = sc.nextInt();
                 System.out.println("=".repeat(20));
-                sc.nextLine();
+                sc.nextLine();}
+                catch(Exception e){
+                    System.out.println("Invalid input. Please try again.");
+                    sc.nextLine();
+                }
                 
             }while(choice >= 4 || choice <= 0);
         System.out.print("Enter new value: ");

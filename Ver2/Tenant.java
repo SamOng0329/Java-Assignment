@@ -1,8 +1,11 @@
 //package Assignment;
 
+import java.util.ArrayList;
+
 public class Tenant extends UserInfo {
     private String icNumber;
     private boolean overduePayment;
+
 
     // constructor
     public Tenant(String tenantId, String name, String email, String phone, String icNumber) {
@@ -37,6 +40,9 @@ public class Tenant extends UserInfo {
     public  String getTenantId() {
         return super.getPersonId();
     }
+
+
+
 
 
   

@@ -126,6 +126,8 @@ public class PropertyFunction {
         addResidentialProperty("123 Main St", 1500.00, 850, ResidentialProperty.ResidentialType.APARTMENT, 2, 1, true, l1);
         createLeaseRecord("RES001", "TEN001", "AGT001", LocalDate.of(2025, 3, 1), LocalDate.of(2026, 4, 28), 1500.00, true);
         requestVisit("TEN001", "RES001","AGT001", LocalDate.of(2025, 2, 20));
+
+  
     }
 
     public boolean login(String username, String password) {
@@ -589,6 +591,11 @@ public class PropertyFunction {
             return false;
         }
         propertyList.remove(p);
+
+        for (Landlord l : landlordList) {
+            l.removeProperty(p);
+        }
+        
         System.out.println("[SUCCESS] Property " + propertyId + " deleted.");
         return true;
     }
@@ -903,6 +910,27 @@ public class PropertyFunction {
         return matchedRequests;
     }
 
+    public ArrayList<VisitRequest> findVisitRequestsByTenantId(String tenantId) {
+        ArrayList<VisitRequest> matchedRequests = new ArrayList<>();
+        for (VisitRequest request : visitRequestList) {
+            if (request.getTenant().getPersonId().equals(tenantId)) {
+                matchedRequests.add(request);
+            }
+        }
+        return matchedRequests;
+    }
+
+    public void listVisitRequestsByTenant(String tenantId) {
+        ArrayList<VisitRequest> requests = findVisitRequestsByTenantId(tenantId);
+        if (requests.isEmpty()) {
+            System.out.println("  No visit requests found for tenant: " + tenantId);
+            return;
+        }
+        for (VisitRequest vr : requests) {
+            vr.displayInfo();
+        }
+    }
+
 
     public VisitRequest findVisitRequestById(String requestId) {
         for (VisitRequest vr : visitRequestList) {
@@ -951,6 +979,9 @@ public class PropertyFunction {
         }
 
     }
+
+
+
 
 
     

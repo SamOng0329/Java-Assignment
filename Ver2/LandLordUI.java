@@ -197,11 +197,16 @@ public void landLordMenu(UserRole loggedUser) {
             return;
         }
         pf.deleteProperty(id);
+
     }
 
     public static void listownedProperty(UserRole loggedUser) {
         Landlord landlord = (Landlord) loggedUser.getLinkedPerson();
         System.out.println("\n--- Your Owned Properties ---");
+        if( landlord.getOwnedProperty().isEmpty()){
+            System.out.println("You do not have any properties yet.");
+            return;
+        }
         for (Property p : landlord.getOwnedProperty()) {
             p.displayInfo();
         }
@@ -347,15 +352,27 @@ public void landLordMenu(UserRole loggedUser) {
 
     public static void editAgentProfile(Scanner sc, PropertyFunction pf,UserRole loggedUser) {
         
-        String id = loggedUser.getLinkedPerson().getPersonId();
-        System.out.println("Which detail you want to update?");
-        System.out.println("1. Name\n2. Email\n3. Phone");
-        System.out.print("Enter Choice: ");
-        int choice = sc.nextInt();
-        sc.nextLine();
+     String id = loggedUser.getLinkedPerson().getPersonId();
+        int choice = 0;
+        do{
+            try{
+                System.out.println("\nWhich detail you want to update?");
+                System.out.println("=".repeat(20));
+                System.out.println("| 1. Name          |\n| 2. Phone         |\n| 3. Email         |");
+                System.out.println("=".repeat(20));
+                System.out.print("| Enter Choice: ");
+                choice = sc.nextInt();
+                System.out.println("=".repeat(20));
+                sc.nextLine();
+            }            
+            catch(Exception e){
+                System.out.println("Invalid input. Please try again.");
+                sc.nextLine();
+            }
+            }while(choice >= 4 || choice <= 0);
         System.out.print("Enter new value: ");
         String newValue = sc.nextLine();
-        pf.updateAgentDetails(id, choice, newValue);
+        pf.updateLandlordDetails(id, choice, newValue);
     }
 
 

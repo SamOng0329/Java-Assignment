@@ -4,7 +4,6 @@ public class Login {
         Scanner scanner = new Scanner(System.in);
         PropertyFunction pf  = PropertyFunction.getInstance();
         UiMaterial.clearscreen();
-
         boolean Running = false;
         do {
             try{
@@ -36,7 +35,7 @@ public class Login {
 
                         if (loggedUser.getRole().equals(UserRole.Role.TENANT)) {
                             TenantUI tenantUI = new TenantUI();
-                            tenantUI.displayTenantMenu(loggedUser);
+                            tenantUI.tenantMenu(loggedUser);
                         }
                         else if (loggedUser.getRole().equals(UserRole.Role.STAFF)) {
                             StaffFunction staffUI = new StaffFunction();

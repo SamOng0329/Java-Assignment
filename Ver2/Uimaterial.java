@@ -27,10 +27,11 @@ public class UiMaterial {
         System.out.println("\nChoose an option: ");
         if (role.getRole().equals(UserRole.Role.TENANT)) {
             System.out.println("1. View Available Properties");
-            System.out.println("2. View My Rental status");
-            System.out.println("3. Edit profile");
-            System.out.println("4. Show profile");
-            System.out.println("5. Logout");
+            System.out.println("2. Manage Rental status");
+            System.out.println("3. Manage Visit Requests");
+            System.out.println("4. Edit profile");
+            System.out.println("5. Show profile");
+            System.out.println("6. Logout");
         } else if (role.getRole().equals(UserRole.Role.STAFF)) {
             System.out.println("1. Manage Properties");
             System.out.println("2. Manage Users");
@@ -219,7 +220,8 @@ public class UiMaterial {
         else if (role.getRole().equals(UserRole.Role.TENANT)) {
             System.out.println("\n--- LEASE MANAGEMENT ---");
             System.out.println("1. View My Lease");
-            System.out.println("2. View Payment History for My Lease");
+            System.out.println("2. New Rental Application");
+            System.out.println("3. View Payment History for My Lease");
             System.out.println("0. Back");
         }
     }

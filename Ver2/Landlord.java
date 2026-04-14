@@ -39,7 +39,9 @@ public class Landlord extends UserInfo {
     public ArrayList<Property> getOwnedProperty() {
         return ownedProperty;
     }
-
+    public void removeProperty(Property p) {
+        ownedProperty.remove(p);
+    }
 
     // toString method add later
     @Override

@@ -122,6 +122,7 @@ public class StaffFunction {
         int choice = 0;
         if (tenant != null) {
             do{
+                try{
                 System.out.println("\nWhich detail you want to update?");
                 System.out.println("=".repeat(20));
                 System.out.println("| 1. Name          |\n| 2. IC Number     |\n| 3. Phone         |\n| 4. Email         |");
@@ -130,6 +131,10 @@ public class StaffFunction {
                 choice = sc.nextInt();
                 System.out.println("=".repeat(20));
                 sc.nextLine();
+                }catch(Exception e){
+                    System.out.println("Invalid input. Please try again.");
+                    sc.nextLine();
+                }
                 
             }while(choice >= 5 || choice <= 0);
 
@@ -209,18 +214,31 @@ public class StaffFunction {
         System.out.print("Enter Landlord ID: ");
         String id = sc.nextLine();
         Landlord landlord = pf.findLandlordById(id);
-        if (landlord == null) {
-            System.out.println("Landlord not found.");
-            return;
-        }
-        System.out.println("Which detail you want to update?");
-        System.out.println("1. Name\n2. Email\n3. Phone");
-        System.out.print("Enter Choice: ");
-        int choice = sc.nextInt();
-        sc.nextLine();
+        int choice = 0;
+        if (landlord != null) {
+            do{
+                try{
+                System.out.println("\nWhich detail you want to update?");
+                System.out.println("=".repeat(20));
+                System.out.println("| 1. Name          |\n| 2. Phone         |\n| 3. Email         |");
+                System.out.println("=".repeat(20));
+                System.out.print("| Enter Choice: ");
+                choice = sc.nextInt();
+                System.out.println("=".repeat(20));
+                sc.nextLine();
+            }
+                catch(Exception e){
+                    System.out.println("Invalid input. Please try again.");
+                    sc.nextLine();
+                }
+                
+            }while(choice >= 4 || choice <= 0);
         System.out.print("Enter new value: ");
         String newValue = sc.nextLine();
-        pf.updateLandlordDetails(id, choice, newValue);
+        pf.updateLandlordDetails(id, choice, newValue);}
+        else{
+            System.out.println("Landlord not found.");
+        }
     }
 
     // Delete Landlord Profile
@@ -284,18 +302,31 @@ public class StaffFunction {
         System.out.print("Enter Agent ID: ");
         String id = sc.nextLine();
         Agent agent = pf.findAgentById(id);
-        if (agent == null) {
-            System.out.println("Agent not found.");
-            return;
-        }
-        System.out.println("Which detail you want to update?");
-        System.out.println("1. Name\n2. Email\n3. Phone");
-        System.out.print("Enter Choice: ");
-        int choice = sc.nextInt();
-        sc.nextLine();
+        int choice = 0;
+        if (agent != null) {
+            do{
+                try{
+                System.out.println("\nWhich detail you want to update?");
+                System.out.println("=".repeat(20));
+                System.out.println("| 1. Name          |\n| 2. Phone         |\n| 3. Email         |");
+                System.out.println("=".repeat(20));
+                System.out.print("| Enter Choice: ");
+                choice = sc.nextInt();
+                System.out.println("=".repeat(20));
+                sc.nextLine();
+            }
+                catch(Exception e){
+                    System.out.println("Invalid input. Please try again.");
+                    sc.nextLine();
+                }
+                
+            }while(choice >= 4 || choice <= 0);
         System.out.print("Enter new value: ");
         String newValue = sc.nextLine();
-        pf.updateAgentDetails(id, choice, newValue);
+        pf.updateAgentDetails(id, choice, newValue);}
+        else{
+            System.out.println("Agent not found.");
+        }
     }
 
     // Delete Agent Profile
@@ -340,11 +371,12 @@ public class StaffFunction {
             String propId = sc.nextLine();
             System.out.print("Tenant ID: ");
             String tenantId = sc.nextLine();
-            System.out.print("Agent ID (press Enter to skip): ");
+            System.out.print("Agent ID : ");
             String agentId = sc.nextLine();
 
-            if (agentId.isEmpty()) {
-                agentId = null;
+            if (agentId.isEmpty()|| tenantId.isEmpty() || propId.isEmpty()) {
+                System.out.println("Error: Property ID, Tenant ID and Agent ID cannot be empty.");
+                return;
             }
 
             System.out.print("Start Date (YYYY-MM-DD): ");
