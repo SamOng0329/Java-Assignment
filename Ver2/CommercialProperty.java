@@ -51,8 +51,8 @@ public class CommercialProperty extends Property {
     @Override
     public void displayInfo() {
         super.displayInfo();
-        System.out.printf("%-16s : %d\n", "Parking Spots", numParkingSpots);
-        System.out.printf("%-16s : %s\n", "Loading Dock", (hasLoadingDock ? "Yes" : "No"));
+        System.out.printf("| %-16s : %d\n", "Parking Spots", numParkingSpots);
+        System.out.printf("| %-16s : %s\n", "Loading Dock", (hasLoadingDock ? "Yes" : "No"));
         System.out.println("=".repeat(40));
         System.out.println("\n");
     }
