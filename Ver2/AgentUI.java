@@ -1,7 +1,6 @@
 import java.time.LocalDate;
 import java.util.Scanner;
 
-import files1.User;
 
 public class AgentUI {
    public void agentMenu(UserRole loggedUser) {

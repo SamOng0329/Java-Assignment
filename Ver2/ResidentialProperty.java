@@ -1,5 +1,3 @@
-// package Assignment;
-
 public class ResidentialProperty extends Property {
     private int numBedrooms;
     private int numBathrooms;

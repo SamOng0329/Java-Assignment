@@ -1,8 +1,6 @@
 import java.time.LocalDate;
 import java.util.Scanner;
 
-import files1.User;
-
 public class StaffFunction {
     // Staff Main Menu
     // ==========================================================

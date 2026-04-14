@@ -1,7 +1,3 @@
-//package Assignment;
-
-import java.util.ArrayList;
-
 public class Tenant extends UserInfo {
     private String icNumber;
     private boolean overduePayment;

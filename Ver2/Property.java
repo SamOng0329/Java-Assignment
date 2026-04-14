@@ -1,5 +1,3 @@
-// package Assignment;
-
 public abstract class Property {
 
     public enum PropertyStatus {

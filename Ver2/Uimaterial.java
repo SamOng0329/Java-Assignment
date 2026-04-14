@@ -1,5 +1,3 @@
-import files1.User;
-
 public class UiMaterial {
 
     // Banner

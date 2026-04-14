@@ -1,5 +1,3 @@
-// package Assignment;
-
 public class CommercialProperty extends Property {
 
     public enum CommercialType {
