@@ -35,11 +35,11 @@ public class PropertyFunction {
 
     // Auto-increment ID counters
     private int propertyCount = 1;
-    private int tenantCount = 2;  // Start from 2 since we already have 1 tenant initialized
-    private int agentCount = 2;   // Start from 2 since we already have 1 agent initialized
+    private int tenantCount = 1;  
+    private int agentCount = 1;     
     private int leaseCount = 1;
     private int paymentCount = 1;
-    private int landlordCount = 2;  // Start from 2 since we already have 1 landlord initialized
+    private int landlordCount = 1;  
     private int visitRequestCount = 1;
 
     // Getters
@@ -114,17 +114,38 @@ public class PropertyFunction {
     }
 
     public void initializeUsers() {
+        // Dummy Roles
         addAdmin(new UserRole("admin", "admin123", UserRole.Role.STAFF));
-        Tenant t1 = new Tenant("TEN001", "John Doe", "john.doe@example.com", "1234567890", "S12345678");
-        addTenant(t1, new UserRole("johndoe", "password123", UserRole.Role.TENANT, t1));
-        Agent a1 = new Agent("AGT001", "Jane Doe", "jane.doe@example.com", "0987654321");
-        addAgent(a1, new UserRole("janedoe", "password456", UserRole.Role.AGENT, a1));
-        Landlord l1 = new Landlord("LAN001", "Jace Doe", "jace.doe@example.com", "1111111111");
-        addLandLord(l1, new UserRole("jacedoe", "password789", UserRole.Role.LANDLORD, l1));
-        addResidentialProperty("123 Main St", 1500.00, 850, ResidentialProperty.ResidentialType.APARTMENT, 2, 1, true, l1);
-        addResidentialProperty("456 Elm St", 2500.00, 1200, ResidentialProperty.ResidentialType.HOUSE, 3, 2, false, l1);
+        
+        Tenant t1 = new Tenant("TEN001", "Tan Mei Xin", "meixin@gmail.com", "0123456789", "001234145678");
+        addTenant(t1, new UserRole("meixin", "meixin123", UserRole.Role.TENANT, t1));
+        Tenant t2 = new Tenant("TEN002", "Chong Wen Liang", "wenliang@gmail.com", "0134567890", "011234145679");
+        addTenant(t2, new UserRole("wenliang", "wenliang123", UserRole.Role.TENANT, t2));
+        
+        Agent a1 = new Agent("AGT001", "Lim Jie Ying", "jieying@gmail.com", "0198765432");
+        addAgent(a1, new UserRole("jieying", "jieying123", UserRole.Role.AGENT, a1));
+        Agent a2 = new Agent("AGT002", "Ahmad bin Ali", "ahmad@gmail.com", "0188765432");
+        addAgent(a2, new UserRole("ahmad", "ahmad123", UserRole.Role.AGENT, a2));
+        
+        Landlord l1 = new Landlord("LAN001", "Wong Kah Hooi", "kahhooi@gmail.com", "0111111111");
+        addLandLord(l1, new UserRole("kahhooi", "kahhooi123", UserRole.Role.LANDLORD, l1));
+        Landlord l2 = new Landlord("LAN002", "Goh Mei Ling", "meiling@gmail.com", "0121111111");
+        addLandLord(l2, new UserRole("meiling", "meiling123", UserRole.Role.LANDLORD, l2));
+        
+        addResidentialProperty("Jalan Ampang, KL", 1500.00, 850, ResidentialProperty.ResidentialType.APARTMENT, 2, 1, true, l1);
+        addResidentialProperty("Setapak, KL", 2500.00, 1200, ResidentialProperty.ResidentialType.HOUSE, 3, 2, false, l2);
+        
+        addCommercialProperty("Taman Teratai, Serendah", 5000.00, 2000, CommercialProperty.CommercialType.OFFICE, 10, false, l1);
+        addCommercialProperty("Taman Melati, KL", 6000.00, 2500, CommercialProperty.CommercialType.RETAIL, 5, true, l2);
+
         createLeaseRecord("RES001", "TEN001", "AGT001", LocalDate.of(2025, 3, 1), LocalDate.of(2026, 4, 28), 1500.00, true);
-        requestVisit("TEN001", "RES002","AGT001", LocalDate.of(2026, 5, 20));
+        createLeaseRecord("COM001", "TEN002", "AGT002", LocalDate.of(2024, 1, 1), LocalDate.of(2025, 1, 1), 5000.00, true);
+        
+        requestVisit("TEN001", "RES002", "AGT001", LocalDate.of(2026, 5, 20));
+        requestVisit("TEN002", "COM002", "AGT002", LocalDate.of(2026, 6, 15));
+        
+        createPaymentRecord("LEA001", 1500.00, "Credit Card");
+        createPaymentRecord("LEA002", 5000.00, "Bank Transfer");
     }
 
     public boolean login(String username, String password) {
