@@ -117,20 +117,14 @@ public class PropertyFunction {
         // Dummy Roles
         addAdmin(new UserRole("admin", "admin123", UserRole.Role.STAFF));
         
-        Tenant t1 = new Tenant("TEN001", "Tan Mei Xin", "meixin@gmail.com", "0123456789", "001234145678");
-        addTenant(t1, new UserRole("meixin", "meixin123", UserRole.Role.TENANT, t1));
-        Tenant t2 = new Tenant("TEN002", "Chong Wen Liang", "wenliang@gmail.com", "0134567890", "011234145679");
-        addTenant(t2, new UserRole("wenliang", "wenliang123", UserRole.Role.TENANT, t2));
+        Tenant t1 = registerTenant("Tan Mei Xin", "meixin@gmail.com", "0123456789", "001234145678", "meixin", "meixin123");
+        Tenant t2 = registerTenant("Chong Wen Liang", "wenliang@gmail.com", "0134567890", "011234145679", "wenliang", "wenliang123");
         
-        Agent a1 = new Agent("AGT001", "Lim Jie Ying", "jieying@gmail.com", "0198765432");
-        addAgent(a1, new UserRole("jieying", "jieying123", UserRole.Role.AGENT, a1));
-        Agent a2 = new Agent("AGT002", "Ahmad bin Ali", "ahmad@gmail.com", "0188765432");
-        addAgent(a2, new UserRole("ahmad", "ahmad123", UserRole.Role.AGENT, a2));
+        Agent a1 = registerAgent("Lim Jie Ying", "jieying@gmail.com", "0198765432", "jieying", "jieying123");
+        Agent a2 = registerAgent("Ahmad bin Ali", "ahmad@gmail.com", "0188765432", "ahmad", "ahmad123");
         
-        Landlord l1 = new Landlord("LAN001", "Wong Kah Hooi", "kahhooi@gmail.com", "0111111111");
-        addLandLord(l1, new UserRole("kahhooi", "kahhooi123", UserRole.Role.LANDLORD, l1));
-        Landlord l2 = new Landlord("LAN002", "Goh Mei Ling", "meiling@gmail.com", "0121111111");
-        addLandLord(l2, new UserRole("meiling", "meiling123", UserRole.Role.LANDLORD, l2));
+        Landlord l1 = registerLandlord("Wong Kah Hooi", "kahhooi@gmail.com", "0111111111", "kahhooi", "kahhooi123");
+        Landlord l2 = registerLandlord("Goh Mei Ling", "meiling@gmail.com", "0121111111", "meiling", "meiling123");
 
         addResidentialProperty("Jalan Ampang, KL", 1500.00, 850, ResidentialProperty.ResidentialType.APARTMENT, 2, 1, true, l1);
         addCommercialProperty("Taman Teratai, Serendah", 5000.00, 2000, CommercialProperty.CommercialType.OFFICE, 10, false, l1);
@@ -332,7 +326,7 @@ public class PropertyFunction {
         agentList.add(a);
 
         // Creating a user login
-        UserRole user = new UserRole(username, password, UserRole.Role.AGENT);
+        UserRole user = new UserRole(username, password, UserRole.Role.AGENT, a);
         userRoleList.add(user);
 
         return a;
@@ -436,7 +430,7 @@ public class PropertyFunction {
         landlordList.add(l);
 
         // Creating a user login
-        UserRole user = new UserRole(username, password, UserRole.Role.LANDLORD);
+        UserRole user = new UserRole(username, password, UserRole.Role.LANDLORD, l);
         userRoleList.add(user);
 
         return l;
