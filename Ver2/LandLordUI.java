@@ -18,7 +18,7 @@ public void landLordMenu(UserRole loggedUser) {
                     case 1 -> manageProperty(sc, pf, loggedUser);
                     case 2 -> manageLease(sc, pf, loggedUser);
                     case 3 -> managePayment(sc, pf, loggedUser);
-                    case 4 -> editLandLordProfile(sc, pf, loggedUser);
+                    case 4 -> editLandlordProfile(sc, pf, loggedUser);
                     case 5 -> showProfile(loggedUser);
                     case 6 -> logout = true;
                     default -> System.out.println("Error! ");
@@ -218,6 +218,7 @@ public void landLordMenu(UserRole loggedUser) {
         public static void manageLease(Scanner sc, PropertyFunction pf,UserRole loggedUser) {
         boolean back = false;
         do {
+            try{
             UiMaterial.displayLeaseManagementMenu(loggedUser);
             System.out.print("Enter your choice: ");
             int choice = sc.nextInt();
@@ -227,6 +228,10 @@ public void landLordMenu(UserRole loggedUser) {
                 case 2 -> viewOverdueLease(sc, pf, loggedUser);
                 case 0 -> back = true;
                 default -> System.out.println("Invalid choice. Please try again.");
+            }
+        } catch (Exception e) {
+                System.out.println("Invalid input. Please try again.");
+                sc.nextLine();
             }
         } while (!back);
     }
@@ -336,43 +341,39 @@ public void landLordMenu(UserRole loggedUser) {
     }
 
 
-    public static void editLandLordProfile(Scanner sc, PropertyFunction pf, UserRole loggedUser) {
+  public static void editLandlordProfile(Scanner sc, PropertyFunction pf, UserRole loggedUser) {
+        Landlord landlord = (Landlord) loggedUser.getLinkedPerson();
 
-        String id = loggedUser.getLinkedPerson().getPersonId();
-        System.out.println("Which detail you want to update?");
-        System.out.println("1. Name\n2. Email\n3. Phone");
-        System.out.print("Enter Choice: ");
-        int choice = sc.nextInt();
-        sc.nextLine();
-        System.out.print("Enter new value: ");
-        String newValue = sc.nextLine();
-        pf.updateLandlordDetails(id, choice, newValue);
-    }
-
-    public static void editAgentProfile(Scanner sc, PropertyFunction pf,UserRole loggedUser) {
-        
-     String id = loggedUser.getLinkedPerson().getPersonId();
+        if (landlord == null) {
+            System.out.println("Landlord not found.");
+            return;
+        }
+        System.out.println(landlord);
         int choice = 0;
-        do{
-            try{
+        do {
+            try {
                 System.out.println("\nWhich detail you want to update?");
-                System.out.println("=".repeat(20));
-                System.out.println("| 1. Name          |\n| 2. Phone         |\n| 3. Email         |");
-                System.out.println("=".repeat(20));
+                System.out.println("=".repeat(40));
+                System.out.printf("| 1. Name          : %s%n", landlord.getName());
+                System.out.printf("| 2. Email         : %s%n", landlord.getEmail());
+                System.out.printf("| 3. Phone         : %s%n", landlord.getPhone());
+                System.out.println("=".repeat(40));
                 System.out.print("| Enter Choice: ");
                 choice = sc.nextInt();
-                System.out.println("=".repeat(20));
+                System.out.println("=".repeat(40));
                 sc.nextLine();
-            }            
-            catch(Exception e){
+            } catch (Exception e) {
                 System.out.println("Invalid input. Please try again.");
                 sc.nextLine();
             }
-            }while(choice >= 4 || choice <= 0);
+        } while (choice >= 4 || choice <= 0);
+
         System.out.print("Enter new value: ");
         String newValue = sc.nextLine();
-        pf.updateLandlordDetails(id, choice, newValue);
+        pf.updateLandlordDetails(landlord.getPersonId(), choice, newValue);
     }
+
+
 
 
     public static void showProfile(UserRole loggedUser) {
