@@ -3,10 +3,10 @@ public class Main {
     public static void main (String[] args){
         Scanner scanner = new Scanner(System.in);
         PropertyFunction pf  = PropertyFunction.getInstance();
-        UiMaterial.clearscreen();
         boolean Running = false;
         do {
             try{
+            UiMaterial.displayBanner();
             System.out.println("Choose an option:");
             System.out.println("1. Login");
             System.out.println("2. Register");
@@ -16,8 +16,6 @@ public class Main {
             scanner.nextLine();
             switch (choice){
                 case 1:
-                    UiMaterial.clearscreen();
-
                     System.out.print("Enter username: ");
                     String username = scanner.nextLine();
                     System.out.print("Enter password: ");
@@ -56,7 +54,6 @@ public class Main {
                         
                         
                     } else {
-                        UiMaterial.clearscreen();
                         System.out.println("Invalid username or password. Please try again.");
                     }
                     break;
@@ -75,7 +72,6 @@ public class Main {
                     String newPassword = scanner.nextLine();
                     
                     Tenant newTenant = pf.registerTenant(name, email, phone, ic, newUsername, newPassword);
-                    UiMaterial.clearscreen();
 
                     if (newTenant != null) {
                         System.out.println("Registration successful! You can now log in with your credentials.");
@@ -93,7 +89,6 @@ public class Main {
             }
         }
             catch (Exception e){
-                UiMaterial.clearscreen();
                 System.out.println("Invalid input. Please try again.");
                 scanner.nextLine();
             }

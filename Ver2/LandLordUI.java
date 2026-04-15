@@ -13,7 +13,6 @@ public void landLordMenu(UserRole loggedUser) {
                 System.out.print("Enter your choice:");
                 int choice = sc.nextInt();
                 sc.nextLine();
-                UiMaterial.clearscreen();
 
                 switch (choice) {
                     case 1 -> manageProperty(sc, pf, loggedUser);
@@ -39,7 +38,6 @@ public void landLordMenu(UserRole loggedUser) {
                 System.out.print("Enter your choice: ");
                 int choice = sc.nextInt();
                 sc.nextLine();
-                UiMaterial.clearscreen();
                 switch (choice) {
                     case 1 -> listownedProperty(loggedUser);
                     case 2 -> addResidentialProperty(sc, pf, loggedUser);
@@ -221,7 +219,6 @@ public void landLordMenu(UserRole loggedUser) {
             System.out.print("Enter your choice: ");
             int choice = sc.nextInt();
             sc.nextLine();
-            UiMaterial.clearscreen();
             switch (choice) {
                 case 1 -> viewAllLease(sc, pf, loggedUser);
                 case 2 -> viewOverdueLease(sc, pf, loggedUser);
@@ -272,7 +269,6 @@ public void landLordMenu(UserRole loggedUser) {
                 System.out.print("Enter your choice: ");
                 int choice = sc.nextInt();
                 sc.nextLine();
-                UiMaterial.clearscreen();
                 switch (choice) {
                     case 1 -> viewAllPayments(sc, pf, loggedUser);
                     case 3 -> viewPaymentByLease(sc, pf, loggedUser);

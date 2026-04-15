@@ -1,7 +1,7 @@
 public class UiMaterial {
 
     // Banner
-    public static void displaybanner() {
+    public static void displayBanner() {
         System.out.println(
                 "  _  _                                               _                        _                   ");
         System.out.println(
@@ -24,16 +24,16 @@ public class UiMaterial {
 
         System.out.println("\nChoose an option: ");
         if (role.getRole().equals(UserRole.Role.TENANT)) {
-            System.out.println("=".repeat(10));
+            System.out.println("=".repeat(30));
             System.out.println("1. View Available Properties");
             System.out.println("2. Manage Rental status");
             System.out.println("3. Manage Visit Requests");
             System.out.println("4. Edit profile");
             System.out.println("5. Show profile");
             System.out.println("6. Logout");
-            System.out.println("=".repeat(10));
+            System.out.println("=".repeat(30));
         } else if (role.getRole().equals(UserRole.Role.STAFF)) {
-            System.out.println("=".repeat(10));
+            System.out.println("=".repeat(30));
             System.out.println("1. Manage Properties");
             System.out.println("2. Manage Users");
             System.out.println("3. Manage Payment");
@@ -42,9 +42,9 @@ public class UiMaterial {
             System.out.println("6. Manage Visit Requests");
             System.out.println("7. Show profile");
             System.out.println("8. Logout");
-            System.out.println("=".repeat(10));
+            System.out.println("=".repeat(30));
         } else if (role.getRole().equals(UserRole.Role.AGENT)) {
-            System.out.println("=".repeat(10));
+            System.out.println("=".repeat(30));
             System.out.println("1. Property Management");
             System.out.println("2. Manage Lease");
             System.out.println("3. Manage Visit Requests");
@@ -53,16 +53,16 @@ public class UiMaterial {
             System.out.println("6. Edit profile");
             System.out.println("7. Show profile");
             System.out.println("8. Logout");
-            System.out.println("=".repeat(10));
+            System.out.println("=".repeat(30));
         } else if (role.getRole().equals(UserRole.Role.LANDLORD)) {
-            System.out.println("=".repeat(10));
+            System.out.println("=".repeat(30));
             System.out.println("1. Property Management");
             System.out.println("2. Manage Lease");
             System.out.println("3. Manage Payment");
             System.out.println("4. Edit profile");
             System.out.println("5. Show profile");
             System.out.println("6. Logout");
-            System.out.println("=".repeat(10));
+            System.out.println("=".repeat(30));
         }
     }
 
@@ -247,14 +247,6 @@ public class UiMaterial {
         System.out.println("0. Back");
     }
     // =========================================================================================
-
-    // Clear Screen
-    public static void clearscreen() {
-        System.out.print("\033[H\033[2J");
-        System.out.flush();
-        displaybanner();
-    }
-
 
 
     public static void displayVisitRequestMenu(UserRole role) {

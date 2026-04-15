@@ -13,7 +13,6 @@ public class TenantUI {
                 System.out.print("Enter your choice:");
                 int choice = sc.nextInt();
                 sc.nextLine();
-                UiMaterial.clearscreen();
 
                 switch (choice) {
                     case 1 -> pf.listAllProperties();
@@ -37,7 +36,6 @@ public class TenantUI {
             System.out.print("Enter your choice: ");
             int choice = sc.nextInt();
             sc.nextLine();
-            UiMaterial.clearscreen();
             switch (choice) {
                 case 1 -> viewAllLease(sc, pf, loggedUser);
                 case 2 -> createLease(sc, pf, loggedUser);
@@ -98,7 +96,6 @@ public class TenantUI {
                 System.out.print("Enter your choice: ");
                 int choice = sc.nextInt();
                 sc.nextLine();
-                UiMaterial.clearscreen();
                 switch (choice) {
                     case 1 -> ListVisitRequests(sc, pf, loggedUser);
                     case 2 -> CreateVisitRequest(sc, pf, loggedUser);

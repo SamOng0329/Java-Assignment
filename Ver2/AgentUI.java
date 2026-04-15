@@ -14,7 +14,6 @@ public class AgentUI {
                 System.out.print("Enter your choice:");
                 int choice = sc.nextInt();
                 sc.nextLine();
-                UiMaterial.clearscreen();
 
                 switch (choice) {
                     case 1 -> manageProperty(sc, pf);
@@ -44,7 +43,6 @@ public class AgentUI {
                 System.out.print("Enter your choice: ");
                 int choice = sc.nextInt();
                 sc.nextLine();
-                UiMaterial.clearscreen();
                 switch (choice) {
                     case 1 -> pf.listAllProperties();
                     case 2 -> addResidentialProperty(sc, pf);
@@ -211,7 +209,6 @@ public class AgentUI {
             System.out.print("Enter your choice: ");
             int choice = sc.nextInt();
             sc.nextLine();
-            UiMaterial.clearscreen();
             switch (choice) {
                 case 1 -> createLease(sc, pf, loggedUser);
                 case 2 -> viewAllLease(sc, pf, loggedUser);
@@ -330,7 +327,6 @@ public class AgentUI {
                 System.out.print("Enter your choice: ");
                 int choice = sc.nextInt();
                 sc.nextLine();
-                UiMaterial.clearscreen();
                 switch (choice) {
                     case 1 -> ListVisitRequests(sc, pf, loggedUser);
                     case 2 -> {
@@ -374,7 +370,6 @@ public class AgentUI {
                 System.out.print("Enter your choice: ");
                 int choice = sc.nextInt();
                 sc.nextLine();
-                UiMaterial.clearscreen();
                 switch (choice) {
                     case 1 -> pf.listAllPayments();
                     case 2 -> createPayment(sc, pf);
@@ -459,7 +454,6 @@ public class AgentUI {
                 System.out.print("Enter your choice: ");
                 int choice = sc.nextInt();
                 sc.nextLine();
-                UiMaterial.clearscreen();
 
                 switch (choice) {
                     case 1 -> manageTenant(sc, pf);
@@ -487,7 +481,6 @@ public class AgentUI {
                 System.out.print("Enter your choice: ");
                 int choice = sc.nextInt();
                 sc.nextLine();
-                UiMaterial.clearscreen();
 
                 switch (choice) {
                     case 1 -> pf.listAllTenants(); // direct call the funciton
@@ -585,7 +578,6 @@ public class AgentUI {
                 System.out.print("Enter your choice: ");
                 int choice = sc.nextInt();
                 sc.nextLine();
-                UiMaterial.clearscreen();
 
                 switch (choice) {
                     case 1 -> pf.listAllLandlord();

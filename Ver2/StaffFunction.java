@@ -15,7 +15,6 @@ public class StaffFunction {
                 System.out.print("Enter your choice:");
                 int choice = sc.nextInt();
                 sc.nextLine();
-                UiMaterial.clearscreen();
 
                 switch (choice) {
                     case 1 -> manageProperty(sc, pf);
@@ -46,7 +45,6 @@ public class StaffFunction {
                 System.out.print("Enter your choice: ");
                 int choice = sc.nextInt();
                 sc.nextLine();
-                UiMaterial.clearscreen();
 
                 switch (choice) {
                     case 1 -> manageTenant(sc, pf);
@@ -75,7 +73,6 @@ public class StaffFunction {
                 System.out.print("Enter your choice: ");
                 int choice = sc.nextInt();
                 sc.nextLine();
-                UiMaterial.clearscreen();
 
                 switch (choice) {
                     case 1 -> pf.listAllTenants(); // direct call the funciton
@@ -173,7 +170,6 @@ public class StaffFunction {
                 System.out.print("Enter your choice: ");
                 int choice = sc.nextInt();
                 sc.nextLine();
-                UiMaterial.clearscreen();
 
                 switch (choice) {
                     case 1 -> pf.listAllLandlord();
@@ -262,7 +258,6 @@ public class StaffFunction {
                 System.out.print("Enter your choice: ");
                 int choice = sc.nextInt();
                 sc.nextLine();
-                UiMaterial.clearscreen();
                 switch (choice) {
                     case 1 -> pf.listAllAgents();
                     case 2 -> registerAgent(sc, pf);
@@ -349,7 +344,6 @@ public class StaffFunction {
             System.out.print("Enter your choice: ");
             int choice = sc.nextInt();
             sc.nextLine();
-            UiMaterial.clearscreen();
             switch (choice) {
                 case 1 -> createLease(sc, pf);
                 case 2 -> viewAllLease(sc, pf);
@@ -441,7 +435,6 @@ public class StaffFunction {
                 System.out.print("Enter your choice: ");
                 int choice = sc.nextInt();
                 sc.nextLine();
-                UiMaterial.clearscreen();
                 switch (choice) {
                     case 1 -> pf.listAllPayments();
                     case 2 -> createPayment(sc, pf);
@@ -526,7 +519,6 @@ public class StaffFunction {
                 System.out.print("Enter your choice: ");
                 int choice = sc.nextInt();
                 sc.nextLine();
-                UiMaterial.clearscreen();
                 switch (choice) {
                     case 1 -> pf.generatePropertyReport();
                     case 2 -> pf.generateAgentPerformanceReport();
@@ -551,7 +543,6 @@ public class StaffFunction {
                 System.out.print("Enter your choice: ");
                 int choice = sc.nextInt();
                 sc.nextLine();
-                UiMaterial.clearscreen();
                 switch (choice) {
                     case 1 -> pf.listAllProperties();
                     case 2 -> addResidentialProperty(sc, pf);
@@ -713,7 +704,6 @@ public class StaffFunction {
                 System.out.print("Enter your choice: ");
                 int choice = sc.nextInt();
                 sc.nextLine();
-                UiMaterial.clearscreen();
                 switch (choice) {
                     case 1 -> pf.listAllVisitRequests();
                     case 2 -> {
