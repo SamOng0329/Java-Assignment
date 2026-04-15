@@ -43,11 +43,11 @@ public class Landlord extends UserInfo {
         ownedProperty.remove(p);
     }
 
-    // toString method add later
     @Override
     public String toString(){
         return super.toString()
-        + String.format("%-16s : %s\n", "Owned Property", ownedProperty.size());
+                + String.format("| %-16s : %s%n", "Owned Properties", ownedProperty.size())
+                + "=".repeat(40) + "\n";
     }
 
 }

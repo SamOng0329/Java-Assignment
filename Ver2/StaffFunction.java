@@ -111,34 +111,37 @@ public class StaffFunction {
 
     // Edit Tenant Profile
     public static void editTenantProfile(Scanner sc, PropertyFunction pf) {
-        System.out.println("Tenant ID: ");
+        System.out.print("Tenant ID: ");
         String TenId = sc.nextLine();
         Tenant tenant = pf.findTenantById(TenId);
+        if (tenant == null) {
+            System.out.println("Tenant not found.");
+            return;
+        }
+        System.out.println(tenant);
         int choice = 0;
-        if (tenant != null) {
-            do{
-                try{
+        do {
+            try {
                 System.out.println("\nWhich detail you want to update?");
-                System.out.println("=".repeat(20));
-                System.out.println("| 1. Name          |\n| 2. IC Number     |\n| 3. Email         |\n| 4. Phone         |");
-                System.out.println("=".repeat(20));
+                System.out.println("=".repeat(40));
+                System.out.printf("| 1. Name          : %s%n", tenant.getName());
+                System.out.printf("| 2. IC Number     : %s%n", tenant.getIcNumber());
+                System.out.printf("| 3. Email         : %s%n", tenant.getEmail());
+                System.out.printf("| 4. Phone         : %s%n", tenant.getPhone());
+                System.out.println("=".repeat(40));
                 System.out.print("| Enter Choice: ");
                 choice = sc.nextInt();
-                System.out.println("=".repeat(20));
+                System.out.println("=".repeat(40));
                 sc.nextLine();
-                }catch(Exception e){
-                    System.out.println("Invalid input. Please try again.");
-                    sc.nextLine();
-                }
-                
-            }while(choice >= 5 || choice <= 0);
+            } catch (Exception e) {
+                System.out.println("Invalid input. Please try again.");
+                sc.nextLine();
+            }
+        } while (choice >= 5 || choice <= 0);
 
-            System.out.print("Enter the value you want to update: ");
-            String newValue = sc.nextLine();
-            pf.updateTenantDetails(TenId, choice, newValue);
-        } else {
-            System.out.println("Tenant not found.");
-        }
+        System.out.print("Enter new value: ");
+        String newValue = sc.nextLine();
+        pf.updateTenantDetails(TenId, choice, newValue);
     }
 
     // Delete Tenant Profile
@@ -208,31 +211,33 @@ public class StaffFunction {
         System.out.print("Enter Landlord ID: ");
         String id = sc.nextLine();
         Landlord landlord = pf.findLandlordById(id);
+        if (landlord == null) {
+            System.out.println("Landlord not found.");
+            return;
+        }
+        System.out.println(landlord);
         int choice = 0;
-        if (landlord != null) {
-            do{
-                try{
+        do {
+            try {
                 System.out.println("\nWhich detail you want to update?");
-                System.out.println("=".repeat(20));
-                System.out.println("| 1. Name          |\n| 2. Email         |\n| 3. Phone         |");
-                System.out.println("=".repeat(20));
+                System.out.println("=".repeat(40));
+                System.out.printf("| 1. Name          : %s%n", landlord.getName());
+                System.out.printf("| 2. Email         : %s%n", landlord.getEmail());
+                System.out.printf("| 3. Phone         : %s%n", landlord.getPhone());
+                System.out.println("=".repeat(40));
                 System.out.print("| Enter Choice: ");
                 choice = sc.nextInt();
-                System.out.println("=".repeat(20));
+                System.out.println("=".repeat(40));
+                sc.nextLine();
+            } catch (Exception e) {
+                System.out.println("Invalid input. Please try again.");
                 sc.nextLine();
             }
-                catch(Exception e){
-                    System.out.println("Invalid input. Please try again.");
-                    sc.nextLine();
-                }
-                
-            }while(choice >= 4 || choice <= 0);
+        } while (choice >= 4 || choice <= 0);
+
         System.out.print("Enter new value: ");
         String newValue = sc.nextLine();
-        pf.updateLandlordDetails(id, choice, newValue);}
-        else{
-            System.out.println("Landlord not found.");
-        }
+        pf.updateLandlordDetails(id, choice, newValue);
     }
 
     // Delete Landlord Profile
@@ -295,31 +300,33 @@ public class StaffFunction {
         System.out.print("Enter Agent ID: ");
         String id = sc.nextLine();
         Agent agent = pf.findAgentById(id);
+        if (agent == null) {
+            System.out.println("Agent not found.");
+            return;
+        }
+        System.out.println(agent);
         int choice = 0;
-        if (agent != null) {
-            do{
-                try{
+        do {
+            try {
                 System.out.println("\nWhich detail you want to update?");
-                System.out.println("=".repeat(20));
-                System.out.println("| 1. Name          |\n| 2. Email         |\n| 3. Phone         |");
-                System.out.println("=".repeat(20));
+                System.out.println("=".repeat(40));
+                System.out.printf("| 1. Name          : %s%n", agent.getName());
+                System.out.printf("| 2. Email         : %s%n", agent.getEmail());
+                System.out.printf("| 3. Phone         : %s%n", agent.getPhone());
+                System.out.println("=".repeat(40));
                 System.out.print("| Enter Choice: ");
                 choice = sc.nextInt();
-                System.out.println("=".repeat(20));
+                System.out.println("=".repeat(40));
+                sc.nextLine();
+            } catch (Exception e) {
+                System.out.println("Invalid input. Please try again.");
                 sc.nextLine();
             }
-                catch(Exception e){
-                    System.out.println("Invalid input. Please try again.");
-                    sc.nextLine();
-                }
-                
-            }while(choice >= 4 || choice <= 0);
+        } while (choice >= 4 || choice <= 0);
+
         System.out.print("Enter new value: ");
         String newValue = sc.nextLine();
-        pf.updateAgentDetails(id, choice, newValue);}
-        else{
-            System.out.println("Agent not found.");
-        }
+        pf.updateAgentDetails(id, choice, newValue);
     }
 
     // Delete Agent Profile
@@ -547,7 +554,7 @@ public class StaffFunction {
                     case 1 -> pf.listAllProperties();
                     case 2 -> addResidentialProperty(sc, pf);
                     case 3 -> addCommercialProperty(sc, pf);
-                    case 4 -> updatePropertyPrice(sc, pf);
+                    case 4 -> updatePropertyDetails(sc, pf);
                     case 5 -> updatePropertyStatus(sc, pf);
                     case 6 -> deleteProperty(sc, pf);
                     case 0 -> back = true;
@@ -596,7 +603,13 @@ public class StaffFunction {
             boolean furnished = sc.nextBoolean();
             sc.nextLine();
 
-            pf.addResidentialProperty(location, price, sqft, resType, bed, bath, furnished, landlord);
+            ResidentialProperty prop = pf.addResidentialProperty(location, price, sqft, resType, bed, bath, furnished, landlord);
+
+            System.out.println("\n");
+            System.out.println("=".repeat(40));
+            System.out.print("|    New Residential Property Added");
+            prop.displayInfo();
+
         } catch (Exception e) {
             System.out.println("Invalid input!");
             sc.nextLine();
@@ -643,24 +656,99 @@ public class StaffFunction {
         }
     }
 
-    public static void updatePropertyPrice(Scanner sc, PropertyFunction pf) {
-        try {
-            System.out.println("\n--- Update Property Rent Price ---");
-            System.out.print("Property ID: ");
-            String id = sc.nextLine();
-            System.out.print("New Rent Price: ");
-            double newPrice = sc.nextDouble();
-            sc.nextLine();
-            if (pf.updatePropertyPrice(id, newPrice)) {
-                System.out.println("Rent Price updated successfully!");
+    public static void updatePropertyDetails(Scanner sc, PropertyFunction pf) {
+        System.out.print("Property ID: ");
+        String id = sc.nextLine();
+        Property property = pf.findPropertyById(id);
+        if (property == null) {
+            System.out.println("Property not found.");
+            return;
+        }
+
+        // Show current property info
+        property.displayInfo();
+
+        int choice = 0;
+
+        if (property instanceof ResidentialProperty res) {
+            // --- Residential menu ---
+            do {
+                try {
+                    System.out.println("\nWhich detail you want to update?");
+                    System.out.println("=".repeat(40));
+                    System.out.printf("| 1. Location      : %s%n",          res.getLocation());
+                    System.out.printf("| 2. Rent Price    : RM %.2f%n",      res.getListingPrice());
+                    System.out.printf("| 3. Size (sqft)   : %.0f%n",         res.getSquareFootage());
+                    System.out.printf("| 4. Bedrooms      : %d%n",           res.getNumBedrooms());
+                    System.out.printf("| 5. Bathrooms     : %d%n",           res.getNumBathrooms());
+                    System.out.printf("| 6. Furnished     : %s%n",           res.getIsFurnished() ? "Yes" : "No");
+                    System.out.println("=".repeat(40));
+                    System.out.print("| Enter Choice: ");
+                    choice = sc.nextInt();
+                    System.out.println("=".repeat(40));
+                    sc.nextLine();
+                } catch (Exception e) {
+                    System.out.println("Invalid input. Please try again.");
+                    sc.nextLine();
+                }
+            } while (choice >= 7 || choice <= 0);
+
+            System.out.print("Enter new value: ");
+            String newValue = sc.nextLine();
+            pf.updatePropertyDetails(id, choice, newValue);
+
+        } else if (property instanceof CommercialProperty com) {
+            // --- Commercial menu ---
+            do {
+                try {
+                    System.out.println("\nWhich detail you want to update?");
+                    System.out.println("=".repeat(40));
+                    System.out.printf("| 1. Location      : %s%n",          com.getLocation());
+                    System.out.printf("| 2. Rent Price    : RM %.2f%n",      com.getListingPrice());
+                    System.out.printf("| 3. Size (sqft)   : %.0f%n",         com.getSquareFootage());
+                    System.out.printf("| 4. Parking Spots : %d%n",           com.getNumParkingSpots());
+                    System.out.printf("| 5. Loading Dock  : %s%n",           com.getHasLoadingDock() ? "Yes" : "No");
+                    System.out.printf("| 6. Comm. Type    : %s%n",           com.getCommercialType());
+                    System.out.println("=".repeat(40));
+                    System.out.print("| Enter Choice: ");
+                    choice = sc.nextInt();
+                    System.out.println("=".repeat(40));
+                    sc.nextLine();
+                } catch (Exception e) {
+                    System.out.println("Invalid input. Please try again.");
+                    sc.nextLine();
+                }
+            } while (choice >= 7 || choice <= 0);
+
+            String newValue;
+            if (choice == 6) {
+                // Sub-menu for Commercial Type
+                int typeChoice = 0;
+                do {
+                    try {
+                        System.out.println("Select new type:");
+                        System.out.println("| 1. OFFICE  | 2. RETAIL | 3. INDUSTRIAL |");
+                        System.out.print("| Enter Choice: ");
+                        typeChoice = sc.nextInt();
+                        sc.nextLine();
+                    } catch (Exception e) {
+                        System.out.println("Invalid input. Please try again.");
+                        sc.nextLine();
+                    }
+                } while (typeChoice < 1 || typeChoice > 3);
+                newValue = switch (typeChoice) {
+                    case 1 -> "OFFICE";
+                    case 2 -> "RETAIL";
+                    default -> "INDUSTRIAL";
+                };
             } else {
-                System.out.println("Update failed. Property not found.");
+                System.out.print("Enter new value: ");
+                newValue = sc.nextLine();
             }
-        } catch (Exception e) {
-            System.out.println("Invalid input!");
-            sc.nextLine();
+            pf.updateCommercialDetails(id, choice, newValue);
         }
     }
+
 
     public static void updatePropertyStatus(Scanner sc, PropertyFunction pf) {
         System.out.println("\n--- Update Property Status ---");

@@ -78,6 +78,7 @@ public abstract class Property {
 
 
     public void displayInfo() {
+        System.out.println();
         System.out.println("=".repeat(40));
         System.out.println("| Property ID      : " + propertyId);
         System.out.println("| Type             : " + getPropertyType());

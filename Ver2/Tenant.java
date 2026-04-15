@@ -46,7 +46,10 @@ public class Tenant extends UserInfo {
     
     public String toString() {
         return super.toString()
-                + String.format("%-16s : %s\n", "IC Number", icNumber)
-                + String.format("%-16s : %s\n", "Overdue Payment", overduePayment);
+                + String.format("| %-16s : %s%n", "IC Number",       icNumber)
+                + String.format("| %-16s : %s%n", "Overdue Payment", overduePayment ? "Yes" : "No")
+                + "=".repeat(40) + "\n";
     }
+
+
 }

@@ -39,6 +39,19 @@ public class ResidentialProperty extends Property {
         return isFurnished;
     }
 
+    // Setters
+    public void setNumBedrooms(int numBedrooms) {
+        this.numBedrooms = numBedrooms;
+    }
+
+    public void setNumBathrooms(int numBathrooms) {
+        this.numBathrooms = numBathrooms;
+    }
+
+    public void setIsFurnished(boolean isFurnished) {
+        this.isFurnished = isFurnished;
+    }
+
     @Override   
     public void displayInfo(){
         super.displayInfo();
@@ -46,7 +59,5 @@ public class ResidentialProperty extends Property {
         System.out.printf("| %-16s : %d\n", "Bathrooms", numBathrooms);
         System.out.printf("| %-16s : %s\n", "Furnished", (isFurnished ? "Yes" : "No"));
         System.out.println("=".repeat(40));
-        System.out.println("\n");
     }
-
 }

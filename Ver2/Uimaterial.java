@@ -189,7 +189,7 @@ public class UiMaterial {
         System.out.println("1. View all Properties");
         System.out.println("2. Add Residential Property");
         System.out.println("3. Add Commercial Property");
-        System.out.println("4. Update Property Rent Price");
+        System.out.println("4. Update Property Details");
         System.out.println("5. Update Property Status");
         System.out.println("6. Delete Property");
         System.out.println("0. Back");

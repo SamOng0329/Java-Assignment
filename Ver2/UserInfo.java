@@ -61,9 +61,11 @@ public abstract class UserInfo {
     // Display the information
     @Override
     public String toString() {
-        return String.format("%-16s : %s\n", "ID", personId)
-                + String.format("%-16s : %s\n", "Name", name)
-                + String.format("%-16s : %s\n", "Email", email)
-                + String.format("%-16s : %s\n", "Phone", phone);
+        return "\n" + "=".repeat(40) + "\n"
+                + String.format("| %-16s : %s%n", "ID",    getPersonId())
+                + String.format("| %-16s : %s%n", "Name",  getName())
+                + String.format("| %-16s : %s%n", "Role",  getRole())
+                + String.format("| %-16s : %s%n", "Email", getEmail())
+                + String.format("| %-16s : %s%n", "Phone", getPhone());
     }
 }

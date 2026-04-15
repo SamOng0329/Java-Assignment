@@ -493,8 +493,8 @@ public class PropertyFunction {
 
     // Create Residential
 
-    public void addResidentialProperty(String location, double price, double sqft,
-            ResidentialProperty.ResidentialType resType, int bedroom, int bathroom, boolean furnished,  Landlord landlord) {
+    public ResidentialProperty addResidentialProperty(String location, double price, double sqft,
+            ResidentialProperty.ResidentialType resType, int bedroom, int bathroom, boolean furnished, Landlord landlord) {
         String id = "RES" + String.format("%03d", propertyCount++);
 
         ResidentialProperty newRes = new ResidentialProperty(id, location, price, resType, sqft, bedroom, bathroom,
@@ -503,10 +503,7 @@ public class PropertyFunction {
         if (landlord != null) {
             landlord.addProperty(newRes); // Link property to landlord
         }
-        System.out.println("\n");
-        System.out.println("=".repeat(40));
-        System.out.println("|    New Residential Property Added");
-        newRes.displayInfo();
+        return newRes;
     }
 
     public void addCommercialProperty(String location, double price, double sqft,
@@ -522,7 +519,7 @@ public class PropertyFunction {
 
         System.out.println("\n");
         System.out.println("=".repeat(40));
-        System.out.println("|    New Commercial Property Added");
+        System.out.print("|    New Commercial Property Added");
         newCom.displayInfo();
     }
 
@@ -563,6 +560,96 @@ public class PropertyFunction {
             return true;
         }
         return false;
+    }
+
+    public boolean updatePropertyDetails(String propertyId, int fieldChoice, String newValue) {
+        Property p = findPropertyById(propertyId);
+        if (!(p instanceof ResidentialProperty res)) {
+            System.out.println("  [ERROR] Residential property not found: " + propertyId);
+            return false;
+        }
+        String fieldName, oldValue;
+        switch (fieldChoice) {
+            case 1 -> { fieldName = "Location";     oldValue = res.getLocation();                              res.setLocation(newValue); }
+            case 2 -> {
+                fieldName = "Rent Price"; oldValue = String.format("%.2f", res.getListingPrice());
+                try { res.setListingPrice(Double.parseDouble(newValue)); }
+                catch (NumberFormatException e) { System.out.println("  [ERROR] Invalid price: " + newValue); return false; }
+            }
+            case 3 -> {
+                fieldName = "Size (sqft)"; oldValue = String.valueOf(res.getSquareFootage());
+                try { res.setSquareFootage(Double.parseDouble(newValue)); }
+                catch (NumberFormatException e) { System.out.println("  [ERROR] Invalid size: " + newValue); return false; }
+            }
+            case 4 -> {
+                fieldName = "Bedrooms"; oldValue = String.valueOf(res.getNumBedrooms());
+                try { res.setNumBedrooms(Integer.parseInt(newValue)); }
+                catch (NumberFormatException e) { System.out.println("  [ERROR] Invalid number: " + newValue); return false; }
+            }
+            case 5 -> {
+                fieldName = "Bathrooms"; oldValue = String.valueOf(res.getNumBathrooms());
+                try { res.setNumBathrooms(Integer.parseInt(newValue)); }
+                catch (NumberFormatException e) { System.out.println("  [ERROR] Invalid number: " + newValue); return false; }
+            }
+            case 6 -> {
+                fieldName = "Furnished"; oldValue = res.getIsFurnished() ? "Yes" : "No";
+                if (newValue.equalsIgnoreCase("true") || newValue.equalsIgnoreCase("yes")) res.setIsFurnished(true);
+                else if (newValue.equalsIgnoreCase("false") || newValue.equalsIgnoreCase("no")) res.setIsFurnished(false);
+                else { System.out.println("  [ERROR] Enter true/false or yes/no"); return false; }
+            }
+            default -> { System.out.println("  [ERROR] Invalid field choice."); return false; }
+        }
+        System.out.println("  [SUCCESS] Property " + propertyId + " updated.");
+        System.out.println("  " + fieldName + " changed: [" + oldValue + "] -> [" + newValue + "]");
+        return true;
+    }
+
+    public boolean updateCommercialDetails(String propertyId, int fieldChoice, String newValue) {
+        Property p = findPropertyById(propertyId);
+        if (!(p instanceof CommercialProperty com)) {
+            System.out.println("  [ERROR] Commercial property not found: " + propertyId);
+            return false;
+        }
+        String fieldName, oldValue;
+        switch (fieldChoice) {
+            case 1 -> { fieldName = "Location";     oldValue = com.getLocation();                              com.setLocation(newValue); }
+            case 2 -> {
+                fieldName = "Rent Price"; oldValue = String.format("%.2f", com.getListingPrice());
+                try { com.setListingPrice(Double.parseDouble(newValue)); }
+                catch (NumberFormatException e) { System.out.println("  [ERROR] Invalid price: " + newValue); return false; }
+            }
+            case 3 -> {
+                fieldName = "Size (sqft)"; oldValue = String.valueOf(com.getSquareFootage());
+                try { com.setSquareFootage(Double.parseDouble(newValue)); }
+                catch (NumberFormatException e) { System.out.println("  [ERROR] Invalid size: " + newValue); return false; }
+            }
+            case 4 -> {
+                fieldName = "Parking Spots"; oldValue = String.valueOf(com.getNumParkingSpots());
+                try { com.setNumParkingSpots(Integer.parseInt(newValue)); }
+                catch (NumberFormatException e) { System.out.println("  [ERROR] Invalid number: " + newValue); return false; }
+            }
+            case 5 -> {
+                fieldName = "Loading Dock"; oldValue = com.getHasLoadingDock() ? "Yes" : "No";
+                if (newValue.equalsIgnoreCase("true") || newValue.equalsIgnoreCase("yes")) com.setHasLoadingDock(true);
+                else if (newValue.equalsIgnoreCase("false") || newValue.equalsIgnoreCase("no")) com.setHasLoadingDock(false);
+                else { System.out.println("  [ERROR] Enter true/false or yes/no"); return false; }
+            }
+            case 6 -> {
+                fieldName = "Commercial Type"; oldValue = com.getCommercialType().toString();
+                CommercialProperty.CommercialType t = switch (newValue.trim().toUpperCase()) {
+                    case "OFFICE"     -> CommercialProperty.CommercialType.OFFICE;
+                    case "RETAIL"     -> CommercialProperty.CommercialType.RETAIL;
+                    case "INDUSTRIAL" -> CommercialProperty.CommercialType.INDUSTRIAL;
+                    default           -> null;
+                };
+                if (t == null) { System.out.println("  [ERROR] Enter OFFICE / RETAIL / INDUSTRIAL"); return false; }
+                com.setCommercialType(t);
+            }
+            default -> { System.out.println("  [ERROR] Invalid field choice."); return false; }
+        }
+        System.out.println("  [SUCCESS] Property " + propertyId + " updated.");
+        System.out.println("  " + fieldName + " changed: [" + oldValue + "] -> [" + newValue + "]");
+        return true;
     }
 
     public boolean updatePropertyStatus(String propertyId, Property.PropertyStatus newStatus) {
