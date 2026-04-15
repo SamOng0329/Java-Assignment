@@ -122,8 +122,9 @@ public class PropertyFunction {
         Landlord l1 = new Landlord("LAN001", "Jace Doe", "jace.doe@example.com", "1111111111");
         addLandLord(l1, new UserRole("jacedoe", "password789", UserRole.Role.LANDLORD, l1));
         addResidentialProperty("123 Main St", 1500.00, 850, ResidentialProperty.ResidentialType.APARTMENT, 2, 1, true, l1);
+        addCommercialProperty("456 Commerce Ave", 3000.00, 2000, CommercialProperty.CommercialType.OFFICE, 5, true, l1);
         createLeaseRecord("RES001", "TEN001", "AGT001", LocalDate.of(2025, 3, 1), LocalDate.of(2026, 4, 28), 1500.00, true);
-        requestVisit("TEN001", "RES001","AGT001", LocalDate.of(2025, 2, 20));
+        requestVisit("TEN001", "COM001","AGT001", LocalDate.of(2025, 2, 20));
 
   
     }
