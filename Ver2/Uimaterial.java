@@ -260,6 +260,11 @@ public class UiMaterial {
             System.out.println("1. View all Visit Requests");
             System.out.println("2. Approve/Reject a Visit Request");
             System.out.println("0. Back");
+        } else if(role.getRole().equals(UserRole.Role.TENANT)) {
+            System.out.println("\n--- VISIT REQUEST MANAGEMENT ---");
+            System.out.println("1. View My Visit Requests");
+            System.out.println("2. Create a Visit Request");
+            System.out.println("0. Back");
         }
 
 

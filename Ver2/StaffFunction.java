@@ -123,7 +123,7 @@ public class StaffFunction {
                 try{
                 System.out.println("\nWhich detail you want to update?");
                 System.out.println("=".repeat(20));
-                System.out.println("| 1. Name          |\n| 2. IC Number     |\n| 3. Phone         |\n| 4. Email         |");
+                System.out.println("| 1. Name          |\n| 2. IC Number     |\n| 3. Email         |\n| 4. Phone         |");
                 System.out.println("=".repeat(20));
                 System.out.print("| Enter Choice: ");
                 choice = sc.nextInt();
@@ -218,7 +218,7 @@ public class StaffFunction {
                 try{
                 System.out.println("\nWhich detail you want to update?");
                 System.out.println("=".repeat(20));
-                System.out.println("| 1. Name          |\n| 2. Phone         |\n| 3. Email         |");
+                System.out.println("| 1. Name          |\n| 2. Email         |\n| 3. Phone         |");
                 System.out.println("=".repeat(20));
                 System.out.print("| Enter Choice: ");
                 choice = sc.nextInt();
@@ -306,7 +306,7 @@ public class StaffFunction {
                 try{
                 System.out.println("\nWhich detail you want to update?");
                 System.out.println("=".repeat(20));
-                System.out.println("| 1. Name          |\n| 2. Phone         |\n| 3. Email         |");
+                System.out.println("| 1. Name          |\n| 2. Email         |\n| 3. Phone         |");
                 System.out.println("=".repeat(20));
                 System.out.print("| Enter Choice: ");
                 choice = sc.nextInt();

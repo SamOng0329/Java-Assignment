@@ -725,6 +725,13 @@ public class PropertyFunction {
             return null;
         }
 
+        for (LeaseRecord l : leaseRecordList) {
+            if (l.getProperty().getPropertyId().equals(propertyId) && l.getLeaseStatus()) {
+                System.out.println("  [ERROR] Property is already leased: " + propertyId);
+                return null;
+            }
+        }
+
         // Generate Lease ID
         String leaseId = "LEA" + String.format("%03d", leaseCount++);
 

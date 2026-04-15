@@ -224,7 +224,7 @@ public void landLordMenu(UserRole loggedUser) {
             UiMaterial.clearscreen();
             switch (choice) {
                 case 1 -> viewAllLease(sc, pf, loggedUser);
-                case 3 -> viewOverdueLease(sc, pf, loggedUser);
+                case 2 -> viewOverdueLease(sc, pf, loggedUser);
                 case 0 -> back = true;
                 default -> System.out.println("Invalid choice. Please try again.");
             }
