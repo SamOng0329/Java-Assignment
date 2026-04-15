@@ -205,6 +205,7 @@ public class AgentUI {
     public static void manageLease(Scanner sc, PropertyFunction pf, UserRole loggedUser) {
         boolean back = false;
         do {
+            try{
             UiMaterial.displayLeaseManagementMenu(loggedUser);
             System.out.print("Enter your choice: ");
             int choice = sc.nextInt();
@@ -217,6 +218,10 @@ public class AgentUI {
                 case 5 -> acceptLeaseRequest(sc, pf, (Agent) loggedUser.getLinkedPerson());
                 case 0 -> back = true;
                 default -> System.out.println("Invalid choice. Please try again.");
+            }
+            } catch (Exception e) {
+                System.out.println("Invalid input. Please try again.");
+                sc.nextLine();
             }
         } while (!back);
     }

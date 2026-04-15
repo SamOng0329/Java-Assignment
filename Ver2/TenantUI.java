@@ -32,6 +32,7 @@ public class TenantUI {
         public static void manageLease(Scanner sc, PropertyFunction pf, UserRole loggedUser) {
         boolean back = false;
         do {
+            try{
             UiMaterial.displayLeaseManagementMenu(loggedUser);
             System.out.print("Enter your choice: ");
             int choice = sc.nextInt();
@@ -43,6 +44,10 @@ public class TenantUI {
 
                 case 0 -> back = true;
                 default -> System.out.println("Invalid choice. Please try again.");
+            }
+            } catch (Exception e) {
+                System.out.println("Invalid input. Please try again.");
+                sc.nextLine();
             }
         } while (!back);
     }
@@ -126,7 +131,12 @@ public class TenantUI {
             System.out.print("Preferred Date (YYYY-MM-DD): ");
             String dateInput = sc.nextLine();
             LocalDate preferredDate = LocalDate.parse(dateInput);
-            pf.requestVisit(tenantId, propId, agentId,  preferredDate);
+            VisitRequest visitRequest = pf.requestVisit(tenantId, propId, agentId,  preferredDate);
+            if (visitRequest != null) {
+                System.out.println("  [SUCCESS] Visit request created with ID: " + visitRequest.getRequestId());
+            } else {
+                System.out.println("  [ERROR] Failed to create visit request.");
+            }
         } catch (Exception e) {
             System.out.println("Invalid input. Please try again.");
             sc.nextLine();

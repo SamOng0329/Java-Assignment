@@ -370,6 +370,7 @@ public class StaffFunction {
     public static void manageLease(Scanner sc, PropertyFunction pf,UserRole loggedUser) {
         boolean back = false;
         do {
+            try{
             UiMaterial.displayLeaseManagementMenu(loggedUser);
             System.out.print("Enter your choice: ");
             int choice = sc.nextInt();
@@ -381,6 +382,9 @@ public class StaffFunction {
                 case 4 -> terminateLease(sc, pf);
                 case 0 -> back = true;
                 default -> System.out.println("Invalid choice. Please try again.");
+            }} catch (Exception e) {
+                System.out.println("Invalid input. Please try again.");
+                sc.nextLine();
             }
         } while (!back);
     }

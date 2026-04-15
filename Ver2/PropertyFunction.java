@@ -122,10 +122,9 @@ public class PropertyFunction {
         Landlord l1 = new Landlord("LAN001", "Jace Doe", "jace.doe@example.com", "1111111111");
         addLandLord(l1, new UserRole("jacedoe", "password789", UserRole.Role.LANDLORD, l1));
         addResidentialProperty("123 Main St", 1500.00, 850, ResidentialProperty.ResidentialType.APARTMENT, 2, 1, true, l1);
+        addResidentialProperty("456 Elm St", 2500.00, 1200, ResidentialProperty.ResidentialType.HOUSE, 3, 2, false, l1);
         createLeaseRecord("RES001", "TEN001", "AGT001", LocalDate.of(2025, 3, 1), LocalDate.of(2026, 4, 28), 1500.00, true);
-        requestVisit("TEN001", "RES001","AGT001", LocalDate.of(2025, 2, 20));
-
-  
+        requestVisit("TEN001", "RES002","AGT001", LocalDate.of(2026, 5, 20));
     }
 
     public boolean login(String username, String password) {
@@ -832,12 +831,14 @@ public class PropertyFunction {
             }
         }
 
+
         // Generate Lease ID
         String leaseId = "LEA" + String.format("%03d", leaseCount++);
 
         // Create a lease record
         LeaseRecord lease = new LeaseRecord(leaseId, p, a, t, startDate, endDate, monthlyRent, monthlyRent * 2, status);
         leaseRecordList.add(lease);
+        p.setStatus(Property.PropertyStatus.RENTED); // Mark property as rented
         return lease;
     }
 
@@ -996,11 +997,20 @@ public class PropertyFunction {
             return null;
         }
 
+        if(p.getStatus() != Property.PropertyStatus.AVAILABLE) {
+            System.out.println("  [ERROR] Property is not available for visit: " + propertyId);
+            return null;
+        }
+        
+        if(visitDate.isBefore(LocalDate.now())) {
+            System.out.println("  [ERROR] Visit date cannot be in the past: " + visitDate);
+            return null;
+        }
+
 
         String requestId = "VR" + String.format("%03d", visitRequestCount++);
         VisitRequest visitRequest = new VisitRequest(requestId, t, a, p, visitDate);
         visitRequestList.add(visitRequest);
-        System.out.println("  [SUCCESS] Visit request created with ID: " + requestId);
         return visitRequest;
     }
 
