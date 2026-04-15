@@ -129,7 +129,13 @@ public class StaffFunction {
         System.out.print("Password: ");
         String password = sc.nextLine();
 
-        pf.registerTenant(name, email, phone, ic, username, password);
+        Tenant newTenant = pf.registerTenant(name, email, phone, ic, username, password);
+        if (newTenant != null) {
+            System.out.println("\n");
+            System.out.println("=".repeat(40));
+            System.out.print("|    New Tenant Added");
+            System.out.print(newTenant);
+        }
     }
 
     // Edit Tenant Profile
