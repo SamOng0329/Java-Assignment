@@ -819,12 +819,14 @@ public class PropertyFunction {
             }
         }
 
+
         // Generate Lease ID
         String leaseId = "LEA" + String.format("%03d", leaseCount++);
 
         // Create a lease record
         LeaseRecord lease = new LeaseRecord(leaseId, p, a, t, startDate, endDate, monthlyRent, monthlyRent * 2, status);
         leaseRecordList.add(lease);
+        p.setStatus(Property.PropertyStatus.RENTED); // Mark property as rented
         return lease;
     }
 
@@ -980,6 +982,16 @@ public class PropertyFunction {
         }
         if (a == null) {
             System.out.println("  [ERROR] Agent not found: " + agentId);
+            return null;
+        }
+
+        if(p.getStatus() != Property.PropertyStatus.AVAILABLE) {
+            System.out.println("  [ERROR] Property is not available for visit: " + propertyId);
+            return null;
+        }
+        
+        if(visitDate.isBefore(LocalDate.now())) {
+            System.out.println("  [ERROR] Visit date cannot be in the past: " + visitDate);
             return null;
         }
 
