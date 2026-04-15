@@ -126,9 +126,11 @@ public void landLordMenu(UserRole loggedUser) {
             boolean loadingDock = sc.nextBoolean();
             sc.nextLine();
             
-
-            pf.addCommercialProperty(location, price, sqft, commType, parking, loadingDock,  (Landlord) loggedUser.getLinkedPerson());
-
+            CommercialProperty newCom = pf.addCommercialProperty(location, price, sqft, commType, parking, loadingDock, (Landlord) loggedUser.getLinkedPerson());
+            System.out.println("\n");
+            System.out.println("=".repeat(40));
+            System.out.print("|    New Commercial Property Added");
+            newCom.displayInfo();
             
         } catch (Exception e) {
             System.out.println("Invalid input!");

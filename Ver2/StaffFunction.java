@@ -410,7 +410,7 @@ public class StaffFunction {
     // Create lease
     public static void createLease(Scanner sc, PropertyFunction pf) {
         try {
-            System.out.print("\n--- Create Lease ---");
+            System.out.println("\n--- Create Lease ---");
             System.out.print("Property ID: ");
             String propId = sc.nextLine();
             System.out.print("Tenant ID: ");
@@ -531,7 +531,8 @@ public class StaffFunction {
                 case 3 -> "Cheque";
                 default -> "Other";
             };
-            pf.createPaymentRecord(leaseId, amount, paymentMethod);
+            String paymentId = pf.createPaymentRecord(leaseId, amount, paymentMethod).getPaymentId();
+            System.out.println("  [SUCCESS] Payment record created: " + paymentId);
         } catch (Exception e) {
             System.out.println("Invalid input. Please try again.");
             sc.nextLine();
@@ -694,7 +695,11 @@ public class StaffFunction {
             boolean loadingDock = sc.nextBoolean();
             sc.nextLine();
 
-            pf.addCommercialProperty(location, price, sqft, commType, parking, loadingDock, landlord);
+            CommercialProperty newCom = pf.addCommercialProperty(location, price, sqft, commType, parking, loadingDock, landlord);
+            System.out.println("\n");
+            System.out.println("=".repeat(40));
+            System.out.print("|    New Commercial Property Added");
+            newCom.displayInfo();
         } catch (Exception e) {
             System.out.println("Invalid input!");
             sc.nextLine();

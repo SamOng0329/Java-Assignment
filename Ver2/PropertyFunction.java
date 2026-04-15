@@ -130,7 +130,6 @@ public class PropertyFunction {
         addCommercialProperty("Taman Teratai, Serendah", 5000.00, 2000, CommercialProperty.CommercialType.OFFICE, 10, false, l1);
         addResidentialProperty("Setapak, KL", 2500.00, 1200, ResidentialProperty.ResidentialType.HOUSE, 3, 2, false, l2);
         addCommercialProperty("Taman Melati, KL", 6000.00, 2500, CommercialProperty.CommercialType.RETAIL, 5, true, l2);
-
         createLeaseRecord("RES001", "TEN001", "AGT001", LocalDate.of(2025, 3, 1), LocalDate.of(2026, 4, 28), 1500.00, true);
         createLeaseRecord("COM002", "TEN002", "AGT002", LocalDate.of(2024, 1, 1), LocalDate.of(2025, 1, 1), 5000.00, true);
         
@@ -532,7 +531,7 @@ public class PropertyFunction {
         return newRes;
     }
 
-    public void addCommercialProperty(String location, double price, double sqft,
+    public CommercialProperty addCommercialProperty(String location, double price, double sqft,
             CommercialProperty.CommercialType commType, int parking, boolean loadingDock, Landlord landlord) {
         String id = "COM" + String.format("%03d", propertyCount++);
 
@@ -542,11 +541,8 @@ public class PropertyFunction {
         if (landlord != null) {
             landlord.addProperty(newCom); // Link property to landlord
         }
+        return newCom;
 
-        System.out.println("\n");
-        System.out.println("=".repeat(40));
-        System.out.print("|    New Commercial Property Added");
-        newCom.displayInfo();
     }
 
     // Read property
@@ -723,7 +719,7 @@ public class PropertyFunction {
         }
 
         // Cannot pay for the terminated lease
-        if (l.getLeaseStatus() == false ) {
+        if (l.getLeaseStatus() == false)  {
             System.out.println("  [ERROR] Lease is already completed: " + leaseId);
             return null;
         }
@@ -740,8 +736,6 @@ public class PropertyFunction {
         PaymentRecord payment = new PaymentRecord(paymentId, l, amount, LocalDate.now(), paymentMethod, true);
         paymentRecordList.add(payment);
         l.setLeasestatus(false); // Mark lease as completed after payment
-
-        System.out.println("  [SUCCESS] Payment record created: " + paymentId);
         return payment;
     }
 
