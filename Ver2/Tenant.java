@@ -37,13 +37,6 @@ public class Tenant extends UserInfo {
         return super.getPersonId();
     }
 
-
-
-
-
-  
-    
-    
     public String toString() {
         return super.toString()
                 + String.format("| %-16s : %s%n", "IC Number",       icNumber)

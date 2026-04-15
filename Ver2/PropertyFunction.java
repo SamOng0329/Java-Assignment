@@ -139,10 +139,10 @@ public class PropertyFunction {
         addCommercialProperty("Taman Melati, KL", 6000.00, 2500, CommercialProperty.CommercialType.RETAIL, 5, true, l2);
 
         createLeaseRecord("RES001", "TEN001", "AGT001", LocalDate.of(2025, 3, 1), LocalDate.of(2026, 4, 28), 1500.00, true);
-        createLeaseRecord("COM001", "TEN002", "AGT002", LocalDate.of(2024, 1, 1), LocalDate.of(2025, 1, 1), 5000.00, true);
+        createLeaseRecord("COM003", "TEN002", "AGT002", LocalDate.of(2024, 1, 1), LocalDate.of(2025, 1, 1), 5000.00, true);
         
         requestVisit("TEN001", "RES002", "AGT001", LocalDate.of(2026, 5, 20));
-        requestVisit("TEN002", "COM002", "AGT002", LocalDate.of(2026, 6, 15));
+        requestVisit("TEN002", "COM004", "AGT002", LocalDate.of(2026, 6, 15));
         
         createPaymentRecord("LEA001", 1500.00, "Credit Card");
         createPaymentRecord("LEA002", 5000.00, "Bank Transfer");
