@@ -42,7 +42,7 @@ public void landLordMenu(UserRole loggedUser) {
                     case 1 -> listownedProperty(loggedUser);
                     case 2 -> addResidentialProperty(sc, pf, loggedUser);
                     case 3 -> addCommercialProperty(sc, pf, loggedUser);
-                    case 4 -> updatePropertyPrice(sc, pf, loggedUser);
+                    case 4 -> updatePropertyDetails(sc, pf, loggedUser);
                     case 5 -> updatePropertyStatus(sc, pf, loggedUser);
                     case 6 -> deleteProperty(sc, pf, loggedUser);
                     case 0 -> back = true;
@@ -135,6 +135,105 @@ public void landLordMenu(UserRole loggedUser) {
             sc.nextLine();
         }
     }
+
+        public static void updatePropertyDetails(Scanner sc, PropertyFunction pf, UserRole loggedUser) {
+        System.out.print("Property ID: ");
+        String id = sc.nextLine();
+        Property property = pf.findPropertyById(id);
+        if (property == null) {
+            System.out.println("Property not found.");
+            return;
+        }
+
+        if(!((Landlord) loggedUser.getLinkedPerson()).ownsProperty(id)){
+                System.out.println("You do not have permission to edit this property!");
+                return;
+            }
+
+        // Show current property info
+        property.displayInfo();
+
+        int choice = 0;
+
+        if (property instanceof ResidentialProperty res) {
+            // --- Residential menu ---
+            do {
+                try {
+                    System.out.println("\nWhich detail you want to update?");
+                    System.out.println("=".repeat(40));
+                    System.out.printf("| 1. Location      : %s%n",          res.getLocation());
+                    System.out.printf("| 2. Rent Price    : RM %.2f%n",      res.getListingPrice());
+                    System.out.printf("| 3. Size (sqft)   : %.0f%n",         res.getSquareFootage());
+                    System.out.printf("| 4. Bedrooms      : %d%n",           res.getNumBedrooms());
+                    System.out.printf("| 5. Bathrooms     : %d%n",           res.getNumBathrooms());
+                    System.out.printf("| 6. Furnished     : %s%n",           res.getIsFurnished() ? "Yes" : "No");
+                    System.out.println("=".repeat(40));
+                    System.out.print("| Enter Choice: ");
+                    choice = sc.nextInt();
+                    System.out.println("=".repeat(40));
+                    sc.nextLine();
+                } catch (Exception e) {
+                    System.out.println("Invalid input. Please try again.");
+                    sc.nextLine();
+                }
+            } while (choice >= 7 || choice <= 0);
+
+            System.out.print("Enter new value: ");
+            String newValue = sc.nextLine();
+            pf.updatePropertyDetails(id, choice, newValue);
+
+        } else if (property instanceof CommercialProperty com) {
+            // --- Commercial menu ---
+            do {
+                try {
+                    System.out.println("\nWhich detail you want to update?");
+                    System.out.println("=".repeat(40));
+                    System.out.printf("| 1. Location      : %s%n",          com.getLocation());
+                    System.out.printf("| 2. Rent Price    : RM %.2f%n",      com.getListingPrice());
+                    System.out.printf("| 3. Size (sqft)   : %.0f%n",         com.getSquareFootage());
+                    System.out.printf("| 4. Parking Spots : %d%n",           com.getNumParkingSpots());
+                    System.out.printf("| 5. Loading Dock  : %s%n",           com.getHasLoadingDock() ? "Yes" : "No");
+                    System.out.printf("| 6. Comm. Type    : %s%n",           com.getCommercialType());
+                    System.out.println("=".repeat(40));
+                    System.out.print("| Enter Choice: ");
+                    choice = sc.nextInt();
+                    System.out.println("=".repeat(40));
+                    sc.nextLine();
+                } catch (Exception e) {
+                    System.out.println("Invalid input. Please try again.");
+                    sc.nextLine();
+                }
+            } while (choice >= 7 || choice <= 0);
+
+            String newValue;
+            if (choice == 6) {
+                // Sub-menu for Commercial Type
+                int typeChoice = 0;
+                do {
+                    try {
+                        System.out.println("Select new type:");
+                        System.out.println("| 1. OFFICE  | 2. RETAIL | 3. INDUSTRIAL |");
+                        System.out.print("| Enter Choice: ");
+                        typeChoice = sc.nextInt();
+                        sc.nextLine();
+                    } catch (Exception e) {
+                        System.out.println("Invalid input. Please try again.");
+                        sc.nextLine();
+                    }
+                } while (typeChoice < 1 || typeChoice > 3);
+                newValue = switch (typeChoice) {
+                    case 1 -> "OFFICE";
+                    case 2 -> "RETAIL";
+                    default -> "INDUSTRIAL";
+                };
+            } else {
+                System.out.print("Enter new value: ");
+                newValue = sc.nextLine();
+            }
+            pf.updateCommercialDetails(id, choice, newValue);
+        }
+    }
+
 
     public static void updatePropertyPrice(Scanner sc, PropertyFunction pf, UserRole loggedUser) {
         try {
