@@ -131,21 +131,20 @@ public class PropertyFunction {
         addLandLord(l1, new UserRole("kahhooi", "kahhooi123", UserRole.Role.LANDLORD, l1));
         Landlord l2 = new Landlord("LAN002", "Goh Mei Ling", "meiling@gmail.com", "0121111111");
         addLandLord(l2, new UserRole("meiling", "meiling123", UserRole.Role.LANDLORD, l2));
-        
+
         addResidentialProperty("Jalan Ampang, KL", 1500.00, 850, ResidentialProperty.ResidentialType.APARTMENT, 2, 1, true, l1);
-        addResidentialProperty("Setapak, KL", 2500.00, 1200, ResidentialProperty.ResidentialType.HOUSE, 3, 2, false, l2);
-        
         addCommercialProperty("Taman Teratai, Serendah", 5000.00, 2000, CommercialProperty.CommercialType.OFFICE, 10, false, l1);
+        addResidentialProperty("Setapak, KL", 2500.00, 1200, ResidentialProperty.ResidentialType.HOUSE, 3, 2, false, l2);
         addCommercialProperty("Taman Melati, KL", 6000.00, 2500, CommercialProperty.CommercialType.RETAIL, 5, true, l2);
 
         createLeaseRecord("RES001", "TEN001", "AGT001", LocalDate.of(2025, 3, 1), LocalDate.of(2026, 4, 28), 1500.00, true);
-        createLeaseRecord("COM003", "TEN002", "AGT002", LocalDate.of(2024, 1, 1), LocalDate.of(2025, 1, 1), 5000.00, true);
+        createLeaseRecord("COM002", "TEN002", "AGT002", LocalDate.of(2024, 1, 1), LocalDate.of(2025, 1, 1), 5000.00, true);
         
-        requestVisit("TEN001", "RES002", "AGT001", LocalDate.of(2026, 5, 20));
+        requestVisit("TEN001", "RES003", "AGT001", LocalDate.of(2026, 5, 20));
         requestVisit("TEN002", "COM004", "AGT002", LocalDate.of(2026, 6, 15));
         
-        createPaymentRecord("LEA001", 1500.00, "Credit Card");
-        createPaymentRecord("LEA002", 5000.00, "Bank Transfer");
+        createPaymentRecord("LEA001", 1500.00, "Bank Transfer");
+        createPaymentRecord("LEA002", 5000.00, "Online Transfer");
     }
 
     public boolean login(String username, String password) {
