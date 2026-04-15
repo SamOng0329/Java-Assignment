@@ -74,6 +74,7 @@ public class UiMaterial {
             System.out.println("1. Manage Tenant");
             System.out.println("2. Manage Landlord");
             System.out.println("3. Manage Agent");
+            System.out.println("4. Register New Staff");
             System.out.println("0. Back to Main Menu");
         }
 

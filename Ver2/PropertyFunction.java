@@ -148,6 +148,19 @@ public class PropertyFunction {
         return null;
     }
 
+    // Register Staff
+    // ====================================================================================================
+    public boolean registerStaff(String username, String password) {
+        if (isUsernameExists(username) != null) {
+            System.out.println("Error : Username already exists");
+            return false;
+        }
+        UserRole user = new UserRole(username, password, UserRole.Role.STAFF);
+        addAdmin(user);
+        System.out.println("[SUCCESS] New Staff registered successfully.");
+        return true;
+    }
+
     // CRUD for Tenant
     // ====================================================================================================
     public Tenant registerTenant(String name, String email, String phone, String ic, String username, String password) {

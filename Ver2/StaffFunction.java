@@ -50,6 +50,7 @@ public class StaffFunction {
                     case 1 -> manageTenant(sc, pf);
                     case 2 -> manageLandlord(sc, pf);
                     case 3 -> manageAgent(sc, pf);
+                    case 4 -> registerStaff(sc, pf);
                     case 0 -> back = true;
                     default -> System.out.println("Invalid choice. Please try again.");
                 }
@@ -58,6 +59,28 @@ public class StaffFunction {
                 sc.nextLine();
             }
         } while (!back);
+    }
+    // ==========================================================
+
+    // Register Staff Function
+    // ==========================================================
+    public static void registerStaff(Scanner sc, PropertyFunction pf) {
+        System.out.println("Please follow the instruction: ");
+        System.out.println("=".repeat(20));
+        System.out.print("Enter Authentication Key: ");
+        String authKey = sc.nextLine();
+        
+        if (!authKey.equals("OCIB")) {
+            System.out.println("Invalid Authentication Key. Registration Failed.");
+            return;
+        }
+
+        System.out.print("Enter New Staff Username: ");
+        String username = sc.nextLine();
+        System.out.print("Enter New Staff Password: ");
+        String password = sc.nextLine();
+
+        pf.registerStaff(username, password);
     }
     // ==========================================================
 
