@@ -177,7 +177,7 @@ public class StaffFunction {
     public static void deleteTenantProfile(Scanner sc, PropertyFunction pf) {
         boolean back = false;
         do {
-            System.out.println("Tenant ID: ");
+            System.out.print("Tenant ID: ");
             String TenId = sc.nextLine();
             Tenant tenant = pf.findTenantById(TenId);
             if (tenant != null) {
