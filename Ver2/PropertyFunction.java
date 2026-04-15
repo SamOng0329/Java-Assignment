@@ -987,7 +987,6 @@ public class PropertyFunction {
         String requestId = "VR" + String.format("%03d", visitRequestCount++);
         VisitRequest visitRequest = new VisitRequest(requestId, t, a, p, visitDate);
         visitRequestList.add(visitRequest);
-        System.out.println("  [SUCCESS] Visit request created with ID: " + requestId);
         return visitRequest;
     }
 
