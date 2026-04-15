@@ -232,7 +232,13 @@ public class StaffFunction {
         String username = sc.nextLine();
         System.out.print("Password: ");
         String password = sc.nextLine();
-        pf.registerLandlord(name, email, phone, username, password);
+        Landlord newLandlord = pf.registerLandlord(name, email, phone, username, password);
+        if (newLandlord != null) {
+            System.out.println("\n");
+            System.out.println("=".repeat(40));
+            System.out.print("|    New Landlord Added");
+            System.out.print(newLandlord);
+        }
     }
 
     // Edit Landlord Profile
@@ -321,7 +327,13 @@ public class StaffFunction {
         String username = sc.nextLine();
         System.out.print("Password: ");
         String password = sc.nextLine();
-        pf.registerAgent(name, email, phone, username, password);
+        Agent newAgent = pf.registerAgent(name, email, phone, username, password);
+        if (newAgent != null) {
+            System.out.println("\n");
+            System.out.println("=".repeat(40));
+            System.out.print("|    New Agent Added");
+            System.out.print(newAgent);
+        }
     }
 
     // Edit Agent Profile
