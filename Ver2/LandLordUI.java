@@ -25,6 +25,7 @@ public void landLordMenu(UserRole loggedUser) {
                 }
             } catch (Exception e) {
                 System.out.println("Invalid input. Please try again.");
+                sc.nextLine();
             }
         } while (!logout);
     }

@@ -25,6 +25,7 @@ public class TenantUI {
                 }
             } catch (Exception e) {
                 System.out.println("Invalid input. Please try again.");
+                sc.nextLine();
             }
         } while (!logout);
     }
