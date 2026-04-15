@@ -108,7 +108,7 @@ public class LeaseRecord {
         System.out.printf("%-15s : %5s\n", "End Date", endDate);
         System.out.printf("%-15s : %5s\n", "Monthly Rent", String.format("RM %.2f", monthlyRent));
         System.out.printf("%-15s : %5s\n", "Deposit", String.format("RM %.2f", deposit));
-        System.out.printf("%-15s : %5s\n", "Status", (getLeaseStatus() == true ? "Unactive" : "Active"));
+        System.out.printf("%-15s : %5s\n", "Status", (getLeaseStatus() == true ? "Inactive" : "Active"));
         System.out.println("==========================================");
     }
 }
