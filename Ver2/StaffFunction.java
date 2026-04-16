@@ -431,7 +431,12 @@ public class StaffFunction {
             String endDate = sc.nextLine();
             LocalDate end = LocalDate.parse(endDate);
             double rent = pf.findPropertyById(propId).getListingPrice();
-            pf.createLeaseRecord(propId, tenantId, agentId, start, end, rent, false);
+            LeaseRecord newLease = pf.createLeaseRecord(propId, tenantId, agentId, start, end, rent, false);
+            System.out.println("\n");
+            System.out.println("=".repeat(40));
+            System.out.println("|    New Lease Created");
+            newLease.displayInfo();
+            
         } catch (Exception e) {
             System.out.println("Invalid input. Please try again.");
             sc.nextLine();

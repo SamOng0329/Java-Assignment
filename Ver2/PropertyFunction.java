@@ -117,7 +117,7 @@ public class PropertyFunction {
         // Dummy Roles
         addAdmin(new UserRole("admin", "admin123", UserRole.Role.STAFF));
         
-        Tenant t1 = registerTenant("Tan Mei Xin", "meixin@gmail.com", "0123456789", "001234145678", "meixin", "meixin123");
+        Tenant t1 = registerTenant("jackson", "jackson@gmail.com", "0123456789", "001234145678", "jackson", "jackson123");
         Tenant t2 = registerTenant("Chong Wen Liang", "wenliang@gmail.com", "0134567890", "011234145679", "wenliang", "wenliang123");
         
         Agent a1 = registerAgent("Lim Jie Ying", "jieying@gmail.com", "0198765432", "jieying", "jieying123");
