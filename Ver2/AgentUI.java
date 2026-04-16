@@ -98,7 +98,13 @@ public class AgentUI {
             boolean furnished = sc.nextBoolean();
             sc.nextLine();
 
-            pf.addResidentialProperty(location, price, sqft, resType, bed, bath, furnished, landlord);
+            ResidentialProperty prop = pf.addResidentialProperty(location, price, sqft, resType, bed, bath, furnished, landlord);
+
+            System.out.println("\n");
+            System.out.println("=".repeat(40));
+            System.out.print("|    New Residential Property Added");
+            prop.displayInfo();
+
         } catch (Exception e) {
             System.out.println("Invalid input!");
             sc.nextLine();
@@ -527,7 +533,13 @@ public class AgentUI {
         System.out.print("Password: ");
         String password = sc.nextLine();
 
-        pf.registerTenant(name, email, phone, ic, username, password);
+        Tenant newTenant = pf.registerTenant(name, email, phone, ic, username, password);
+        if (newTenant != null) {
+            System.out.println("\n");
+            System.out.println("=".repeat(40));
+            System.out.print("|    New Tenant Added");
+            System.out.print(newTenant);
+        }
     }
 
     // Edit Tenant Profile
@@ -621,7 +633,13 @@ public class AgentUI {
         String username = sc.nextLine();
         System.out.print("Password: ");
         String password = sc.nextLine();
-        pf.registerLandlord(name, email, phone, username, password);
+        Landlord newLandlord = pf.registerLandlord(name, email, phone, username, password);
+        if (newLandlord != null) {
+            System.out.println("\n");
+            System.out.println("=".repeat(40));
+            System.out.print("|    New Landlord Added");
+            System.out.print(newLandlord);
+        }
     }
 
     // Edit Landlord Profile

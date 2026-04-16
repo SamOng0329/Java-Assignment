@@ -80,8 +80,8 @@ public class UiMaterial {
 
         else if (role.getRole().equals(UserRole.Role.AGENT)) {
             System.out.println("\n===== User Management =====");
-            System.out.println("1. View Tenant List");
-            System.out.println("2. View Landlord List");
+            System.out.println("1. Manage Tenant");
+            System.out.println("2. Manage Landlord");
             System.out.println("0. Back to Main Menu");
         }
     }
