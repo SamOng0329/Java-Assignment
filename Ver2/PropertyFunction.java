@@ -138,6 +138,10 @@ public class PropertyFunction {
         
         createPaymentRecord("LEA001", 1500.00, "Bank Transfer");
         createPaymentRecord("LEA002", 5000.00, "Online Transfer");
+
+        // Unpaid lease for showcasing "create payment"
+        addResidentialProperty("Damansara, Petaling Jaya", 3000.00, 1100, ResidentialProperty.ResidentialType.APARTMENT, 3, 2, true, l1);
+        createLeaseRecord("RES005", "TEN001", "AGT002", LocalDate.of(2025, 6, 1), LocalDate.of(2026, 5, 31), 3000.00, true);
     }
 
     public boolean login(String username, String password) {

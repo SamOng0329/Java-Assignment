@@ -424,8 +424,10 @@ public class AgentUI {
                 case 3 -> "Cheque";
                 default -> "Other";
             };
-            String paymentId = pf.createPaymentRecord(leaseId, amount, paymentMethod).getPaymentId();
-            System.out.println("  [SUCCESS] Payment record created: " + paymentId);
+            PaymentRecord paymentRecord = pf.createPaymentRecord(leaseId, amount, paymentMethod);
+            if (paymentRecord != null) {
+                System.out.println("  [SUCCESS] Payment record created: " + paymentRecord.getPaymentId());
+            }
         } catch (Exception e) {
             System.out.println("Invalid input. Please try again.");
             sc.nextLine();
