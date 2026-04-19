@@ -86,26 +86,6 @@ public class PropertyFunction {
         this.visitRequestCount = visitRequest;
     }
 
-    // function of adding admin
-    public void addAdmin(UserRole user) {
-        userRoleList.add(user);
-    }
-
-    public void addTenant(Tenant tenant, UserRole user) {
-        userRoleList.add(user);
-        tenantList.add(tenant);
-    }
-
-    public void addAgent(Agent agent, UserRole user) {
-        agentList.add(agent);
-        userRoleList.add(user);
-    }
-
-    public void addLandLord(Landlord landlord, UserRole user) {
-        landlordList.add(landlord);
-        userRoleList.add(user);
-    }
-
     public static PropertyFunction getInstance() {
         if (instance == null) {
             instance = new PropertyFunction();
@@ -115,7 +95,11 @@ public class PropertyFunction {
 
     public void initializeUsers() {
         // Dummy Roles
-        addAdmin(new UserRole("admin", "admin123", UserRole.Role.STAFF));
+        registerStaff("admin", "admin123");
+        registerStaff("ckl", "ckl123");
+        registerStaff("sam", "sam123");
+        registerStaff("bryan", "bryan123");
+        registerStaff("irene", "irene123");
         
         Tenant t1 = registerTenant("jackson", "jackson@gmail.com", "0123456789", "001234145678", "jackson", "jackson123");
         Tenant t2 = registerTenant("Chong Wen Liang", "wenliang@gmail.com", "0134567890", "011234145679", "wenliang", "wenliang123");
@@ -172,7 +156,7 @@ public class PropertyFunction {
             return false;
         }
         UserRole user = new UserRole(username, password, UserRole.Role.STAFF);
-        addAdmin(user);
+        userRoleList.add(user);
         System.out.println("[SUCCESS] New Staff registered successfully.");
         return true;
     }
